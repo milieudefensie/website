@@ -10,8 +10,35 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/image": "1.9.0",
+    "@tailwindcss/vite": "^4.0.8",
+    "daisyui": "5.0.0-beta.8",
     "nuxt": "^3.15.4",
+    "tailwindcss": "^4.0.8",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "unplugin-icons": "^22.1.0"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "win32",
+        "darwin",
+        "current"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
+    },
+    "overrides": {
+      "sharp": "0.33.4"
+    },
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }

@@ -1,0 +1,86 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+@import 'tailwindcss';
+@plugin "daisyui";
+
+.btn {
+  @apply font-normal;
+}
+
+@font-face {
+  font-family: 'Ringold Soft';
+  src: url('/Ringold-Soft.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.hs-form {
+  @apply grid gap-4;
+}
+
+.hs-input:not([type='checkbox']) {
+  @apply input text-black w-full;
+}
+
+.hs-input[type='checkbox'] {
+  @apply checkbox border-white mr-2;
+}
+
+.hs-form-booleancheckbox {
+  @apply font-bold max-lg:text-sm;
+}
+
+.hs-button {
+  @apply btn btn-neutral w-full font-display text-xl lg:text-2xl text-white;
+}
+
+.hs-button:hover {
+  @apply scale-105;
+}
+
+.modal .hs-button {
+  @apply btn-primary text-black;
+}
+
+@theme {
+  --font-display: 'Ringold', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-body: 'Poppins', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  /* ... */
+}
+
+@plugin "daisyui/theme" {
+  name: 'mytheme';
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-primary: oklch(78.92% 0.1713 69.64);
+  --color-primary-content: oklch(0% 0 0);
+  --color-secondary: oklch(76.04% 0.1741 129.85);
+  --color-secondary-content: oklch(98% 0.01 200);
+  --color-accent: oklch(58.2% 0.2226 304.59);
+  --color-accent-content: oklch(98% 0.01 160);
+  --color-neutral: oklch(0% 0 0);
+  --color-neutral-content: oklch(98% 0.01 240);
+  --color-info: oklch(70% 0.2 220);
+  --color-info-content: oklch(98% 0.01 220);
+  --color-success: oklch(65% 0.25 140);
+  --color-success-content: oklch(98% 0.01 140);
+  --color-warning: oklch(80% 0.25 80);
+  --color-warning-content: oklch(20% 0.05 80);
+  --color-error: oklch(65% 0.3 30);
+  --color-error-content: oklch(98% 0.01 30);
+
+  --size-selector: 0.3125rem;
+  --size-field: 0.3125rem;
+
+  --border: 2px;
+
+  --depth: 0;
+  --noise: 0;
+}
