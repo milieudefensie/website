@@ -5,7 +5,7 @@
       <div class="prose lg:prose-xl">
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
           quibusdam corporis laboriosam temporibus, perferendis reprehenderit deleniti maxime facere impedit optio
-          voluptatum sint, ratione rem!</p>
+          voluptatum sint, ratione rem.</p>
         <h1>Garlic bread with cheese: What the science tells us</h1>
         <p>
           For years parents have espoused the health benefits of eating garlic bread with cheese to their
