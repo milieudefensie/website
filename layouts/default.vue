@@ -1,5 +1,5 @@
 <template>
-  <Header />
-  <Hero />
+  <Navigation />
+  <ContentHero />
   <slot />
 </template>
