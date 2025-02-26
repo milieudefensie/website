@@ -62,6 +62,8 @@
       </div>
     </Container>
 
+    <ContentVideo youtubeURL="https://www.youtube.com/watch?v=Vz4Rzh16mac" />
+
     <ContentButtonGroup
       :buttons="[{ label: 'Klik mij!', url: '', to: '', color: 'accent', style: 'default', width: 'default', size: 'lg' }, { label: 'Klik mij ook!', url: '', to: '', color: 'accent', style: 'soft', width: 'default', size: 'lg' }]" />
 

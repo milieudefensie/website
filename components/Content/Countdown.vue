@@ -2,9 +2,9 @@
   <Container>
 
 
-    <div v-if="!finished" class="card card-side shadow-sm">
+    <div v-if="!finished" class="card card-side shadow-sm bg-white">
 
-      <div class="card-body flex-none">
+      <div class="card-body flex-none ">
 
         <div class="grid auto-cols-max grid-flow-col gap-2 text-center">
           <div class="bg-primary rounded-box text-primary-content flex flex-col p-2" v-if="countDownStart.days > 0">
@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      <div class="grid content-center flex-grow">
+      <div class="grid content-center flex-grow ">
         <h1 class="text-2xl font-bold">{{ props.title }}</h1>
       </div>
 
@@ -43,7 +43,7 @@
       </div>
 
     </div>
-    <div v-else class="card card-side shadow-sm">
+    <div v-else class="card card-side shadow-sm bg-white">
       <div class="card-body grid content-center ">
         <h1 class="text-2xl font-bold">{{ props.finishedTitle }}</h1>
       </div>
