@@ -14,9 +14,15 @@ importers:
       '@nuxt/image':
         specifier: 1.9.0
         version: 1.9.0(db0@0.2.4)(ioredis@5.5.0)(magicast@0.3.5)
+      '@nuxt/scripts':
+        specifier: 0.10.5
+        version: 0.10.5(@types/youtube@0.1.0)(@unhead/vue@1.11.19(vue@3.5.13(typescript@5.7.3)))(db0@0.2.4)(ioredis@5.5.0)(magicast@0.3.5)(typescript@5.7.3)
       '@tailwindcss/vite':
         specifier: ^4.0.8
         version: 4.0.8(vite@6.2.0(@types/node@22.13.5)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.0))
+      '@unhead/vue':
+        specifier: ^1
+        version: 1.11.19(vue@3.5.13(typescript@5.7.3))
       daisyui:
         specifier: 5.0.0-beta.8
         version: 5.0.0-beta.8
@@ -39,6 +45,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.0.8)
+      '@types/youtube':
+        specifier: ^0.1.0
+        version: 0.1.0
       unplugin-icons:
         specifier: ^22.1.0
         version: 22.1.0(@vue/compiler-sfc@3.5.13)
@@ -733,6 +742,24 @@ packages:
     resolution: {integrity: sha512-pAYZb/3ocSC/db1EFd5y+otmgHqUkvfxfhd9EknDB5DygnJuOIQNuGJ7LMJM6S2c0DYgBIHOdEelLxKHOjwbgQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
+  '@nuxt/scripts@0.10.5':
+    resolution: {integrity: sha512-MZTGWN/kjkKBZzuJssIrzHO9evMWtceaLowF9R7FMZjACFLYWqnf127EP/2pzDfwii5+NkZUe5mfyeIDxXbkUw==}
+    peerDependencies:
+      '@stripe/stripe-js': ^5.6.0
+      '@types/google.maps': ^3.58.1
+      '@types/vimeo__player': ^2.18.3
+      '@types/youtube': ^0.1.0
+      '@unhead/vue': ^1
+    peerDependenciesMeta:
+      '@stripe/stripe-js':
+        optional: true
+      '@types/google.maps':
+        optional: true
+      '@types/vimeo__player':
+        optional: true
+      '@types/youtube':
+        optional: true
+
   '@nuxt/telemetry@2.6.5':
     resolution: {integrity: sha512-lwMp9OHML/m0mjh7P5iz9PxINnk5smGkGebh88Wh8PjvnRooY1TBsbyq7mlSrNibpwD1BkwqhV5IAZOXWHLxMQ==}
     engines: {node: '>=18.12.0'}
@@ -1122,6 +1149,12 @@ packages:
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
 
+  '@types/web-bluetooth@0.0.20':
+    resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
+
+  '@types/youtube@0.1.0':
+    resolution: {integrity: sha512-Pg33m3X2mFgdmhtvzOlAfUfgOa3341N3/2JCrVY/mXVxb4hagcqqEG6w4vGCfB64StQNWHSj/T8Eotb1Rko/FQ==}
+
   '@unhead/dom@1.11.19':
     resolution: {integrity: sha512-udkgITdIblEWH3hsoFQMKW+6QXNO2qFZlZ2FI37bVAplQSnK/PytTPt/5oA1GWkoVwT0DsQNGHbU6kOg/3SlNg==}
 
@@ -1225,6 +1258,15 @@ packages:
 
   '@vue/shared@3.5.13':
     resolution: {integrity: sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ==}
+
+  '@vueuse/core@12.7.0':
+    resolution: {integrity: sha512-jtK5B7YjZXmkGNHjviyGO4s3ZtEhbzSgrbX+s5o+Lr8i2nYqNyHuPVOeTdM1/hZ5Tkxg/KktAuAVDDiHMraMVA==}
+
+  '@vueuse/metadata@12.7.0':
+    resolution: {integrity: sha512-4VvTH9mrjXqFN5LYa5YfqHVRI6j7R00Vy4995Rw7PQxyCL3z0Lli86iN4UemWqixxEvYfRjG+hF9wL8oLOn+3g==}
+
+  '@vueuse/shared@12.7.0':
+    resolution: {integrity: sha512-coLlUw2HHKsm7rPN6WqHJQr18WymN4wkA/3ThFaJ4v4gWGWAQQGK+MJxLuJTBs4mojQiazlVWAKNJNpUWGRkNw==}
 
   abbrev@3.0.0:
     resolution: {integrity: sha512-+/kfrslGQ7TNV2ecmQwMJj/B65g5KVq1/L3SGVZ3tCYGqlzFuFCGBZJtMP99wH3NpEUyAjn0zPdPUg0D+DwrOA==}
@@ -3281,6 +3323,14 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  valibot@1.0.0-rc.2:
+    resolution: {integrity: sha512-Tnnp7dydpihvoUbJiaxuYfsCAgAFKuFMex7PTaI25XSjRWkU70DmJPlAO1W6sF1/WUx4RNWyM2hdmBSMIUSZFA==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   vite-hot-client@0.2.4:
     resolution: {integrity: sha512-a1nzURqO7DDmnXqabFOliz908FRmIppkBKsJthS8rbe8hBEXwEwe4C3Pp33Z1JoFCYfVL4kTOMLKk0ZZxREIeA==}
     peerDependencies:
@@ -4219,6 +4269,51 @@ snapshots:
       pathe: 2.0.3
       std-env: 3.8.0
 
+  '@nuxt/scripts@0.10.5(@types/youtube@0.1.0)(@unhead/vue@1.11.19(vue@3.5.13(typescript@5.7.3)))(db0@0.2.4)(ioredis@5.5.0)(magicast@0.3.5)(typescript@5.7.3)':
+    dependencies:
+      '@nuxt/kit': 3.15.4(magicast@0.3.5)
+      '@unhead/vue': 1.11.19(vue@3.5.13(typescript@5.7.3))
+      '@vueuse/core': 12.7.0(typescript@5.7.3)
+      consola: 3.4.0
+      defu: 6.1.4
+      h3: 1.15.1
+      magic-string: 0.30.17
+      ofetch: 1.4.1
+      ohash: 1.1.4
+      pathe: 2.0.3
+      pkg-types: 1.3.1
+      semver: 7.7.1
+      sirv: 3.0.1
+      std-env: 3.8.0
+      ufo: 1.5.4
+      unplugin: 2.2.0
+      unstorage: 1.15.0(db0@0.2.4)(ioredis@5.5.0)
+      valibot: 1.0.0-rc.2(typescript@5.7.3)
+    optionalDependencies:
+      '@types/youtube': 0.1.0
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@deno/kv'
+      - '@netlify/blobs'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/blob'
+      - '@vercel/kv'
+      - aws4fetch
+      - db0
+      - idb-keyval
+      - ioredis
+      - magicast
+      - supports-color
+      - typescript
+      - uploadthing
+
   '@nuxt/telemetry@2.6.5(magicast@0.3.5)':
     dependencies:
       '@nuxt/kit': 3.15.4(magicast@0.3.5)
@@ -4597,6 +4692,10 @@ snapshots:
 
   '@types/resolve@1.20.2': {}
 
+  '@types/web-bluetooth@0.0.20': {}
+
+  '@types/youtube@0.1.0': {}
+
   '@unhead/dom@1.11.19':
     dependencies:
       '@unhead/schema': 1.11.19
@@ -4781,6 +4880,23 @@ snapshots:
       vue: 3.5.13(typescript@5.7.3)
 
   '@vue/shared@3.5.13': {}
+
+  '@vueuse/core@12.7.0(typescript@5.7.3)':
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 12.7.0
+      '@vueuse/shared': 12.7.0(typescript@5.7.3)
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@vueuse/metadata@12.7.0': {}
+
+  '@vueuse/shared@12.7.0(typescript@5.7.3)':
+    dependencies:
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - typescript
 
   abbrev@3.0.0: {}
 
@@ -7066,6 +7182,10 @@ snapshots:
   urlpattern-polyfill@8.0.2: {}
 
   util-deprecate@1.0.2: {}
+
+  valibot@1.0.0-rc.2(typescript@5.7.3):
+    optionalDependencies:
+      typescript: 5.7.3
 
   vite-hot-client@0.2.4(vite@6.2.0(@types/node@22.13.5)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.0)):
     dependencies:
