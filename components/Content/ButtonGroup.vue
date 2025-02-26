@@ -1,12 +1,10 @@
 <template>
   <Container class="-mt-6">
-    <Buttons :buttons="props.buttons" />
+    <Buttons v-bind="props" />
   </Container>
 </template>
 <script lang="ts" setup>
-import type { Button } from '@/components/Buttons.vue';
+import type { ButtonProps } from '@/components/Buttons.vue';
 
-const props = defineProps<{
-  buttons: Button[],
-}>()
+const props = defineProps<ButtonProps>()
 </script>

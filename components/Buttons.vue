@@ -10,10 +10,10 @@
         'btn-primary': button.color === 'primary',
         'btn-secondary': button.color === 'secondary',
         'btn-accent': button.color === 'accent',
-        'btn-sm': button.size === 'sm',
-        'btn-md': button.size === 'md',
-        'btn-lg': button.size === 'lg',
-        'btn-xl': button.size === 'xl',
+        'btn-sm': props.size === 'sm',
+        'btn-md': props.size === 'md',
+        'btn-lg': props.size === 'lg',
+        'btn-xl': props.size === 'xl',
         'btn-wide': button.width === 'wide',
         'btn-block': button.width === 'full'
       },
@@ -31,11 +31,15 @@ export interface Button {
   color: "default" | "primary" | "secondary" | "accent";
   style: "default" | "soft" | "outline" | "dash" | "ghost";
   width: "default" | "wide" | "full";
-  size: "sm" | "md" | "lg" | "xl";
 }
 
-const props = defineProps<{
+export type ButtonSizes = "sm" | "md" | "lg" | "xl";
+
+export type ButtonProps = {
   buttons: Button[],
-}>()
+  size: ButtonSizes;
+}
+
+const props = defineProps<ButtonProps>()
 
 </script>

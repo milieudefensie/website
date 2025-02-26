@@ -58,13 +58,15 @@
 <script setup lang="ts">
 import type { Button } from '../Buttons.vue';
 
-const props = defineProps<{
+export type CountdownProps = {
   title: string
   countToDate: Date
   buttons: Button[]
   finishedTitle: string
   finishedButtons: Button[]
-}>()
+}
+
+const props = defineProps<CountdownProps>()
 
 const countDown = ref({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 const countDownStart = ref({ days: 0, hours: 0, minutes: 0, seconds: 0 })

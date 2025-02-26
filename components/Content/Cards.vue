@@ -9,7 +9,7 @@
   <Container>
     <div class="gap-4" :class="[columnClasses]">
       <div class="card shadow-sm bg-white overflow-hidden flex" v-for="(card, index) in props.cards"
-        :class="[{ 'md:flex-row': props.columns === '1', 'max-md:flex-col-reverse md:flex-row-reverse': card.reverse && props.columns === '1', 'flex-col-reverse': card.reverse && props.columns !== '1' }]"
+        :class="[{ 'md:flex-row': props.columns === '1', 'max-md:flex-col-reverse md:flex-row-reverse': props.reverse && props.columns === '1', 'flex-col-reverse': props.reverse && props.columns !== '1' }]"
         :key="index">
 
 
@@ -20,7 +20,7 @@
           <h2 class="card-title font-display text-3xl ">{{ card.title }}</h2>
           <p class="text-md lg:text-lg ">{{ card.content }}
           </p>
-          <Buttons :buttons="card.buttons" />
+          <Buttons :buttons="card.buttons" :size="card.buttonSize" />
         </div>
       </div>
     </div>
@@ -30,18 +30,24 @@
 </template>
 
 <script setup lang="ts">
-import type { Button } from '@/components/Buttons.vue';
+import type { Button, ButtonSizes } from '@/components/Buttons.vue';
 
-interface Card {
+export interface Card {
   title: string;
   content: string;
   buttons: Button[];
-  reverse: boolean;
+  buttonSize: ButtonSizes;
+
 }
-const props = defineProps<{
+
+export type CardsProps = {
   columns: "automatic" | "1" | "2" | "3";
   cards: Card[]
-}>()
+  reverse: boolean;
+}
+
+const props = defineProps<CardsProps>()
+
 
 
 const columnClasses = computed(() => {

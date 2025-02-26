@@ -20,3 +20,14 @@
   </Container>
 
 </template>
+<script lang="ts" setup>
+export type Step = {
+  title: string;
+}
+
+export type StepsProps = {
+  testimonials: Step[]
+}
+
+const props = defineProps<StepsProps>()
+</script>

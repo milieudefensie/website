@@ -21,8 +21,10 @@ interface AccordionItem {
   content: string;
 }
 
-const props = defineProps<{
+export type AccordionProps = {
   items: AccordionItem[]
-}>()
+}
+
+const props = defineProps<AccordionProps>()
 
 </script>

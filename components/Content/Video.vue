@@ -4,7 +4,9 @@
   </Container>
 </template>
 <script setup lang="ts" `>
-const props = defineProps<{
+export type VideoProps = {
   youtubeURL: string
-}>()
+}
+
+const props = defineProps<VideoProps>()
 </script>

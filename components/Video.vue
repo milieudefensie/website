@@ -31,14 +31,15 @@ function stateChange(event: any) {
 
 <template>
   <div>
-    <div class="flex items-center justify-center group  hover:shadow-lg rounded-md overflow-hidden ">
-      <ScriptYouTubePlayer ref="video" :video-id="videoID" @ready="isLoaded = true" @state-change="stateChange">
+    <div class="video-player flex items-center justify-center group  hover:shadow-lg rounded-md overflow-hidden ">
+      <ScriptYouTubePlayer ref="video" :video-id="videoID" @ready="isLoaded = true" @state-change="stateChange"
+        thumbnail-size="hqdefault">
         <template #awaitingLoad>
           <div
-            class="absolute inset-0 flex items-center justify-center group-hover:bg-black/20 transition-all duration-300">
-            <button
-              class="btn btn-circle btn-xl group-hover:scale-150 group-hover:bg-primary transition-all duration-300 ">
+            class="absolute inset-0 flex items-center justify-center group-hover:bg-black/40 transition-all duration-300">
+            <button class="btn btn-accent btn-xl group-hover:scale-120 transition-all duration-300 ">
               <IconPlay />
+              Bekijk video
             </button>
           </div>
         </template>
@@ -46,3 +47,8 @@ function stateChange(event: any) {
     </div>
   </div>
 </template>
+<style lang="css">
+.video-player img {
+  object-fit: cover !important;
+}
+</style>
