@@ -14,7 +14,8 @@
 
 
         <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
-          :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }" />
+          :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }" sizes="calc(100vw - 26px) md:40vw"
+          densities="x1 x2" />
         <div class="card-body" :class="{ 'md:w-1/2 lg:w-4/6': props.columns === '1' }">
           <h2 class="card-title font-display text-3xl ">{{ card.title }}</h2>
           <p class="text-md lg:text-lg ">{{ card.content }}

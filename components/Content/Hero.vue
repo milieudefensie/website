@@ -19,7 +19,8 @@
       </hgroup>
       <div class="basis-full md:basis-1/2 lg:basis-5/12 flex justify-center items-center bg-white">
 
-        <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px" />
+        <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
+          sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" />
       </div>
 
     </div>
