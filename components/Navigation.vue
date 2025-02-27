@@ -7,7 +7,7 @@ import IconSearch from '~icons/mdi/search'
 <template>
   <nav class="flex justify-between px-8 py-6 items-center max-w-[1000px] mx-auto">
     <!-- <NuxtPicture format="avif,webp" src="/logo.png" width="176" class="-rotate-1" quality="10" /> -->
-    <img src="/logo-compressed.svg" alt="logo" width="176" />
+    <img src="/logo-compressed.svg" alt="logo" width="176" height="71.13" />
     <div class="space-x-3 flex" sizes="176px" densities="x1 x2">
 
       <a class="btn btn-primary md:btn-outline md:!text-black font-display text-xl px-5 max-sm:hidden" contenteditable>✊
