@@ -2,48 +2,45 @@
   <Container>
 
 
-    <div v-if="!finished" class="card card-side shadow-sm bg-white">
+    <div v-if="!finished" class="card card-side shadow-sm bg-white flex flex-wrap">
 
-      <div class="card-body flex-none ">
-
-        <div class="grid auto-cols-max grid-flow-col gap-2 text-center">
-          <div class="bg-primary rounded-box text-primary-content flex flex-col p-2" v-if="countDownStart.days > 0">
-            <span class="countdown font-display text-5xl">
-              <span :style="`--value:${countDown.days};`">{{ countDown.days }}</span>
-            </span>
-            dagen
-          </div>
-          <div class="bg-primary rounded-box text-primary-content flex flex-col p-2" v-if="countDownStart.hours > 0">
-            <span class="countdown font-display text-5xl">
-              <span :style="`--value:${countDown.hours};`">{{ countDown.hours }}</span>
-            </span>
-            uren
-          </div>
-          <div class="bg-primary rounded-box text-primary-content flex flex-col p-2">
-            <span class="countdown font-display text-5xl">
-              <span :style="`--value:${countDown.minutes};`">{{ countDown.minutes }}</span>
-            </span>
-            min
-          </div>
-          <div class="bg-primary rounded-box text-primary-content flex flex-col p-2">
-            <span class="countdown font-display text-5xl">
-              <span :style="`--value:${countDown.seconds};`">{{ countDown.seconds }}</span>
-            </span>
-            sec
-          </div>
+      <div class="card-body p-6 md:flex-none grid auto-cols-max grid-flow-col gap-2 text-center place-content-center">
+        <div class="bg-primary rounded-box text-primary-content flex flex-col p-2" v-if="countDownStart.days > 0">
+          <span class="countdown font-display text-5xl">
+            <span :style="`--value:${countDown.days};`">{{ countDown.days }}</span>
+          </span>
+          dagen
+        </div>
+        <div class="bg-primary rounded-box text-primary-content flex flex-col p-2" v-if="countDownStart.hours > 0">
+          <span class="countdown font-display text-5xl">
+            <span :style="`--value:${countDown.hours};`">{{ countDown.hours }}</span>
+          </span>
+          uren
+        </div>
+        <div class="bg-primary rounded-box text-primary-content flex flex-col p-2">
+          <span class="countdown font-display text-5xl">
+            <span :style="`--value:${countDown.minutes};`">{{ countDown.minutes }}</span>
+          </span>
+          min
+        </div>
+        <div class="bg-primary rounded-box text-primary-content flex flex-col p-2">
+          <span class="countdown font-display text-5xl">
+            <span :style="`--value:${countDown.seconds};`">{{ countDown.seconds }}</span>
+          </span>
+          sec
         </div>
       </div>
 
-      <div class="grid content-center flex-grow ">
+      <div class="grid content-center max-md:mx-8 max-md:text-center md:flex-1 ">
         <h1 class="text-2xl font-bold">{{ props.title }}</h1>
       </div>
 
-      <div class="card-body grid content-center flex-none">
+      <div class="card-body p-6 grid content-center md:flex-none place-content-center">
         <Buttons :buttons="props.buttons" />
       </div>
 
     </div>
-    <div v-else class="card card-side shadow-sm bg-white">
+    <div v-else class="card  card-side shadow-sm bg-white">
       <div class="card-body grid content-center ">
         <h1 class="text-2xl font-bold">{{ props.finishedTitle }}</h1>
       </div>
