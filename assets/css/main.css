@@ -43,6 +43,28 @@
   @apply btn btn-neutral w-full font-display text-xl lg:text-2xl text-white;
 }
 
+.mapboxgl-popup-anchor-bottom {
+  margin-top: -1.5rem;
+}
+
+.mapboxgl-popup-anchor-top {
+  margin-top: 1.5rem;
+}
+
+.mapboxgl-popup-close-button {
+  @apply !btn !btn-sm !btn-circle !btn-ghost;
+  margin: 4px;
+}
+
+.mapboxgl-popup-close-button span {
+  font-size: 24px;
+  margin-top: -4px;
+}
+
+.mapboxgl-popup-content {
+  @apply !card !card-body;
+}
+
 .hs-button:hover {
   @apply scale-105;
 }
@@ -68,6 +90,7 @@
   --color-base-200: oklch(92% 0.003 48.717);
   --color-base-300: oklch(86% 0.005 56.366);
   --color-base-content: oklch(14% 0.004 49.25);
+  --color-primary-hex: #ffa300;
   --color-primary: oklch(78.92% 0.1713 69.64);
   --color-primary-content: oklch(14% 0.004 49.25);
   --color-secondary: oklch(76.04% 0.1741 129.85);

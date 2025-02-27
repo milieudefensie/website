@@ -36,7 +36,7 @@
       </div>
 
       <div class="card-body p-6 grid content-center md:flex-none place-content-center">
-        <Buttons :buttons="props.buttons" />
+        <Buttons :buttons="props.buttons" size="lg" />
       </div>
 
     </div>
@@ -45,7 +45,7 @@
         <h1 class="text-2xl font-bold">{{ props.finishedTitle }}</h1>
       </div>
       <div class="card-body grid content-center flex-none">
-        <Buttons :buttons="props.finishedButtons" />
+        <Buttons :buttons="props.finishedButtons" size="lg" />
       </div>
     </div>
 

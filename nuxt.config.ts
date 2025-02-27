@@ -17,4 +17,11 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  runtimeConfig: {
+    // apiSecret: '', // can be overridden by NUXT_API_SECRET environment variable
+    public: {
+      mapboxApi: '', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
+    },
+  },
 })

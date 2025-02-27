@@ -119,6 +119,8 @@ const content = ref<ContentItem[]>([
 <template>
   <div class="my-10">
 
+
+
     <ContentBuilder :content="content" />
 
     <Container>
@@ -145,6 +147,10 @@ const content = ref<ContentItem[]>([
         <p>Klik deze knoppen:</p>
       </div>
     </Container>
+
+    <Map />
+
+
 
 
   </div>
