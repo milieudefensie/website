@@ -17,8 +17,8 @@
 
 @font-face {
   font-family: 'Ringold Soft';
-  src: url('/Ringold-Soft.ttf') format('ttf');
-  font-weight: bold;
+  src: url('/Ringold-Soft.woff2') format('woff2');
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -52,7 +52,7 @@
 }
 
 @theme {
-  --font-display: 'Ringold', ui-sans-serif, system-ui, sans-serif,
+  --font-display: 'Ringold Soft', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-body: 'Poppins', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
