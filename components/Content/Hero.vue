@@ -20,7 +20,7 @@
       <div class="basis-full md:basis-1/2 lg:basis-5/12 flex justify-center items-center bg-white">
 
         <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
-          sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20" preload />
+          sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20" />
       </div>
 
     </div>
