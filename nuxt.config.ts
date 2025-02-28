@@ -22,6 +22,10 @@ export default defineNuxtConfig({
     // apiSecret: '', // can be overridden by NUXT_API_SECRET environment variable
     public: {
       mapboxApi: '', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
+      mapCenterLng: '',
+      mapCenterLat: '',
+      mapZoom: '',
+      mapMinZoom: '',
     },
   },
 })

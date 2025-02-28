@@ -65,6 +65,11 @@
   @apply !card !card-body;
 }
 
+.mapboxgl-marker {
+  /* Fix for tooltip hiding behind others */
+  @apply hover:z-10;
+}
+
 .hs-button:hover {
   @apply scale-105;
 }
