@@ -1,7 +1,5 @@
 <template>
-  <Container>
-    <Video :youtubeURL="props.youtubeURL" />
-  </Container>
+  <Video :youtubeURL="props.youtubeURL" />
 </template>
 <script setup lang="ts" `>
 export type VideoProps = {

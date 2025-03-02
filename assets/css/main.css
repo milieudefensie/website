@@ -65,9 +65,13 @@
   @apply !card !card-body;
 }
 
+.mapboxgl-marker:has(.markerActive) {
+  @apply z-10;
+}
+
 .mapboxgl-marker {
   /* Fix for tooltip hiding behind others */
-  @apply hover:z-10;
+  @apply hover:z-20;
 }
 
 .hs-button:hover {

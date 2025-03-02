@@ -19,13 +19,16 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
-    // apiSecret: '', // can be overridden by NUXT_API_SECRET environment variable
+    // can be overridden by NUXT_.... environment variable
+    // apiSecret: '',
     public: {
-      mapboxApi: '', // can be overridden by NUXT_PUBLIC_API_BASE environment variable
-      mapCenterLng: '',
-      mapCenterLat: '',
-      mapZoom: '',
-      mapMinZoom: '',
+      // Can be overridden by NUXT_PUBLIC_..... environment variables
+      mapboxApi: '',
+      // Default: focus on NL
+      mapCenterLng: '5.3878',
+      mapCenterLat: '52.1561',
+      mapZoom: '6.7',
+      mapMinZoom: '6.5',
     },
   },
 })

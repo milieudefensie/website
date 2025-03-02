@@ -1,7 +1,7 @@
 <template>
-  <Container class="-mt-6">
+  <div class="-mt-6">
     <Buttons v-bind="props" />
-  </Container>
+  </div>
 </template>
 <script lang="ts" setup>
 import type { ButtonProps } from '@/components/Buttons.vue';

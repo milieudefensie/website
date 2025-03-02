@@ -1,9 +1,13 @@
 <template>
-  <MapboxMarker :lng-lat="props.coordinates" :offset="[0, -22]">
+  <MapboxMarker :lng-lat="props.marker.coordinates" :offset="[0, -22]">
     <template #default>
 
 
-      <div :class="{ 'tooltip': !active, 'tooltip-open': props.currentZoomLevel > 9 }" :data-tip="props.title">
+      <div class="tooltip" :class="{ 'tooltip-open': props.currentZoomLevel > 9 || active, 'markerActive': active }">
+
+        <div class="tooltip-content  shadow-md">
+          {{ props.marker.title }}
+        </div>
 
         <button
           class="btn btn-circle btn-accent border-neutral/20 shadow-md font-display hover:scale-120 transition-transform hover:btn-primary"
@@ -11,6 +15,8 @@
           <IconCalendar class="text-[15px]" />
         </button>
       </div>
+
+
 
     </template>
     <!-- <template #popup>
@@ -30,11 +36,12 @@
 import { onClickOutside } from '@vueuse/core'
 import { MapboxMarker } from '@studiometa/vue-mapbox-gl';
 import IconCalendar from '~icons/mdi/calendar'
+import type { MapMarker } from './Map.vue';
 
 export type MapMarkerProps = {
-  title: string,
-  coordinates: number[],
   currentZoomLevel: number,
+  marker: MapMarker
+  active: boolean
 }
 
 const props = defineProps<MapMarkerProps>()
@@ -44,17 +51,18 @@ const emit = defineEmits(['popupOpened'])
 const marker = useTemplateRef<HTMLElement>('marker')
 const popup = useTemplateRef<HTMLElement>('popup')
 
-const active = ref(false)
+// const active = ref(false)
 
 function openPopup() {
-  active.value = true
+  // active.value = true
   emit('popupOpened')
 }
 
-onClickOutside(marker, () => {
-  console.log('click outside')
-  active.value = false
-}, { ignore: [popup] })
+// onClickOutside(marker, () => {
+//   console.log('click outside')
+//   emit('popupClosed')
+//   active.value = false
+// }, { ignore: [popup] })
 
 
 </script>

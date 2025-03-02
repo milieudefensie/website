@@ -1,8 +1,8 @@
 <template>
   <!-- Dyamically add content components based on a JSON object. The JSON is an array, with various different components, such as Cards, Buttons, Countdown, Image, Video, etc -->
-  <div>
-    <component v-for="(item, index) in props.content" :is="components[item.type]" :key="index" v-bind="item.props" />
-  </div>
+  <Container v-for="(item, index) in props.content" :key="index">
+    <component :is="components[item.type]" v-bind="item.props" />
+  </Container>
 
 </template>
 <script setup lang="ts">
@@ -16,7 +16,7 @@ import ContentSteps from './Content/Steps.vue';
 import ContentCountdown from './Content/Countdown.vue';
 
 import type { CardsProps } from './Content/Cards.vue';
-import type { ButtonGroupProps } from './Content/ButtonGroup.vue';
+import type { ButtonProps } from './Buttons.vue';
 import type { TestimonialProps } from './Content/Testimonial.vue';
 import type { ImageProps } from './Content/Image.vue';
 import type { VideoProps } from './Content/Video.vue';
@@ -26,7 +26,7 @@ import type { CountdownProps } from './Content/Countdown.vue';
 
 interface ButtonItem {
   type: 'ContentButtonGroup';
-  props: ButtonGroupProps;
+  props: ButtonProps;
 }
 
 interface CardItem {
