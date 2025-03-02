@@ -74,10 +74,17 @@ function flyTo(marker: any) {
 function restoreDefaultZoom() {
   currentZoomLevel.value = zoom;
 
-  map.value.flyTo({
-    center: center,
-    zoom: zoom,
-    essential: true
+  // map.value.flyTo({
+  //   center: center,
+  //   zoom: zoom,
+  //   essential: true
+  // });
+
+  map.value.fitBounds([
+    [3.271268, 50.698755], // Southwest coordinates of the Netherlands
+    [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
+  ], {
+    padding: { top: 0, bottom: 0, left: 0, right: 0 },
   });
 }
 

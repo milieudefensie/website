@@ -1,7 +1,8 @@
 <template>
   <button class="btn" @click="openDialog()">open modal</button>
   <dialog id="my_modal_2" class="modal" ref="dialog" @close="closeDialog()">
-    <div class="modal-box w-11/12 max-w-4xl max-h-11/12 p-0">
+    <div
+      class="modal-box h-full w-full max-h-full max-w-full sm:h-auto sm:w-11</div>/12 sm:max-w-4xl sm:max-h-11/12 p-0">
 
       <form method="dialog">
         <button class="btn btn-sm btn-circle  absolute right-2 top-2 z-10">
@@ -25,7 +26,7 @@
       }]" columns="1" :reverse="false" />
 
     </div>
-    <form method="dialog" class="modal-backdrop">
+    <form method="dialog" class="modal-backdrop max-sm:bg-base-200">
       <button>close</button>
     </form>
   </dialog>
