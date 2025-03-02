@@ -39,7 +39,7 @@ onMounted(() => {
     [3.271268, 50.698755], // Southwest coordinates of the Netherlands
     [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
   ], {
-    padding: { top: 0, bottom: 0, left: 0, right: 0 },
+    padding: { top: 20, bottom: 50, left: 0, right: 0 },
     animate: false
   });
 
@@ -63,12 +63,15 @@ function flyTo(marker: any) {
     newZoomLevel = defaultZoomLevel;
   }
 
-  map.value.flyTo({
-    center: marker.coordinates,
-    zoom: newZoomLevel,
-    speed: 0.2,
-    essential: true
-  });
+  if (window.innerWidth > 640) {
+    map.value.flyTo({
+      center: marker.coordinates,
+      zoom: newZoomLevel,
+      speed: 0.2,
+      essential: true
+    });
+  }
+
 }
 
 function restoreDefaultZoom() {
@@ -84,7 +87,7 @@ function restoreDefaultZoom() {
     [3.271268, 50.698755], // Southwest coordinates of the Netherlands
     [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
   ], {
-    padding: { top: 0, bottom: 0, left: 0, right: 0 },
+    padding: { top: 20, bottom: 50, left: 0, right: 0 },
   });
 }
 
@@ -92,20 +95,20 @@ function openFullscreen() {
   if (!fullscreen.value && window.innerWidth <= 640) {
     console.log('open fullscreen')
     fullscreen.value = true
-    // nextTick(() => {
-    map.value.resize()
-    map.value.scrollZoom.enable()
-    // })
+    nextTick(() => {
+      map.value.resize()
+      map.value.scrollZoom.enable()
+    })
   }
 }
 
 function closeFullscreen() {
   console.log('close fullscreen')
   fullscreen.value = false
-  // nextTick(() => {
-  map.value.resize()
-  map.value.scrollZoom.disable()
-  // })
+  nextTick(() => {
+    map.value.resize()
+    map.value.scrollZoom.disable()
+  })
 }
 
 const markers = ref<MapMarker[]>([
@@ -181,7 +184,7 @@ const markers = ref<MapMarker[]>([
 
     </div>
 
-    <div class="absolute -mt-12 sm:-mt-14 ml-2 space-x-2" :class="{ 'fixed bottom-5 left-0': fullscreen }">
+    <div class="absolute -mt-12 sm:-mt-14 ml-2 space-x-2" :class="{ 'fixed bottom-4 left-0': fullscreen }">
 
       <button v-if="currentZoomLevel > zoom + 1" class="btn btn-accent btn-dash bg-base-100 text-neutral max-sm:btn-sm"
         @click="restoreDefaultZoom">

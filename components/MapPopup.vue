@@ -26,7 +26,7 @@
       }]" columns="1" :reverse="false" />
 
     </div>
-    <form method="dialog" class="modal-backdrop max-sm:bg-base-200">
+    <form method="dialog" class="modal-backdrop ">
       <button>close</button>
     </form>
   </dialog>
