@@ -140,7 +140,7 @@ const markers = ref<MapMarker[]>([
 
 <template>
   <Container>
-    <div class="w-full h-[95vh] flex justify-stretch content-stretch max-h-[120vw]"
+    <div class="w-full h-[95vh] flex justify-stretch content-stretch max-h-[100vw]"
       :class="{ '!fixed !size-full !top-0 !left-0 max-h-none': fullscreen }">
       <MapboxMap :accessToken="config.public.mapboxApi"
         mapStyle="mapbox://styles/joppe-milieudefensie/cm7p5awl8001y01r18vay203m?optimize=true" :pitchWithRotate="false"
@@ -174,14 +174,14 @@ const markers = ref<MapMarker[]>([
 
     </div>
 
-    <div class="absolute -mt-16 ml-4 space-x-2" :class="{ 'fixed bottom-5 left-0': fullscreen }">
+    <div class="absolute -mt-12 sm:-mt-14 ml-2 space-x-2" :class="{ 'fixed bottom-5 left-0': fullscreen }">
 
-      <button v-if="currentZoomLevel > zoom + 1" class="btn btn-accent btn-dash bg-base-100 text-neutral"
+      <button v-if="currentZoomLevel > zoom + 1" class="btn btn-accent btn-dash bg-base-100 text-neutral max-sm:btn-sm"
         @click="restoreDefaultZoom">
         <IconZoomOut />Toon heel Nederland
       </button>
 
-      <button v-else class="btn btn-accent">
+      <button v-else class="btn btn-accent max-sm:btn-sm">
         <IconAddBold />Organiseer een evenement
       </button>
 
