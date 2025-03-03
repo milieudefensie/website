@@ -2,6 +2,11 @@
 import IconMenu from '~icons/mdi/menu'
 import IconClose from '~icons/mdi/close'
 import IconSearch from '~icons/mdi/search'
+import IconCalendar from '~icons/mdi/calendar'
+import IconClick from '~icons/mdi/cursor-default-click'
+import IconMapMarker from '~icons/mdi/map-marker'
+import IconEuro from '~icons/mdi/euro'
+
 
 </script>
 <template>
@@ -26,7 +31,7 @@ import IconSearch from '~icons/mdi/search'
           <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
 
-          <div class="menu p-10 px-[3.5vw] w-10/12 md:w-7/12 lg:w-5/12 min-h-full bg-base-100 text-base-content
+          <div class="menu p-10 px-[3.5vw] w-10/12  md:w-7/12 lg:w-5/12 min-h-full bg-base-100 text-base-content
         10">
             <div class="text-right mb-2">
               <label for="my-drawer" aria-label="close sidebar" class="btn btn-ghost btn-circle">
@@ -35,31 +40,36 @@ import IconSearch from '~icons/mdi/search'
             </div>
 
 
-            <div class="text-2xl font-bold flex flex-wrap space-y-5">
-              <a class="border-b-4 border-dashed border-primary w-full py-1  hover:border-solid" href="#"
-                contenteditable>Online acties</a>
-              <a class="border-b-4 border-dashed border-primary w-full py-1  hover:border-solid" href="#"
-                contenteditable>Agenda</a>
-              <a class="border-b-4 border-dashed border-primary w-full py-1  hover:border-solid" href="#"
-                contenteditable>Lokale
-                groepen</a>
-              <a class="border-b-4 border-dashed border-primary w-full py-1  hover:border-solid" href="#"
-                contenteditable>Doneer</a>
+            <div class="text-xl font-bold flex flex-wrap space-y-4">
+
+              <a class="btn btn-lg btn-soft btn-primary btn-block text-neutral justify-start" href="#" contenteditable>
+                <IconClick class="mr-4" /> Online acties
+              </a>
+              <a class="btn btn-lg btn-soft btn-primary btn-block text-neutral justify-start" href="#" contenteditable>
+                <IconCalendar class="mr-4" /> Evenementen
+              </a>
+              <a class="btn btn-lg btn-soft btn-primary btn-block text-neutral justify-start" href="#" contenteditable>
+                <IconMapMarker class="mr-4" /> Lokale groepen
+              </a>
+              <a class="btn btn-lg btn-soft btn-primary btn-block text-neutral justify-start" href="#" contenteditable>
+                <IconEuro class="mr-4" /> Doneer
+              </a>
             </div>
-            <div class="space-y-3 my-10">
-              <a class="w-full btn btn-lg btn-primary btn-outline !text-black font-display text-2xl px-5 tracking-wide"
-                contenteditable>✊
+            <div class="space-y-3 my-6">
+              <a class="w-full btn btn-xl btn-primary btn-outline !text-black justify-start font-display !text-2xl"
+                contenteditable><span class="mr-4">✊</span>
                 Word actief</a>
-              <a class="w-full btn btn-lg btn-primary font-display text-2xl px-5 tracking-wide" contenteditable>🌍
+              <a class="w-full btn btn-xl btn-primary justify-start font-display !text-2xl" contenteditable><span
+                  class="mr-4">🌍</span>
                 Word
                 lid</a>
             </div>
-            <div class="text-xl flex flex-wrap gap-x-6 gap-y-4 justify-center">
+            <div class="text-md sm:text-lg flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-4 justify-center items-center">
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Over</a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Nieuws</a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Ondersteuning </a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Contact</a>
-              <a href="#" class="btn btn-circle btn-sm">
+              <a href="#" class="btn btn-circle btn-xs sm:btn-sm">
                 <IconSearch />
               </a>
 
