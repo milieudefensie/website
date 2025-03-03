@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden w-full">
+  <div class="overflow-x-hidden w-full py-4">
     <div class="px-4 pt-2 -rotate-1 max-w-[1300px] mx-auto">
       <div
         class="flex flex-row bg-accent text-white  max-md:flex-col max-sm:flex-col-reverse flex-wrap overflow-hidden mx-auto rounded-xl ">
