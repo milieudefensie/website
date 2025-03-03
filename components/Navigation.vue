@@ -31,7 +31,7 @@ import IconEuro from '~icons/mdi/euro'
           <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
 
-          <div class="menu pt-3 pb-16 px-[3.5vw] w-11/12  md:w-7/12 lg:w-5/12 min-h-full bg-base-100 text-base-content
+          <div class="menu pt-3 pb-16 px-[3.5vw] w-full  md:w-7/12 lg:w-5/12 min-h-full bg-base-100 text-base-content
         10">
             <div class="text-right mb-3">
               <label for="my-drawer" aria-label="close sidebar" class="btn btn-ghost btn-circle">
@@ -64,7 +64,7 @@ import IconEuro from '~icons/mdi/euro'
                 Word
                 lid</a>
             </div>
-            <div class="text-sm sm:text-lg flex flex-wrap gap-x-3 sm:gap-x-6 gap-y-4 justify-center items-center">
+            <div class="text-sm sm:text-lg flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-4 justify-center items-center">
               <a class="border-b-2 hover:border-black/50" href="#" contenteditable>Over</a>
               <a class="border-b-2 hover:border-black/50" href="#" contenteditable>Nieuws</a>
               <a class="border-b-2 hover:border-black/50" href="#" contenteditable>Ondersteuning </a>
