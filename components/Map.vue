@@ -184,20 +184,21 @@ const markers = ref<MapMarker[]>([
 
     </div>
 
-    <div class="absolute -mt-12 sm:-mt-14 ml-2 space-x-2" :class="{ 'fixed bottom-4 left-0': fullscreen }">
+    <div class="absolute -mt-12 sm:-mt-14 ml-2 space-x-2" :class="{ 'fixed bottom-2 left-0': fullscreen }">
 
-      <button v-if="currentZoomLevel > zoom + 1" class="btn btn-accent btn-dash bg-base-100 text-neutral max-sm:btn-sm"
+      <button v-if="currentZoomLevel > zoom + 1" class="btn btn-accent btn-dash bg-white text-neutral max-sm:btn-sm"
         @click="restoreDefaultZoom">
         <IconZoomOut />Toon heel Nederland
       </button>
 
-      <button v-else class="btn btn-accent max-sm:btn-sm">
+      <button v-else class="btn btn-accent max-sm:btn-sm border-white border-1">
         <IconAddBold />Organiseer een evenement
       </button>
 
     </div>
 
-    <button v-if="fullscreen" class="btn btn-primary fixed top-4 left-4" @click="closeFullscreen()">
+    <button v-if="fullscreen" class="btn btn-primary fixed top-4 left-4 border-white border-1"
+      @click="closeFullscreen()">
       <IconClose />Sluit kaart
     </button>
 
