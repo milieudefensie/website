@@ -64,7 +64,7 @@ import IconEuro from '~icons/mdi/euro'
                 Word
                 lid</a>
             </div>
-            <div class="text-md sm:text-lg flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-4 justify-center items-center">
+            <div class="text-sm sm:text-lg flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-4 justify-center items-center">
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Over</a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Nieuws</a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Ondersteuning </a>
