@@ -31,9 +31,9 @@ import IconEuro from '~icons/mdi/euro'
           <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 
 
-          <div class="menu pt-4 pb-16 px-[3.5vw] w-10/12  md:w-7/12 lg:w-5/12 min-h-full bg-base-100 text-base-content
+          <div class="menu pt-3 pb-16 px-[3.5vw] w-11/12  md:w-7/12 lg:w-5/12 min-h-full bg-base-100 text-base-content
         10">
-            <div class="text-right mb-4">
+            <div class="text-right mb-3">
               <label for="my-drawer" aria-label="close sidebar" class="btn btn-ghost btn-circle">
                 <IconClose />
               </label>
@@ -55,7 +55,7 @@ import IconEuro from '~icons/mdi/euro'
                 <IconEuro class="mr-4" /> Doneer
               </a>
             </div>
-            <div class="space-y-2 my-6">
+            <div class="space-y-2 my-4 sm:my-6">
               <a class="w-full btn btn-xl btn-primary btn-outline !text-black justify-start font-display !text-2xl"
                 contenteditable><span class="mr-4">✊</span>
                 Word actief</a>
@@ -64,7 +64,7 @@ import IconEuro from '~icons/mdi/euro'
                 Word
                 lid</a>
             </div>
-            <div class="text-md sm:text-lg flex flex-wrap gap-x-6 gap-y-4 justify-center items-center">
+            <div class="text-md sm:text-lg flex flex-wrap gap-x-4 sm:gap-x-6 gap-y-4 justify-center items-center">
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Over</a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Nieuws</a>
               <a class="border-b-4 hover:border-black/50" href="#" contenteditable>Ondersteuning </a>
