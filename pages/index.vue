@@ -124,8 +124,8 @@ const content = ref<ContentItem[]>([
     <ContentBuilder :content="content" />
 
     <Container>
-      <div class="prose lg:prose-xl">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
+
+      <ContentProse :content="`<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
           quibusdam corporis laboriosam temporibus, perferendis reprehenderit deleniti maxime facere impedit optio
           voluptatum sint, ratione rem!</p>
         <h1>Garlic bread with cheese: What the science tells us</h1>
@@ -144,9 +144,13 @@ const content = ref<ContentItem[]>([
           <li>Garlic bread with cheese: A comprehensive review</li>
           <li>Garlic bread with cheese: A new hope</li>
         </ul>
-        <p>Klik deze knoppen:</p>
-      </div>
+        <p>Klik deze knoppen:</p>`">
+      </ContentProse>
+
     </Container>
+
+
+
 
     <Map />
 

@@ -1,5 +1,4 @@
 <template>
-  <button class="btn" @click="openDialog()">open modal</button>
   <dialog id="my_modal_2" class="modal" ref="dialog" @close="closeDialog()">
     <div
       class="modal-box h-full w-full max-h-full max-w-full sm:h-auto sm:w-11</div>/12 sm:max-w-4xl sm:max-h-11/12 p-0">

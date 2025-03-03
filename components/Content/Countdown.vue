@@ -39,11 +39,11 @@
     </div>
 
   </div>
-  <div v-else class="card  card-side shadow-sm bg-white">
-    <div class="card-body grid content-center ">
+  <div v-else class="card  card-side shadow-sm bg-white flex flex-wrap">
+    <div class="card-body p-6 grid content-center md:flex-1 max-md:text-center">
       <h1 class="text-2xl font-bold">{{ props.finishedTitle }}</h1>
     </div>
-    <div class="card-body grid content-center flex-none">
+    <div class="card-body p-6 grid content-center md:flex-none place-content-center">
       <Buttons :buttons="props.finishedButtons" size="lg" />
     </div>
   </div>
