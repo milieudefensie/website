@@ -24,7 +24,11 @@
 }
 
 .hs-form {
-  @apply grid gap-4;
+  @apply grid gap-4 grid-cols-1;
+}
+
+.step-2 .hs-form {
+  @apply grid-cols-3;
 }
 
 .hs-input:not([type='checkbox']) {
@@ -41,6 +45,11 @@
 
 .hs-button {
   @apply btn btn-neutral w-full font-display text-xl lg:text-2xl text-white;
+}
+
+.hs-submit,
+.legal-consent-container {
+  @apply col-span-3;
 }
 
 .mapboxgl-popup-anchor-bottom {

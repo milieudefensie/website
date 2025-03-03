@@ -11,7 +11,8 @@
 
         <button
           class="btn btn-circle btn-accent border-neutral/20 shadow-md font-display hover:scale-120 transition-transform hover:btn-primary"
-          :class="{ 'btn-primary btn-sm': active, 'btn-xs': !active }" ref="marker" @click="openPopup()">
+          :class="{ 'btn-primary btn-sm': active, 'btn-xs': !active, 'max-sm:scale-50': props.currentZoomLevel < 7 }"
+          ref="marker" @click="openPopup()">
           <IconCalendar class="text-[15px]" />
         </button>
       </div>

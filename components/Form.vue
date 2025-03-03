@@ -10,8 +10,8 @@
 
       <div class="max-w-[1000px] mx-auto p-6 my-[8vh] gap-6 grid" ref="form2">
         <h1 class="text-6xl font-display">Bijna klaar...</h1>
-        <p>Nog een paar korte vragen.</p>
-        <div id="form-2"></div>
+        <p>Nog een paar korte vragen om je aanmelding af te maken.</p>
+        <div id="form-2" class="step-2"></div>
         <div class="text-xs text-neutral/50 mt-2 italic">
           We houden je op de hoogte over onze beweging en acties bij jou in de buurt via je ingevulde e-mailadres. Als
           je je nummer deelt kunnen we je bellen of een WhatsApp-berichtje sturen om je op weg te helpen. Deze

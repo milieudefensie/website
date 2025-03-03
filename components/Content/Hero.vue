@@ -12,7 +12,7 @@
             Quibusdam possimus consectetur optio.</p>
 
           <div class="w-full" v-if="form">
-            <!-- <Form></Form> -->
+            <Form></Form>
           </div>
           <button v-else class="btn lg:btn-lg bg-white font-display border-none text-xl lg:text-2xl">👉 Teken nu de
             petitie</button>
