@@ -12,7 +12,7 @@
       <div class="flex flex-wrap"
         :class="[{ 'md:flex-row': props.columns === '1', 'max-md:flex-col-reverse md:flex-row-reverse': props.reverse && props.columns === '1', 'flex-col-reverse': props.reverse && props.columns !== '1' }]">
 
-        <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
+        <NuxtPicture v-if="card.imageURL" format="avif,webp" :src="card.imageURL" width="1000px" height="1000px"
           :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }" sizes="calc(100vw - 26px) md:40vw"
           densities="x1 x2" />
 
@@ -21,7 +21,7 @@
             <h2 class="card-title font-display text-3xl " v-if="card.title">{{ card.title }}</h2>
             <p class="text-md lg:text-lg ">{{ card.content }}
             </p>
-            <Buttons :buttons="card.buttons" :size="card.buttonSize" />
+            <Buttons v-if="card.buttons" :buttons="card.buttons" :size="card.buttonSize" />
 
           </div>
 
@@ -88,10 +88,11 @@ import type { Button, ButtonSizes } from '@/components/Buttons.vue';
 import IconCalendar from '~icons/mdi/calendar'
 
 export interface Card {
-  title?: string;
-  content: string;
-  buttons: Button[];
-  buttonSize: ButtonSizes;
+  imageURL?: string;
+  title: string;
+  content?: string;
+  buttons?: Button[];
+  buttonSize?: ButtonSizes;
 
 }
 

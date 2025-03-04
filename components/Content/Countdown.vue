@@ -43,7 +43,7 @@
     <div class="card-body p-6 grid content-center md:flex-1 max-md:text-center">
       <h1 class="text-2xl font-bold">{{ props.finishedTitle }}</h1>
     </div>
-    <div class="card-body p-6 grid content-center md:flex-none place-content-center">
+    <div class="card-body p-6 max-md:pt-0 grid content-center md:flex-none place-content-center">
       <Buttons :buttons="props.finishedButtons" size="lg" />
     </div>
   </div>
@@ -69,8 +69,13 @@ const countDownStart = ref({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 const finished = ref(false)
 
 const updateCountDown = () => {
-  const distance = props.countToDate.getTime() - new Date().getTime()
-  if (distance < 0) {
+  const countToDate = new Date(props.countToDate)
+  const now = new Date()
+
+  const distance = props.countToDate.getTime() - now.getTime()
+
+  console.log(countToDate, now)
+  if (now > countToDate) {
     countDown.value = { days: 0, hours: 0, minutes: 0, seconds: 0 }
     finished.value = true
   } else {

@@ -90,7 +90,7 @@ const content = ref<ContentItem[]>([
     type: "ContentCountdown",
     props: {
       title: "We starten om 19:00 met onze online introductie. Ben jij er bij?",
-      countToDate: new Date('2025-02-30T08:59:59'),
+      countToDate: new Date('2025-03-04T14:30:00.000Z'),
       buttons: [{ label: 'Open Zoom', url: '', to: '', color: 'primary', style: 'default', width: 'default' }],
       finishedTitle: "🔴 We zijn live! Sluit nu aan bij onze online introductie.",
       finishedButtons: [{ label: 'Open Zoom', url: '', to: '', color: 'primary', style: 'default', width: 'default' }]
@@ -99,10 +99,10 @@ const content = ref<ContentItem[]>([
   {
     type: "ContentSteps",
     props: {
-      testimonials: [
-        { title: 'Les 1' },
-        { title: 'Les 2' },
-        { title: 'Les 3' },
+      steps: [
+        { title: 'Lorem ipsum dolor' },
+        { title: 'Groepen organiseren', to: '/' },
+        { title: 'Boodschap communiceren', to: '/test' },
         { title: 'Les 4' },
         { title: 'Les 5' },
         { title: 'Les 6' },
@@ -123,6 +123,7 @@ const content = ref<ContentItem[]>([
 
     <ContentBuilder :content="content" />
 
+    <!-- <NuxtIsland name="prose"> -->
     <Container>
 
       <ContentProse :content="`<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
@@ -149,10 +150,13 @@ const content = ref<ContentItem[]>([
 
     </Container>
 
+    <!-- </NuxtIsland> -->
 
 
 
-    <Map />
+    <ClientOnly>
+      <Map />
+    </ClientOnly>
 
 
 

@@ -5,7 +5,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import sanitizeHtml from 'sanitize-html';
+
+import xss from "xss";
+
 
 export type AccordionProps = {
   content: string
@@ -13,5 +15,18 @@ export type AccordionProps = {
 
 const props = defineProps<AccordionProps>()
 
-const secureHTML = ref(sanitizeHtml(props.content))
+const options = {
+  whiteList: {
+    p: [],
+    h1: [],
+    h2: [],
+    h3: [],
+    ul: [],
+    li: [],
+    blockquote: [],
+    a: ["href", "title", "target"],
+  },
+};
+
+const secureHTML = ref(xss(props.content, options))
 </script>

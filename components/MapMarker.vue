@@ -40,7 +40,7 @@ import IconCalendar from '~icons/mdi/calendar'
 import type { MapMarker } from './Map.vue';
 
 export type MapMarkerProps = {
-  currentZoomLevel: number,
+  currentZoomLevel?: number,
   marker: MapMarker
   active: boolean
 }

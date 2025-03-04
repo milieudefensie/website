@@ -37,7 +37,7 @@ export type ButtonSizes = "sm" | "md" | "lg" | "xl";
 
 export type ButtonProps = {
   buttons: Button[],
-  size: ButtonSizes;
+  size?: ButtonSizes;
 }
 
 const props = defineProps<ButtonProps>()

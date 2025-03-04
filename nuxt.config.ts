@@ -5,7 +5,11 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
 
-  modules: ['@nuxt/image', ['unplugin-icons/nuxt', { scale: 1.5 }]],
+  modules: [
+    '@nuxt/image',
+    ['unplugin-icons/nuxt', { scale: 1.5 }],
+    '@nuxt/scripts',
+  ],
   devtools: { enabled: true },
 
   vite: {
@@ -26,5 +30,9 @@ export default defineNuxtConfig({
       mapZoom: '6.7',
       mapMinZoom: '6.5',
     },
+  },
+
+  experimental: {
+    componentIslands: true,
   },
 })

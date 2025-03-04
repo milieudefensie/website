@@ -4,7 +4,7 @@ import IconAddBold from '~icons/mdi/add-bold'
 import IconClose from '~icons/mdi/close'
 
 import {
-  MapboxMap, MapboxGeolocateControl, MapboxNavigationControl
+  MapboxMap, MapboxGeolocateControl
 } from '@studiometa/vue-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 const config = useRuntimeConfig()
@@ -163,7 +163,7 @@ const markers = ref<MapMarker[]>([
 
           <MapboxGeolocateControl />
 
-          <MapboxNavigationControl position=" top-right" :showCompass="false" />
+          <!-- <MapboxNavigationControl position=" top-right" :showCompass="false" /> -->
 
           <MapMarker v-for="(marker, index) in markers" :marker="marker" :currentZoomLevel="currentZoomLevel"
             @popup-opened="flyTo(marker)" :active="marker === selectedMarker" :key="index" />
@@ -173,12 +173,8 @@ const markers = ref<MapMarker[]>([
         </template>
 
         <!-- <template #loader>
-        <div>Loading...</div>
-      </template> -->
-
-
-
-
+          <div>Loading...</div>
+        </template> -->
       </MapboxMap>
 
 
@@ -191,14 +187,13 @@ const markers = ref<MapMarker[]>([
         <IconZoomOut />Toon heel Nederland
       </button>
 
-      <button v-else class="btn btn-accent max-sm:btn-sm border-white border-1">
+      <button v-else class="btn btn-accent max-sm:btn-sm 1">
         <IconAddBold />Organiseer een evenement
       </button>
 
     </div>
 
-    <button v-if="fullscreen" class="btn btn-primary fixed top-4 left-4 border-white border-1"
-      @click="closeFullscreen()">
+    <button v-if="fullscreen" class="btn btn-primary fixed top-4 left-4 " @click="closeFullscreen()">
       <IconClose />Sluit kaart
     </button>
 
