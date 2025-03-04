@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+export type Testimonal = {
+  author: string;
+  content: string;
+}
+
+export type TestimonialProps = {
+  testimonials: Testimonal[]
+}
+
+const props = defineProps<TestimonialProps>()
+</script>
 <template>
   <div class="chat chat-start" v-for="(testimonial, index) in props.testimonials" :key="index">
     <div class="chat-image avatar">
@@ -11,17 +23,4 @@
     </div>
     <div class="chat-bubble text-xl font-bold">{{ testimonial.content }}</div>
   </div>
-
 </template>
-<script lang="ts" setup>
-export type Testimonal = {
-  author: string;
-  content: string;
-}
-
-export type TestimonialProps = {
-  testimonials: Testimonal[]
-}
-
-const props = defineProps<TestimonialProps>()
-</script>

@@ -1,7 +1,7 @@
 <template>
   <div class="prose lg:prose-xl">
     <slot></slot>
-    <div v-html="secureHTML"></div>
+    <div v-html="secureHTML" class="[&>*:first-child]:mt-0 [&>*:last-child]:mb-0"></div>
   </div>
 </template>
 <script lang="ts" setup>

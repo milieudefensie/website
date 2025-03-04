@@ -1,33 +1,10 @@
-<template>
-  <div class="card-actions">
-
-    <button class="btn" v-for="button in props.buttons" :class="[
-      {
-        'btn-soft text-neutral': button.style === 'soft',
-        'btn-outline text-neutral': button.style === 'outline',
-        'btn-dash text-neutral': button.style === 'dash',
-        'btn-ghost text-neutral': button.style === 'ghost',
-        'btn-primary': button.color === 'primary',
-        'btn-secondary': button.color === 'secondary',
-        'btn-accent': button.color === 'accent',
-        'btn-sm': props.size === 'sm',
-        'btn-md': props.size === 'md',
-        'btn-lg': props.size === 'lg',
-        'btn-xl': props.size === 'xl',
-        'btn-wide': button.width === 'wide',
-        'btn-block': button.width === 'full'
-      },
-    ]">{{
-      button.label }}</button>
-  </div>
-
-</template>
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router'
+
 
 export interface Button {
   label: string;
-  url?: string;
-  to?: string;
+  link?: RouteLocationRaw;
   color: "default" | "primary" | "secondary" | "accent";
   style: "default" | "soft" | "outline" | "dash" | "ghost";
   width: "default" | "wide" | "full";
@@ -43,3 +20,30 @@ export type ButtonProps = {
 const props = defineProps<ButtonProps>()
 
 </script>
+
+<template>
+  <div class="card-actions">
+
+    <NuxtLink class="btn group-hover:scale-105 transition-transform" v-for="(button, index) in props.buttons"
+      :to="button.link" :key="index" :class="[
+        {
+          'btn-soft text-neutral': button.style === 'soft',
+          'btn-outline text-neutral': button.style === 'outline',
+          'btn-dash text-neutral': button.style === 'dash',
+          'btn-ghost text-neutral': button.style === 'ghost',
+          'btn-primary': button.color === 'primary',
+          'btn-secondary': button.color === 'secondary',
+          'btn-accent': button.color === 'accent',
+          'btn-sm': props.size === 'sm',
+          'btn-md': props.size === 'md',
+          'btn-lg': props.size === 'lg',
+          'btn-xl': props.size === 'xl',
+          'btn-wide': button.width === 'wide',
+          'btn-block': button.width === 'full'
+        },
+      ]">
+      {{ button.label }}
+    </NuxtLink>
+  </div>
+
+</template>

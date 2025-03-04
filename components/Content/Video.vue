@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import IconPlay from '~icons/mdi/play'
 
+
+
+export type VideoProps = {
+  youtubeURL: string;
+}
+const props = defineProps<VideoProps>()
+
+
 // A computed property that extracts the video ID from the URL
 // The URL can look like this: https://www.youtube.com/watch?v=VIDEO-ID
 // Or this: https://youtu.be/VIDEO-ID
 // Or this: https://youtu.be/VIDEO-ID?feature=shared
-const props = defineProps<{
-  youtubeURL: string
-}>()
-
 const videoID = computed(() => {
   // return videoId
   const url = new URL(props.youtubeURL);
