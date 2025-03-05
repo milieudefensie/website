@@ -40,15 +40,11 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'static',
-    // static: process.env.NODE_ENV !== 'development',
     prerender: {
       // So it does not fail when pages are not found (404)
       failOnError: false,
     },
   },
 
-  image: {
-    // provider: 'ipxStatic',
-    // provider: 'ipx',
-  },
+  app: {},
 })
