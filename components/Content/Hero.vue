@@ -20,8 +20,12 @@
         </hgroup>
         <div class="basis-full md:basis-1/2 lg:basis-5/12 flex justify-center items-center bg-white">
 
-          <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
-            sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20" />
+          <!-- <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
+            sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20"
+            :placeholder="[25, 25]" /> -->
+          <NuxtImg format="avif" src="/jong.jpg" width="1000px" height="1000px"
+            sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20"
+            preload />
         </div>
 
       </div>
