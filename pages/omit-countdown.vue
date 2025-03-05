@@ -87,16 +87,6 @@ const content = ref<ContentItem[]>([
     }
   },
   {
-    type: "ContentCountdown",
-    props: {
-      title: "We starten om 19:00 met onze online introductie. Ben jij er bij?",
-      countToDate: new Date('2025-03-04T14:30:00.000Z'),
-      buttons: [{ label: 'Open Zoom', link: '', color: 'primary', style: 'default', width: 'default' }],
-      finishedTitle: "🔴 We zijn live! Sluit nu aan bij onze online introductie.",
-      finishedButtons: [{ label: 'Open Zoom', link: '', color: 'primary', style: 'default', width: 'default' }]
-    }
-  },
-  {
     type: "ContentSteps",
     props: {
       steps: [
