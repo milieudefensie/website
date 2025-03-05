@@ -5,6 +5,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
 
+  ssr: true,
+
   modules: [
     '@nuxt/image',
     ['unplugin-icons/nuxt', { scale: 1.5 }],
@@ -37,9 +39,16 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: 'static',
+    // static: process.env.NODE_ENV !== 'development',
     prerender: {
       // So it does not fail when pages are not found (404)
       failOnError: false,
     },
+  },
+
+  image: {
+    // provider: 'ipxStatic',
+    // provider: 'ipx',
   },
 })

@@ -23,13 +23,12 @@
           <!-- <NuxtPicture format="avif,webp" src="/jong.jpg" width="1000px" height="1000px"
             sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20"
             :placeholder="[25, 25]" /> -->
-          <NuxtImg format="webp" src="/jong.jpg" width="1000px" height="1000px"
+          <NuxtImg format="avif" src="/jong.jpg" width="1000px" height="1000px"
             sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20"
             preload />
 
         </div>
-        <NuxtPicture format="avif" src="/jong.jpg" width="1000px" height="1000px"
-          sizes="lg:528px md:calc(31.76vw + 90px) sm:50vw calc(100vw - 32px)" densities="x1 x2" quality="20" />
+
 
       </div>
       <div class="text-xs text-neutral/50 mt-2 md:text-balance italic align-end">
