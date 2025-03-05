@@ -160,9 +160,7 @@ const content = ref<ContentItem[]>([
 
 
 
-    <ClientOnly>
-      <Map />
-    </ClientOnly>
+    <Map />
 
 
 

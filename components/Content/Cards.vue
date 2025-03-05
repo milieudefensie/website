@@ -77,8 +77,8 @@ function handleCardClick(card: Card) {
   <div class="gap-4" :class="[columnClasses]">
     <div class="card shadow-sm bg-white overflow-hidden" v-for="(card, index) in props.cards" :key="index">
 
-      <div class="flex flex-wrap group"
-        :class="[{ 'cursor-pointer': singleLink(card), 'md:flex-row': props.columns === '1', 'max-md:flex-col-reverse md:flex-row-reverse': props.reverse && props.columns === '1', 'flex-col-reverse': props.reverse && props.columns !== '1' }]"
+      <div class="flex flex-wrap"
+        :class="[{ 'cursor-pointer group': singleLink(card), 'md:flex-row': props.columns === '1', 'max-md:flex-col-reverse md:flex-row-reverse': props.reverse && props.columns === '1', 'flex-col-reverse': props.reverse && props.columns !== '1' }]"
         @click="handleCardClick(card)">
 
         <NuxtPicture v-if="card.image" format="avif,webp" :src="card.image.url" width="1000px" height="1000px"

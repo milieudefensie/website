@@ -35,4 +35,11 @@ export default defineNuxtConfig({
   experimental: {
     componentIslands: true,
   },
+
+  nitro: {
+    prerender: {
+      // So it does not fail when pages are not found (404)
+      failOnError: false,
+    },
+  },
 })

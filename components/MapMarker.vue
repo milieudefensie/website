@@ -3,7 +3,8 @@
     <template #default>
 
 
-      <div class="tooltip" :class="{ 'tooltip-open': props.currentZoomLevel > 9 || active, 'markerActive': active }">
+      <div class="tooltip"
+        :class="{ 'tooltip-open': props.currentZoomLevel && props.currentZoomLevel > 9 || active, 'markerActive': active }">
 
         <div class="tooltip-content  shadow-md">
           {{ props.marker.title }}
@@ -11,7 +12,7 @@
 
         <button
           class="btn btn-circle btn-accent border-neutral/20 shadow-md font-display hover:scale-120 transition-transform hover:btn-primary"
-          :class="{ 'btn-primary btn-sm': active, 'btn-xs': !active, 'max-sm:w-5 max-sm:h-5': props.currentZoomLevel < 7 }"
+          :class="{ 'btn-primary btn-sm': active, 'btn-xs': !active, 'max-sm:w-5 max-sm:h-5': props.currentZoomLevel && props.currentZoomLevel < 7 }"
           ref="marker" @click="openPopup()">
           <IconCalendar class="text-[15px]" />
         </button>
