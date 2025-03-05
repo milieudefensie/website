@@ -12,7 +12,10 @@ import IconEuro from '~icons/mdi/euro'
 <template>
   <nav class="flex justify-between px-6 py-6 items-center max-w-[1000px] mx-auto h-[119.13px]">
     <!-- <NuxtPicture format="avif,webp" src="/logo.png" width="176" class="-rotate-1" quality="10" /> -->
-    <img src="/logo-compressed.svg" alt="logo" width="176" height="71.13" />
+    <!-- <img src="/logo-compressed-176x70-V2.svg" alt="Milieudefensie" width="176" height="71.13" /> -->
+    <!-- <NuxtImg format="avif" src="/logo-352x140.png" width="176" height="70" densities="x1 x2" quality="20" /> -->
+    <Logo />
+
     <div class="space-x-3 flex" sizes="176px" densities="x1 x2">
 
       <a class="btn btn-primary md:btn-outline md:!text-black font-display text-xl px-5 max-sm:hidden" contenteditable>✊
