@@ -123,12 +123,14 @@ const content = ref<ContentItem[]>([
 
     <ContentBuilder :content="content" />
 
-    <!-- <NuxtIsland name="prose"> -->
+    <!-- <NuxtIsland name="ContentProse" :content="`<p>Test test!</p>`">
+    </NuxtIsland> -->
+
     <Container>
 
-      <ContentProse :content="`<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
+      <ContentProse content="<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
           quibusdam corporis laboriosam temporibus, perferendis reprehenderit deleniti maxime facere impedit optio
-          voluptatum sint, ratione rem!</p>
+          voluptatum sint, ratione rem! <a href='/test'>Test!</a></p>
         <h1>Garlic bread with cheese: What the science tells us</h1>
         <p>
           For years parents have espoused the health benefits of eating garlic bread with cheese to their
@@ -145,12 +147,10 @@ const content = ref<ContentItem[]>([
           <li>Garlic bread with cheese: A comprehensive review</li>
           <li>Garlic bread with cheese: A new hope</li>
         </ul>
-        <p>Klik deze knoppen:</p>`">
-      </ContentProse>
+        <p>Klik deze knoppen:</p>" />
 
     </Container>
 
-    <!-- </NuxtIsland> -->
 
     <Container>
       <ContentList class="card shadow-sm bg-white"
