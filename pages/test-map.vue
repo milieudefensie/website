@@ -144,7 +144,7 @@ const content = ref<ContentItem[]>([
         color="primary" />
     </Container>
 
-    <Map />
+    <Map hydrate-on-visible />
 
 
 

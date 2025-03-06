@@ -160,7 +160,7 @@ const content = ref<ContentItem[]>([
 
 
 
-    <Map />
+    <Map hydrate-on-visible />
 
 
 
