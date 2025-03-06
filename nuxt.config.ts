@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     ['unplugin-icons/nuxt', { scale: 1.5 }],
     '@nuxt/scripts',
+    '@pinia/nuxt',
   ],
   devtools: { enabled: true },
 

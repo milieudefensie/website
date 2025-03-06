@@ -35,7 +35,6 @@
 
 </template>
 <script setup lang="ts">
-import { onClickOutside } from '@vueuse/core'
 import { MapboxMarker } from '@studiometa/vue-mapbox-gl';
 import IconCalendar from '~icons/mdi/calendar'
 import type { MapMarker } from './Map.vue';

@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import type { ContentItem } from '~/components/ContentBuilder.vue';
 
+const directus = useDirectusStore()
+const route = useRoute()
+
+// Fetches the article from Directus based on the current slug, using the useAsyncData function
+const { slug } = useRoute().params
+
+const { data, error } = await useAsyncData(`article:${slug[0]}`, () => {
+  return directus.fetchArticle(slug[0])
+})
+
+
 const content = ref<ContentItem[]>([
   {
     type: "ContentButtonGroup",
@@ -61,7 +72,12 @@ const content = ref<ContentItem[]>([
       alt: "Fabriek"
     }
   },
-
+  {
+    type: "ContentVideo",
+    props: {
+      youtubeURL: "https://www.youtube.com/watch?v=Vz4Rzh16mac"
+    }
+  },
   {
     type: "ContentAccordion",
     props: {
@@ -81,7 +97,16 @@ const content = ref<ContentItem[]>([
       ]
     }
   },
-
+  {
+    type: "ContentCountdown",
+    props: {
+      title: "We starten om 19:00 met onze online introductie. Ben jij er bij?",
+      countToDate: new Date('2025-03-04T14:30:00.000Z'),
+      buttons: [{ label: 'Open Zoom', link: '', color: 'primary', style: 'default', width: 'default' }],
+      finishedTitle: "🔴 We zijn live! Sluit nu aan bij onze online introductie.",
+      finishedButtons: [{ label: 'Open Zoom', link: '', color: 'primary', style: 'default', width: 'default' }]
+    }
+  },
   {
     type: "ContentSteps",
     props: {
@@ -97,17 +122,7 @@ const content = ref<ContentItem[]>([
         { title: 'Les 9' }
       ]
     }
-  },
-  {
-    type: "ContentCountdown",
-    props: {
-      title: "We starten om 19:00 met onze online introductie. Ben jij er bij?",
-      countToDate: new Date('2025-03-04T14:30:00.000Z'),
-      buttons: [{ label: 'Open Zoom', link: '', color: 'primary', style: 'default', width: 'default' }],
-      finishedTitle: "🔴 We zijn live! Sluit nu aan bij onze online introductie.",
-      finishedButtons: [{ label: 'Open Zoom', link: '', color: 'primary', style: 'default', width: 'default' }]
-    }
-  },
+  }
 ]
 )
 </script>
@@ -115,7 +130,9 @@ const content = ref<ContentItem[]>([
 <template>
   <div class="my-10">
 
+    {{ data }}
 
+    {{ error }}
 
     <ContentBuilder :content="content" />
 
@@ -153,6 +170,9 @@ const content = ref<ContentItem[]>([
         :items="[{ title: 'Item 1', subtitle: 'Subtitle 1', description: 'Description 1', type: 'event', link: '/' }, { title: 'Item 2', subtitle: 'Subtitle 2', description: 'Description 2', type: 'group', link: '/' }]"
         color="primary" />
     </Container>
+
+
+    <Map />
 
 
 

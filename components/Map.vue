@@ -7,6 +7,7 @@ import {
   MapboxMap
 } from '@studiometa/vue-mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+
 const config = useRuntimeConfig()
 
 const map = ref();
@@ -36,6 +37,11 @@ const selectedMarker = ref<MapMarker>();
 const selectedMarkerPopup = ref(false);
 
 const fullscreen = ref(false);
+
+
+onMounted(() => {
+  console.log('mounted')
+})
 
 function mapboxCreated(mapInstance: mapboxgl.Map) {
   map.value = mapInstance;
