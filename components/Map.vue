@@ -155,13 +155,12 @@ const markers = ref<MapMarker[]>([
           mapStyle="mapbox://styles/joppe-milieudefensie/cm7p5awl8001y01r18vay203m?optimize=true"
           :pitchWithRotate="false" :dragRotate="false" logoPosition="bottom-right" @mb-created="mapboxCreated($event)"
           :bounds="mapBounds" :fitBoundsOptions="mapBoundsOptions" :scrollZoom="false" :zoom="zoom"
-          class="w-full sm:rounded-md overflow-hidden shadow-sm bg-accent/10 " @click="openFullscreen()"
-          hydrate-on-visible>
+          class="w-full sm:rounded-md overflow-hidden shadow-sm bg-accent/10 " @click="openFullscreen()">
 
           <template #default>
 
             <MapMarker v-for="(marker, index) in markers" :marker="marker" :currentZoomLevel="currentZoomLevel"
-              @popup-opened="flyTo(marker)" :active="marker === selectedMarker" :key="index" hydrate-on-visible />
+              @popup-opened="flyTo(marker)" :active="marker === selectedMarker" :key="index" />
 
 
           </template>

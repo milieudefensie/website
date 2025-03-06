@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { ContentItem } from '~/components/ContentBuilder.vue';
 
+const loaded = ref(false);
+
+onMounted(() => {
+  loaded.value = true;
+});
+
 const content = ref<ContentItem[]>([
   {
     type: "ContentButtonGroup",
@@ -160,7 +166,7 @@ const content = ref<ContentItem[]>([
 
 
 
-    <Map hydrate-on-visible />
+    <Map v-if="loaded" />
 
 
 
