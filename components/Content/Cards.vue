@@ -14,8 +14,19 @@ export interface CardImage {
   alt: string;
 }
 
+export interface CardIcon {
+  test: string;
+
+}
+
+export interface CardVideo {
+  test: string;
+}
+
 export interface Card {
   image?: CardImage;
+  icon?: CardIcon;
+  video?: CardVideo;
   title: string;
   content?: string;
   buttons?: Button[];
@@ -77,13 +88,26 @@ function handleCardClick(card: Card) {
   <div class="gap-4" :class="[columnClasses]">
     <div class="card shadow-sm bg-white overflow-hidden" v-for="(card, index) in props.cards" :key="index">
 
-      <div class="flex flex-wrap"
-        :class="[{ 'cursor-pointer group': singleLink(card), 'md:flex-row': props.columns === '1', 'max-md:flex-col-reverse md:flex-row-reverse': props.reverse && props.columns === '1', 'flex-col-reverse': props.reverse && props.columns !== '1' }]"
-        @click="handleCardClick(card)">
+      <div class="flex flex-wrap" :class="[
+        {
+          'cursor-pointer group': singleLink(card),
+          'md:flex-row': props.columns === '1',
+          'max-md:flex-col-reverse md:flex-row-reverse': props.reverse && props.columns === '1', 'flex-col-reverse': props.reverse && props.columns !== '1'
+        }]" @click="handleCardClick(card)">
 
-        <NuxtPicture v-if="card.image" format="avif,webp" :src="card.image.url" width="1000px" height="1000px"
-          sizes="calc(100vw - 26px) md:40vw" densities="x1 x2"
-          :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }" />
+
+        <!-- Icon / Image / Video -->
+        <div :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }">
+
+          <NuxtPicture v-if="card.image" format="avif,webp" :src="card.image.url" width="1000px" height="1000px"
+            sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" />
+
+          <div v-else-if="card.video">Video!</div>
+          <div v-else-if="card.icon">Icon!</div>
+
+        </div>
+
+
 
         <div class="flex-1" :class="{ 'md:w-1/2 lg:w-4/6': props.columns === '1' }">
           <div class="card-body">
@@ -99,12 +123,8 @@ function handleCardClick(card: Card) {
 
       </div>
 
-
-
       <ContentList v-if="card.listItems" class="border-t-2 border-neutral-200" :items="card.listItems"
         color="secondary" />
-
-
 
     </div>
   </div>

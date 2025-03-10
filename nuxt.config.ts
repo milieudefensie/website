@@ -26,6 +26,8 @@ export default defineNuxtConfig({
     // apiSecret: '',
     public: {
       // Can be overridden by NUXT_PUBLIC_..... environment variables
+      organisationName: 'Campaign Website',
+      organisationSlogan: 'This is an awesome website',
       mapboxApi: '',
       // Default: focus on NL
       mapCenterLng: '5.3878',

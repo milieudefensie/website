@@ -1,3 +1,6 @@
 <template>
-  test
+  <Container>
+    <ContentDonate />
+  </Container>
+
 </template>
