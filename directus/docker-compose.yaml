@@ -1,0 +1,58 @@
+version: '3'
+
+networks:
+  directus: # Internal network for Directus, cache, and database
+    driver: bridge
+  frontend:
+    external: true
+
+services:
+  database:
+    image: postgis/postgis:13-master
+    # Required when running on platform other than amd64, like Apple M1/M2:
+    # platform: linux/amd64
+    volumes:
+      - ./data/database:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD', 'pg_isready', '--host=localhost', '--username=directus']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+    env_file:
+      - stack.env
+    networks:
+      - directus
+
+  cache:
+    image: redis:6
+    healthcheck:
+      test: ['CMD-SHELL', "[ $$(redis-cli ping) = 'PONG' ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+    networks:
+      - directus
+
+  directus:
+    # TO-DO: Replace this with the latest version of Directus
+    image: directus/directus:11.5.1
+    # Ports disabled, because we want to use Cloudflare Tunnel, so we use the 'frontend' network instead
+    # ports:
+    #  - 8055:8055
+    networks:
+      - directus
+      - frontend
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    depends_on:
+      database:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    env_file:
+      - stack.env
