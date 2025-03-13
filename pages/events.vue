@@ -439,11 +439,16 @@ const content = ref<ContentItem[]>([
 </script>
 <template>
 
-  <div class="bg-accent text-accent-content py-[12vh] text-center  mx-auto mb-6">
-    <h1 class="text-4xl md:text-6xl lg:text-8xl font-display">Evenementen</h1>
-    <p class="text-xl">Aankomende trainingen, acties, meetups en gezellige bijeenkomsten</p>
+  <div>
+    <div class="bg-accent text-accent-content pt-[8vh] pb-[20vh] text-center  mx-auto ">
+      <h1 class="text-4xl md:text-6xl lg:text-8xl font-display">Evenementen</h1>
+      <p class="text-xl">Aankomende trainingen, acties, meetups en gezellige bijeenkomsten</p>
+    </div>
+    <div class="-mt-[16vh]">
+      <ContentBuilder :content="content" />
+    </div>
+
   </div>
-  <ContentBuilder :content="content" />
 
 
 </template>
