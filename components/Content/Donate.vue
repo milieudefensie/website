@@ -1,22 +1,22 @@
 <script setup lang="ts">
 
-const { onLoaded } = useScriptNpm({
-  packageName: 'js-confetti',
-  file: 'dist/js-confetti.browser.js',
-  version: '0.12.0',
-  scriptOptions: {
-    use() {
-      return { JSConfetti: window.JSConfetti }
-    },
-  },
-})
+// const { onLoaded } = useScriptNpm({
+//   packageName: 'js-confetti',
+//   file: 'dist/js-confetti.browser.js',
+//   version: '0.12.0',
+//   scriptOptions: {
+//     use() {
+//       return { JSConfetti: window.JSConfetti }
+//     },
+//   },
+// })
 
-let confetti;
-onLoaded(({ JSConfetti }) => {
-  // using the real API instance
-  confetti = new JSConfetti()
+// let confetti;
+// onLoaded(({ JSConfetti }) => {
+//   // using the real API instance
+//   confetti = new JSConfetti()
 
-})
+// })
 
 
 const monthlyIncome = ref<number | null>(null)
@@ -37,15 +37,15 @@ function changeCustomMonthlyIncome() {
 
 watch(percentage, (value) => {
   calculateDonation()
-  if (value === 0.5) {
-    confetti.addConfetti({ emojis: ['🇳🇱'], confettiNumber: 15, emojiSize: 100 })
-  } else if (value === 1) {
-    confetti.addConfetti({ emojis: ['❤️'], confettiNumber: 15, emojiSize: 100 })
-  } else if (value === 2) {
-    confetti.addConfetti({ emojis: ['🦄'], confettiNumber: 15, emojiSize: 100 })
-  } else if (value === 5) {
-    confetti.addConfetti({ emojis: ['💰'], confettiNumber: 15, emojiSize: 100 })
-  }
+  // if (value === 0.5) {
+  //   confetti.addConfetti({ emojis: ['🇳🇱'], confettiNumber: 15, emojiSize: 100 })
+  // } else if (value === 1) {
+  //   confetti.addConfetti({ emojis: ['❤️'], confettiNumber: 15, emojiSize: 100 })
+  // } else if (value === 2) {
+  //   confetti.addConfetti({ emojis: ['🦄'], confettiNumber: 15, emojiSize: 100 })
+  // } else if (value === 5) {
+  //   confetti.addConfetti({ emojis: ['💰'], confettiNumber: 15, emojiSize: 100 })
+  // }
 })
 
 
