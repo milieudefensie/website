@@ -42,12 +42,23 @@ const content = ref<ContentItem[]>([
     props: {
       columns: 'automatic',
       reverse: false,
+      carousel: true,
+
       cards: [
         {
           title: 'Lorem ipsum', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident quibusdam corporis laboriosam temporibus, perferendis reprehenderit deleniti maxime facere impedit optio.', buttonSize: 'lg', buttons: [{ label: 'Click me', link: '', color: 'secondary', style: 'default', width: 'default' }]
         },
         {
           title: 'Lorem ipsum', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.', buttonSize: 'lg', buttons: [{ label: 'Click me', link: '', color: 'secondary', style: 'default', width: 'default' }]
+        },
+        {
+          title: 'Lorem ipsum', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident quibusdam corporis laboriosam temporibus.', buttonSize: 'lg', buttons: [{ label: 'Click me', link: '', color: 'secondary', style: 'default', width: 'default' }]
+        },
+        {
+          title: 'Lorem ipsum', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident quibusdam corporis laboriosam temporibus.', buttonSize: 'lg', buttons: [{ label: 'Click me', link: '', color: 'secondary', style: 'default', width: 'default' }]
+        },
+        {
+          title: 'Lorem ipsum', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident quibusdam corporis laboriosam temporibus.', buttonSize: 'lg', buttons: [{ label: 'Click me', link: '', color: 'secondary', style: 'default', width: 'default' }]
         },
         {
           title: 'Lorem ipsum', content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident quibusdam corporis laboriosam temporibus.', buttonSize: 'lg', buttons: [{ label: 'Click me', link: '', color: 'secondary', style: 'default', width: 'default' }]
@@ -129,6 +140,8 @@ const content = ref<ContentItem[]>([
 
 <template>
   <div class="my-10">
+
+    <ContentHero />
 
     {{ data }}
 

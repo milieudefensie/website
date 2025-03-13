@@ -37,11 +37,17 @@ In Directus, you can add the following components to the content of a page:
 - Hero (with image or video, and optional form or button)
 - Footer
 
+**Optimized for conversions:**
+
+- Super fast loading times(pagespeed score of 90+ on mobile and desktop, tested on homepage)
+- Distractionless design with clear call-to-actions
+- Multi-step forms, automatically prefilled with known data
+
 ## Local development
 
 ### Tech stack
 
-This campaign website is build using the [Jamstack](https://jamstack.org/) architecture. All pages are statically generated at build time and served from a CDN.
+This campaign website is build using the [Jamstack](https://jamstack.org/) architecture, which allows for fast iterations and innovation. All pages are statically generated at build time and served from a CDN.
 
 **Front-end:**
 
@@ -57,7 +63,7 @@ This campaign website is build using the [Jamstack](https://jamstack.org/) archi
 
 **Integrations:**
 
-- [PostHog](https://posthog.com/) for analytics
+- [PostHog](https://posthog.com/) for analytics and A/B testing
 
 ### Setup
 

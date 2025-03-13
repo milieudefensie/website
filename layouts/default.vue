@@ -1,6 +1,6 @@
 <template>
   <Navigation />
-  <ContentHero />
+
   <slot />
   <BottomFooter :columns="[
     { title: 'Column 1', links: [{ label: 'Link 1', link: '#' }, { label: 'Link 2', link: '#' }] },
