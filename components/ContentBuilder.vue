@@ -14,6 +14,8 @@ import ContentVideo from './Content/Video.vue';
 import ContentAccordion from './Content/Accordion.vue';
 import ContentSteps from './Content/Steps.vue';
 import ContentCountdown from './Content/Countdown.vue';
+import ContentMap from './Content/Map.vue';
+import ContentProse from './Content/Prose.server.vue';
 
 import type { CardsProps } from './Content/Cards.vue';
 import type { ButtonProps } from './Buttons.vue';
@@ -23,6 +25,9 @@ import type { VideoProps } from './Content/Video.vue';
 import type { AccordionProps } from './Content/Accordion.vue';
 import type { StepsProps } from './Content/Steps.vue';
 import type { CountdownProps } from './Content/Countdown.vue';
+import type { MapProps } from './Content/Map.vue';
+import type { ProseProps } from './Content/Prose.server.vue';
+
 
 interface ButtonItem {
   type: 'ContentButtonGroup';
@@ -64,7 +69,17 @@ interface CountdownItem {
   props: CountdownProps;
 }
 
-export type ContentItem = ButtonItem | CardItem | TestimonialItem | ImageItem | VideoItem | AccordionItem | StepsItem | CountdownItem;
+interface MapItem {
+  type: 'ContentMap';
+  props: MapProps;
+}
+
+interface ProseItem {
+  type: 'ContentProse';
+  props: ProseProps;
+}
+
+export type ContentItem = ButtonItem | CardItem | TestimonialItem | ImageItem | VideoItem | AccordionItem | StepsItem | CountdownItem | MapItem | ProseItem;
 
 const props = defineProps<{
   content: ContentItem[]
@@ -78,6 +93,8 @@ const components = {
   'ContentVideo': ContentVideo,
   'ContentAccordion': ContentAccordion,
   'ContentSteps': ContentSteps,
-  'ContentCountdown': ContentCountdown
+  'ContentCountdown': ContentCountdown,
+  'ContentMap': ContentMap,
+  'ContentProse': ContentProse
 }
 </script>

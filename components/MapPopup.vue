@@ -12,6 +12,10 @@
       <ContentCards :cards="[{
         title: props.marker?.title || '',
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit assumenda dolores ea, ducimus id distinctio dolore, aliquam libero aspernatur sed illo cupiditate repellendus a maiores placeat vel, iusto iure aut?',
+        image: {
+          url: '/jong.jpg',
+          alt: 'Leiden'
+        },
         buttonSize: 'md',
         buttons: [{
           label: 'Meld je aan voor groep',
@@ -33,7 +37,7 @@
 <script lang="ts" setup>
 import IconClose from '~icons/mdi/close'
 
-import type { MapMarker } from './Map.vue';
+import type { MapMarker } from './Content/Map.vue';
 
 export type MapPopupProps = {
   marker?: MapMarker,

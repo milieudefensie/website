@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { MapboxMarker } from '@studiometa/vue-mapbox-gl';
 import IconCalendar from '~icons/mdi/calendar'
-import type { MapMarker } from './Map.vue';
+import type { MapMarker } from './Content/Map.vue';
 
 export type MapMarkerProps = {
   currentZoomLevel?: number,

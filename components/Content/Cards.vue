@@ -143,14 +143,21 @@ function scrollToPreviousCarouselItem() {
 
   carousel.value?.scrollBy({ left: -scrollBy, behavior: 'smooth' });
 }
+
+const showCarouselButtons = computed(() => {
+  const windowWidth = window.innerWidth;
+  const fullScrollWidth = carousel.value?.scrollWidth || 0;
+
+  return fullScrollWidth > windowWidth;
+})
 </script>
 
 <template>
   <div
-    :class="[columnClasses, { 'grid gap-4': !props.carousel, 'max-md:-mx-4 md:grid md:gap-4 max-md:snap-x max-md:snap-mandatory max-md:overflow-x-scroll max-md:flex max-md:p-4 max-md:space-x-4 max-md:w-[100vw]': props.carousel }]"
+    :class="[columnClasses, { 'grid gap-4': !props.carousel || cards.length === 1, 'max-lg:-m-4 lg:grid lg:gap-4 max-lg:snap-x max-lg:snap-mandatory max-lg:overflow-x-scroll max-lg:flex max-lg:p-4 max-lg:space-x-4 max-lg:w-[100vw]': props.carousel && props.cards.length !== 1 }]"
     ref="carousel">
     <div class="card shadow-sm bg-white overflow-hidden"
-      :class="{ 'max-md:flex-none max-md:snap-center max-sm:max-w-[75vw] max-md:max-w-[40vw]': props.carousel }"
+      :class="{ 'max-lg:flex-none max-lg:snap-center max-sm:max-w-[75vw] max-lg:max-w-[40vw]': props.carousel && props.cards.length !== 1 }"
       v-for="(card, index) in props.cards" :key="index">
 
       <div class="flex flex-wrap" :class="[
@@ -193,7 +200,7 @@ function scrollToPreviousCarouselItem() {
 
     </div>
   </div>
-  <div v-if="props.carousel" class="flex justify-center items-center gap-4 md:hidden">
+  <div v-if="props.carousel && showCarouselButtons" class="flex justify-center items-center gap-4 lg:hidden mt-4">
     <button class="btn btn-circle" @click="scrollToPreviousCarouselItem">
       <IconArrowLeft />
     </button>

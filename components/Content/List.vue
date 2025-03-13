@@ -23,10 +23,10 @@ const props = defineProps<ListProps>()
 
 </script>
 <template>
-  <div>
+  <div class="@container">
     <!-- <div class="p-4 pb-2 text-sm opacity-60 tracking-wide">Aankomende evenementen</div> -->
 
-    <ul class="list w-full grid  md:grid-cols-2 lg:grid-cols-3">
+    <ul class="list w-full grid  @lg:grid-cols-2 @xl:grid-cols-3">
 
       <NuxtLink v-for="(item, index) in props.items" :key="index" :to="item.link" class="transition-all" :class="{
         'hover:bg-primary/20': props.color === 'primary',
@@ -63,6 +63,7 @@ const props = defineProps<ListProps>()
       </NuxtLink>
 
     </ul>
+
   </div>
 
 </template>

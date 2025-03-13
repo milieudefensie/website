@@ -28,4 +28,10 @@ const props = defineProps<FooterProps>()
       <a class="link link-hover" v-for="(link, index) in column.links" :key="index">{{ link.label }}</a>
     </nav>
   </footer>
+  <div class="bg-base-100 text-neutral-500 text-sm py-4 px-10 gap-6 flex flex-wrap">
+    <NuxtLink to="/" class="underline">Privacybeleid</NuxtLink>
+    <NuxtLink to="/" class="underline">Disclaimer</NuxtLink>
+    <NuxtLink to="/" class="underline">Diversiteit & Inclusiviteit</NuxtLink>
+    <NuxtLink to="/" class="underline">Open source</NuxtLink>
+  </div>
 </template>
