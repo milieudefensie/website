@@ -144,12 +144,19 @@ function scrollToPreviousCarouselItem() {
   carousel.value?.scrollBy({ left: -scrollBy, behavior: 'smooth' });
 }
 
-const showCarouselButtons = computed(() => {
+const showCarouselButtons = ref(false)
+
+onMounted(() => {
+
   const windowWidth = window.innerWidth;
   const fullScrollWidth = carousel.value?.scrollWidth || 0;
 
-  return fullScrollWidth > windowWidth;
+  if (fullScrollWidth > windowWidth) {
+    showCarouselButtons.value = true
+  }
+
 })
+
 </script>
 
 <template>
