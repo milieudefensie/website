@@ -11,7 +11,6 @@
   "dependencies": {
     "@directus/sdk": "^19.0.1",
     "@nuxt/image": "1.9.0",
-    "@nuxt/scripts": "0.10.5",
     "@pinia/nuxt": "0.10.1",
     "@studiometa/vue-mapbox-gl": "^2.7.2",
     "@tailwindcss/vite": "^4.0.14",
