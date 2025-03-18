@@ -7,7 +7,7 @@
 </template>
 <script setup lang="ts">
 import ContentButtonGroup from './Content/ButtonGroup.vue';
-import ContentCards from './Content/Cards.vue';
+import ContentCardCollection from './Content/CardCollection.vue';
 import ContentTestimonial from './Content/Testimonial.vue';
 import ContentImage from './Content/Image.vue';
 import ContentVideo from './Content/Video.vue';
@@ -17,7 +17,7 @@ import ContentCountdown from './Content/Countdown.vue';
 import ContentMap from './Content/Map.vue';
 import ContentProse from './Content/Prose.server.vue';
 
-import type { CardsProps } from './Content/Cards.vue';
+import type { CardCollectionProps } from './Content/CardCollection.vue';
 import type { ButtonProps } from './Buttons.vue';
 import type { TestimonialProps } from './Content/Testimonial.vue';
 import type { ImageProps } from './Content/Image.vue';
@@ -34,9 +34,9 @@ interface ButtonItem {
   props: ButtonProps;
 }
 
-interface CardItem {
-  type: 'ContentCards';
-  props: CardsProps;
+interface CardCollectionItem {
+  type: 'ContentCardCollection';
+  props: CardCollectionProps;
 }
 
 interface TestimonialItem {
@@ -79,7 +79,7 @@ interface ProseItem {
   props: ProseProps;
 }
 
-export type ContentItem = ButtonItem | CardItem | TestimonialItem | ImageItem | VideoItem | AccordionItem | StepsItem | CountdownItem | MapItem | ProseItem;
+export type ContentItem = ButtonItem | CardCollectionItem | TestimonialItem | ImageItem | VideoItem | AccordionItem | StepsItem | CountdownItem | MapItem | ProseItem;
 
 const props = defineProps<{
   content: ContentItem[]
@@ -87,7 +87,7 @@ const props = defineProps<{
 
 const components = {
   'ContentButtonGroup': ContentButtonGroup,
-  'ContentCards': ContentCards,
+  'ContentCardCollection': ContentCardCollection,
   'ContentTestimonial': ContentTestimonial,
   'ContentImage': ContentImage,
   'ContentVideo': ContentVideo,

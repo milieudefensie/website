@@ -9,20 +9,24 @@
         </button>
 
       </form>
-      <ContentCards :cards="[{
+      <ContentCardCollection :cards="[{
         title: props.marker?.title || '',
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit assumenda dolores ea, ducimus id distinctio dolore, aliquam libero aspernatur sed illo cupiditate repellendus a maiores placeat vel, iusto iure aut?',
+        variant: 'shadow',
+        reverse: false,
         image: {
-          url: '/jong.jpg',
+          src: '/jong.jpg',
           alt: 'Leiden'
         },
-        buttonSize: 'md',
-        buttons: [{
-          label: 'Meld je aan voor groep',
-          color: 'primary',
-          style: 'default',
-          width: 'default'
-        }],
+        buttons: {
+          buttons: [{
+            label: 'Meld je aan voor groep',
+            color: 'primary',
+            style: 'default',
+            width: 'default'
+          }],
+        }
+
 
         // image: '/jong.jpg',
         // alt: 'Leiden'

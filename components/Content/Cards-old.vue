@@ -31,7 +31,9 @@ export interface Card {
   icon?: CardIcon;
   video?: CardVideo;
   title: string;
+  subtitle?: string;
   content?: string;
+  badges?: string[];
   buttons?: Button[];
   buttonSize?: ButtonSizes;
   listItems?: ListItem[];
@@ -163,11 +165,11 @@ onMounted(() => {
   <div
     :class="[columnClasses, { 'grid gap-4': !props.carousel || cards.length === 1, 'max-lg:-m-4 lg:grid lg:gap-4 max-lg:snap-x max-lg:snap-mandatory max-lg:overflow-x-scroll max-lg:flex max-lg:p-4 max-lg:space-x-4 max-lg:w-[100vw]': props.carousel && props.cards.length !== 1 }]"
     ref="carousel">
-    <div class="card shadow-sm bg-white overflow-hidden"
+    <div class="card shadow-sm bg-white overflow-hidden grid content-stretch"
       :class="{ 'max-lg:flex-none max-lg:snap-center max-sm:max-w-[75vw] max-lg:max-w-[40vw]': props.carousel && props.cards.length !== 1 }"
       v-for="(card, index) in props.cards" :key="index">
 
-      <div class="flex flex-wrap" :class="[
+      <div class="flex flex-wrap content-stretch" :class="[
         {
           'cursor-pointer group': singleLink(card),
           'md:flex-row': props.columns === '1',
@@ -176,7 +178,7 @@ onMounted(() => {
 
 
         <!-- Icon / Image / Video -->
-        <div :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }">
+        <div class="self-start" :class="{ 'md:w-1/2 lg:w-2/6': props.columns === '1' }">
 
           <NuxtPicture v-if="card.image" format="avif,webp" :src="card.image.url" width="1000px" height="1000px"
             sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" />
@@ -188,11 +190,24 @@ onMounted(() => {
 
 
 
-        <div class="flex-1" :class="{ 'md:w-1/2 lg:w-4/6': props.columns === '1' }">
+        <div class="flex-1 self-stretch grow" :class="{ 'md:w-1/2 lg:w-4/6': props.columns === '1' }">
           <div class="card-body">
+
+            <div v-if="card.badges" class="flex gap-2">
+              <span class="badge font-bold" v-for="(badge, index) in card.badges" :key="index">{{ badge
+                }}</span>
+            </div>
+
+
             <h2 class="card-title font-display text-3xl " v-if="card.title">{{ card.title }}</h2>
-            <p class="text-md lg:text-lg ">{{ card.content }}
-            </p>
+
+
+
+            <div class="text-md uppercase font-semibold opacity-60" v-if="card.subtitle">{{ card.subtitle }}</div>
+
+            <div class="text-md lg:text-lg ">{{ card.content }}
+            </div>
+
             <Buttons v-if="card.buttons" :buttons="card.buttons" :size="card.buttonSize"
               :disableLink="!singleLink(card)" />
 
@@ -207,7 +222,8 @@ onMounted(() => {
 
     </div>
   </div>
-  <div v-if="props.carousel && showCarouselButtons" class="flex justify-center items-center gap-4 lg:hidden mt-4">
+  <div v-if="props.carousel && showCarouselButtons"
+    class="flex justify-center items-center gap-4 lg:hidden mt-4 max-sm:hidden">
     <button class="btn btn-circle" @click="scrollToPreviousCarouselItem">
       <IconArrowLeft />
     </button>
