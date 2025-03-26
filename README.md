@@ -1,6 +1,6 @@
 # Milieudefensie campaign website
 
-This repository contains the source code for a concept Milieudefensie campaign website.
+This repository contains the source code for experiments of the Milieudefensie campaign website.
 
 ## Features
 
@@ -58,12 +58,12 @@ This campaign website is build using the [Jamstack](https://jamstack.org/) archi
 
 **Back-end:**
 
-- [Directus](https://directus.io/) as headless CMS
-- [Windmill](https://www.windmill.dev/) for automation
+- [Directus](https://directus.io/) as headless CMS - soon
+- [Windmill](https://www.windmill.dev/) for automation - soon
 
 **Integrations:**
 
-- [PostHog](https://posthog.com/) for analytics and A/B testing
+- [PostHog](https://posthog.com/) for analytics and A/B testing - soon
 
 ### Setup
 
