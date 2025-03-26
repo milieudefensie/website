@@ -9,16 +9,16 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@directus/sdk": "^19.0.1",
+    "@directus/sdk": "^19.1.0",
     "@nuxt/image": "1.9.0",
     "@pinia/nuxt": "0.10.1",
     "@studiometa/vue-mapbox-gl": "^2.7.2",
-    "@tailwindcss/vite": "^4.0.14",
+    "@tailwindcss/vite": "^4.0.17",
     "daisyui": "5.0.0-beta.8",
     "mapbox-gl": "^3.10.0",
-    "nuxt": "^3.16.0",
+    "nuxt": "^3.16.1",
     "pinia": "^3.0.1",
-    "tailwindcss": "^4.0.14",
+    "tailwindcss": "^4.0.17",
     "vue": "latest",
     "vue-router": "latest",
     "xss": "^1.0.15"
