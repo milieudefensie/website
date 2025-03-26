@@ -18,6 +18,7 @@ Text content:
 - Content
 - Badges: Small labels that can be used to a certain category that this card belongs to.
 - Buttons: When using a single button, the whole card automatically becomes clickable.
+- Form
 
 Media:
 - Image
@@ -55,6 +56,7 @@ export interface CardProps {
   content?: string;
   badges?: string[];
   buttons?: ButtonProps;
+  form: boolean;
   list?: ListProps;
   variant: "shadow" | "border";
   reverse: boolean;
@@ -114,6 +116,8 @@ const singleLink = computed(() => {
           <div class="text-md @4xl/cards:text-lg ">
             {{ props.content }}
           </div>
+
+          <ContentForm v-if="props.form" />
 
         </div>
 
