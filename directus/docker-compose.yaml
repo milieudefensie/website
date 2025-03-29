@@ -2,7 +2,7 @@ networks:
   directus: # Internal network for Directus, cache, and database
     driver: bridge
   frontend:
-    external: bridge
+    driver: bridge
 
 services:
   database:
@@ -22,7 +22,7 @@ services:
       start_interval: 5s
       start_period: 30s
     env_file:
-      - stack.env
+      - .env
     networks:
       - directus
 
@@ -62,4 +62,4 @@ services:
       cache:
         condition: service_healthy
     env_file:
-      - stack.env
+      - .env

@@ -301,3 +301,7 @@ cd /opt/docker-projects/directus-production
 ```bash
 docker-compose up
 ```
+
+### 12. Create a Cloudflare Tunnel Application
+
+https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/#2a-connect-an-application
