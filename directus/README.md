@@ -230,47 +230,73 @@ https://code.visualstudio.com/docs/remote/ssh
 
 Set up [automatic linux updates](https://www.starline.de/en/magazine/technical-articles/enabling-automatic-security-updates-on-linux).
 
-First, apply any nessesary updates:
+First, **apply any nessesary updates**:
 
 ```bash
 sudo apt update && sudo apt upgrade
 ```
 
-Install unattended-upgrades:
+**Install unattended-upgrades**:
 
 ```bash
 sudo apt-get install unattended-upgrades
 ```
 
-Set up automatic updates for Ubuntu:
+**Set up automatic updates for Ubuntu**:
 
 ```bash
 sudo dpkg-reconfigure --priority=low unattended-upgrades
 ```
 
-Set up [automatic Docker container image updates](https://www.digitalocean.com/community/tutorials/how-to-automatically-update-docker-container-images-with-watchtower-on-ubuntu-22-04) using Watchtower.
-
-Install [Watchtower](https://containrrr.dev/watchtower/), and schedule it to run every day at 2 AM:
+Set up automatic Docker container image updates using Watchtower. **Install [Watchtower](https://containrrr.dev/watchtower/)**, and schedule it to run every day at 2 AM:
 
 ```bash
-docker run -d \
+docker run \
+--detach \
+--restart unless-stopped \
 --name watchtower \
--v /var/run/docker.sock:/var/run/docker.sock \
+--volume /var/run/docker.sock:/var/run/docker.sock \
 containrrr/watchtower \
 --cleanup \
 --schedule "0 0 2 * * *"
 ```
 
+> Note: Automatically installing updates comes with risk of downtime. This setup is ok if you are ok with some downtime and want to do zero maintenance.
+
 # 11. Use Docker Compose to run Directus
 
-CCopy the `docker-compose.yml` and `stack.env.example` files to the `/opt/docker-projects` folder. Rename `stack.env.example` to `stack.env`, and fill in the required values:
+**Create a new folder** for your Directus project:
 
 ```bash
-curl -o /opt/docker-projects/docker-compose.yml https://raw.githubusercontent.com/milieudefensie/website/refs/heads/main/directus/docker-compose.yaml
-curl -o /opt/docker-projects/stack.env https://raw.githubusercontent.com/milieudefensie/website/refs/heads/main/directus/stack.env.example
+mkdir -p /opt/docker-projects/directus-production
 ```
 
-Start the containers using Docker Compose by running the
+**Copy the `docker-compose.yml` and `stack.env.example` files** to the `/opt/docker-projects` folder. Rename `stack.env.example` to `.env`.
+
+```bash
+curl -o /opt/docker-projects/directus-production/docker-compose.yml https://raw.githubusercontent.com/milieudefensie/website/refs/heads/main/directus/docker-compose.yaml
+curl -o /opt/docker-projects/directus-production/.env https://raw.githubusercontent.com/milieudefensie/website/refs/heads/main/directus/.env.example
+```
+
+Make sure to change the environment variables, especially the secret and passwords! You can use the following command to **generate random passwords**:
+
+```bash
+openssl rand -hex 32
+```
+
+**Edit the `.env` file** in a text editor:
+
+```bash
+nano /opt/docker-projects/directus-production/.env
+```
+
+**Navigate to the Directus project folder**:
+
+```bash
+cd /opt/docker-projects/directus-production
+```
+
+**Start the containers** using Docker Compose:
 
 ```bash
 docker-compose up
