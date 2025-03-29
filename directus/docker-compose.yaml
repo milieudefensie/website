@@ -1,5 +1,3 @@
-version: '3'
-
 networks:
   directus: # Internal network for Directus, cache, and database
     driver: bridge

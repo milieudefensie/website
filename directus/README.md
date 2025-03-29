@@ -4,51 +4,70 @@ See `directus-schema.json`, `docker-compose.yml` and `.env.example` for examples
 
 ## Self-hosting
 
+In these instructions, we will explain how to self-host Directus on a Virtual Private Server (VPS).
+
+### Costs
+
+In total, this will cost you around $6/month, which includes the domain name and VPS costs. This will give you unlimited Directus users (for people who need access to your CMS/CRM).
+
+This assumes your organisation has less than $5M in total annual income. If you have more income, you will need a self-hosting licence.
+
+> If you do not know how to set up your own server, you can also use Directus Cloud. Then, Directus will manage the hosting for you. Pricing starts at $15 per month per user.
+
 ### 1. Get a domain name
 
-Get a domain name from any provider, such as Cloudflare or TransIP. We will use this domain name to serve Directus. You can also use a subdomain if you already have a domain name. You can get a domain name from around $10/year.
+**Get a domain name** from any provider, such as Cloudflare or TransIP. We will use this domain name to serve Directus. You can also use a subdomain if you already have a domain name. You can get a domain name from around $10/year.
 
 ### 2. Set the nameservers to Cloudflare
 
-Set the nameservers to Cloudflare to enable Cloudflare's DNS and other services.
+**Set the nameservers to Cloudflare** to enable Cloudflare's DNS and other services.
 
-https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/
+👉 https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/
 
 ### 3. Get a VPS
 
-Get a Virtual Private Server (VPS) using a provider such as Hetzner or DigitalOcean. We will run Directus on this server. You can get a VPS starting at $5/month. You might need to scale up the server temporarily if you want to do some big imports or exports.
+**Get a VPS** using a provider such as Hetzner or DigitalOcean. We will run Directus on this server. You can get a VPS starting at $5/month. You might need to scale up the server temporarily if you want to do some big imports or exports.
 
 You can also try out the steps below on your local machine using a tool such as [OrbStack](https://docs.orbstack.dev/machines/).
 
-### 4. Setup a Firewall
-
-Allow only Cloudflare's IP addresses to enable Cloudflare Tunnel. This way, the only way to connect to your server is through Cloudflare's network, even if attackers know your server's IP address.
-
-https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/tunnel-with-firewall/
-
-You can use the firewall settings of your VPS provider, or use [UFW in Ubuntu](https://community.hetzner.com/tutorials/howto-initial-setup-ubuntu#step-6---setting-up-a-firewall).
-
-> Using the firewall settings of your VPS provider is recommended, as it blocks traffic before it even reaches your server (which is useful in case of a DDoS attack).
-
-Check all open listening for traffic:
+If you do not have one yet, generate an SSH key, and use the public key when creating the VPS. You will be able to use this SSH key to securely connect to the server. Run this on your local device:
 
 ```bash
-sudo ss -lntup
+ssh-keygen -t ed25519 -C "name@example.com"
+```
+
+Save this public key in your GitHub account for easy access later:
+👉 https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+If you do not remember if you have an SSH key, run this command to check:
+
+```bash
+ls -al ~/.ssh
+```
+
+### 4. Connect through SSH
+
+From your local device, run this to **access your remote server using SSH**:
+
+```bash
+ssh root@IP -i "path/to/ssh-key"
 ```
 
 ### 5. Set up a non-root user
 
-For everyone who needs to manage this server, create a new user with the username 'my-username' (replace with your username):
+For everyone who needs to manage this server, **create a new user** with the username 'my-username' (replace with your username):
 
 ```bash
 adduser my-username
 ```
 
-Add the user to the sudo group. This allows the user to run commands as root, by adding 'sudo' before the command.
+**Add the user to the sudo group**. This allows the user to run commands as root, by adding 'sudo' before the command.
 
 ```bash
 usermod -aG sudo my-username
 ```
+
+#### Useful commands
 
 To see users that are part of the sudo group, run:
 
@@ -60,25 +79,6 @@ Set a new strong password for the user, which will be required every time the us
 
 ```bash
 passwd my-username
-```
-
-Disable password login and disable root login, by editing the SSH configuration file:
-
-```bash
-sudo nano /etc/ssh/sshd_config
-```
-
-Then change the following lines:
-
-```bash
-PermitRootLogin no
-PasswordAuthentication no
-```
-
-Save and exit the file using `:wq`, then restart the SSH service:
-
-```bash
-sudo systemctl restart sshd
 ```
 
 If you want to log in as the new user (if you are currently logged in as root), run:
@@ -93,11 +93,88 @@ If you want to return to root:
 sudo su -
 ```
 
+### 6. Set up SSH keys for the new user
+
+**Create the user’s .ssh directory**:
+
+```bash
+mkdir /home/my-username/.ssh
+```
+
+**Copy the public key** from your GitHub profile:
+
+```bash
+curl https://github.com/<username>.keys > /home/my-username/.ssh/authorized_keys
+```
+
+**Set up the correct file permissions** for both the .ssh directory and the authorized_keys file:
+
+```bash
+# ensure the directory ir owned by the new user
+chown -R username:username /home/username/.ssh
+
+# make sure only the new user has permissions
+chmod 700 /home/username/.ssh
+chmod 600 /home/username/.ssh/authorized_keys
+```
+
+**Disable password login and disable root login**, by editing the SSH configuration file:
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+
+Then change the following lines, then save and exit the file.
+
+```bash
+PermitRootLogin no
+PasswordAuthentication no
+```
+
+**Restart the SSH service**:
+
+```bash
+sudo systemctl restart ssh
+```
+
+Now try to SSH into your new user in a new terminal window, while keeping the previous one open so that you can fix any mistakes if necessary.
+
+### 6. Create Docker folder
+
+Create a new folder for your Docker containers. This is where you will store the Docker Compose files and other configuration files.
+
+```bash
+mkdir -p /opt/docker-projects
+```
+
+Create a new user group that has access to this folder:
+
+```bash
+sudo groupadd docker-projects
+```
+
+Give the new user group ownership of the folder:
+
+```bash
+sudo chown -R :docker-projects /opt/docker-projects
+sudo chmod -R 2770 /opt/docker-projects
+```
+
+Add the new user to the group:
+
+```bash
+sudo usermod -aG docker-projects my-username
+```
+
+Make sure to log out and back in for the changes to take effect.
+
 ### 6. Install Docker
 
 We'll use Docker to install Directus in a container (and possibly other tools too). You can do this using the VPS provider's web console. We'll set up SSH using Cloudflare later.
 
-Install Docker using the apt repository: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+Install Docker using the apt repository:
+
+👉 https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 
 Then add your current user to the docker group, to allow running Docker commands without sudo:
 
@@ -105,23 +182,49 @@ Then add your current user to the docker group, to allow running Docker commands
 sudo usermod -aG docker $USER
 ```
 
+Make sure to reboot the server for the changes to take effect.
+
 ### 7. Setup a Cloudflare Tunnel
 
 Install using the Docker instructions:
 
-https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
+👉 https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/
 
 ### 8. Set up Cloudflare SSH with Access for Infrastructure
 
 With 'Cloudflare SSH with Access for Infrastructure', you can connect to your server using SSH by installing Warp on your local device and connecting to the server using Cloudflare's network. This way, there is no need for managing SSH keys or passwords.
 
-https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/
+👉 https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/
+
+Make sure to add the -d flag to the command to run it in the background, and the --restart unless-stopped flag to automatically restart the container if it stops:
+
+```bash
+docker run -d --restart unless-stopped cloudflare/cloudflared:latest tunnel --no-autoupdate run --token XYZ
+```
+
+### 4. Setup a Firewall
+
+Allow only Cloudflare's IP addresses to enable Cloudflare Tunnel. This way, the only way to connect to your server is through Cloudflare's network, even if attackers know your server's IP address.
+
+👉 https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/configure-tunnels/tunnel-with-firewall/
+
+You can use the firewall settings of your VPS provider, or use [UFW in Ubuntu](https://community.hetzner.com/tutorials/howto-initial-setup-ubuntu#step-6---setting-up-a-firewall).
+
+> Using the firewall settings of your VPS provider is recommended, as it blocks traffic before it even reaches your server (which is useful in case of a DDoS attack).
+
+Check all open listening for traffic:
+
+```bash
+sudo ss -lntup
+```
 
 ### 9. Set up remote development using SSH in VS Code
 
 This allows you to edit files on the server using VS Code on your local machine.
 
 https://code.visualstudio.com/docs/remote/ssh
+
+> For this to work, the server needs to download the VS Code server. This is a one-time setup, and it will be downloaded to the server.
 
 ### 10. Setup automatic Ubuntu & Docker updates
 
@@ -150,10 +253,25 @@ Set up [automatic Docker container image updates](https://www.digitalocean.com/c
 Install [Watchtower](https://containrrr.dev/watchtower/), and schedule it to run every day at 2 AM:
 
 ```bash
-sudo docker run -d \
+docker run -d \
 --name watchtower \
 -v /var/run/docker.sock:/var/run/docker.sock \
 containrrr/watchtower \
 --cleanup \
 --schedule "0 0 2 * * *"
+```
+
+# 11. Use Docker Compose to run Directus
+
+CCopy the `docker-compose.yml` and `stack.env.example` files to the `/opt/docker-projects` folder. Rename `stack.env.example` to `stack.env`, and fill in the required values:
+
+```bash
+curl -o /opt/docker-projects/docker-compose.yml https://raw.githubusercontent.com/milieudefensie/website/refs/heads/main/directus/docker-compose.yaml
+curl -o /opt/docker-projects/stack.env https://raw.githubusercontent.com/milieudefensie/website/refs/heads/main/directus/stack.env.example
+```
+
+Start the containers using Docker Compose by running the
+
+```bash
+docker-compose up
 ```
