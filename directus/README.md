@@ -199,7 +199,7 @@ With 'Cloudflare SSH with Access for Infrastructure', you can connect to your se
 Make sure to add the -d flag to the command to run it in the background, and the --restart unless-stopped flag to automatically restart the container if it stops:
 
 ```bash
-docker run -d --restart unless-stopped cloudflare/cloudflared:latest tunnel --no-autoupdate run --token XYZ
+docker run -d --restart unless-stopped --name cloudflared cloudflare/cloudflared:latest tunnel --no-autoupdate run --token XYZ
 ```
 
 ### 4. Setup a Firewall
@@ -304,4 +304,39 @@ docker-compose up
 
 ### 12. Create a Cloudflare Tunnel Application
 
-https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/#2a-connect-an-application
+Configure your Tunnel to expose the Directus application:
+
+**Step 1:**
+
+Navigate to: Cloudflare Dashboard > Zero Trust > Networks > Tunnels > Select your tunnel > Edit > Public Hostname > Add a Public Hostname
+
+- Subdomain: directus
+- Domain: my-domain.com
+- Path: leave empty
+- Service: http://directus:8055
+
+**Step 2:**
+
+Navigate to: Cloudflare Dashboard > Zero Trust > Applications > Add an Application
+
+- Subdomain: directus
+- Domain: my-domain.com
+- Path: leave empty
+- Policy: set your own policy.
+- Login methods: set your own login methods.
+
+**Step 3:**
+
+Add the 'frontend' network to the cloudflared container using this command:
+
+```bash
+docker network connect network-name cloudflared
+```
+
+You can find the network name by running this command:
+
+```bash
+docker network ls
+```
+
+Documentation: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/get-started/create-remote-tunnel/#2a-connect-an-application
