@@ -16,6 +16,8 @@ export default defineEventHandler(async (event) => {
       longitude
     }
     title
+    organizer
+    slug
   }
 }`,
     },
@@ -27,6 +29,8 @@ export default defineEventHandler(async (event) => {
       longitude: number
     }
     title: string
+    organizer: string
+    slug: string
   }
 
   return response.data.allGroups as Group[]
