@@ -23,7 +23,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // can be overridden by NUXT_.... environment variable
-    // apiSecret: '',
+    hubspotSecret: '',
+    datoSecret: '',
     public: {
       // Can be overridden by NUXT_PUBLIC_..... environment variables
       organisationName: 'Campaign Website',
