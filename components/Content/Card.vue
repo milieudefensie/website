@@ -56,7 +56,7 @@ export interface CardProps {
   content?: string;
   badges?: string[];
   buttons?: ButtonProps;
-  form: boolean;
+  form?: boolean;
   list?: ListProps;
   variant: "shadow" | "border";
   reverse: boolean;

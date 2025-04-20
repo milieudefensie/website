@@ -498,7 +498,7 @@ const content = ref<ContentItem[]>([
     type: "ContentCardCollection",
     props: {
       noColumns: false,
-      carousel: false,
+      carousel: true,
       cards: [
         {
           title: 'Code oranje: Grote vervuiler ING',
@@ -896,7 +896,7 @@ const content = ref<ContentItem[]>([
     type: "ContentCardCollection",
     props: {
       noColumns: false,
-      carousel: false,
+      carousel: true,
       cards: [
         {
           title: 'Lorem ipsum',
@@ -938,7 +938,7 @@ const content = ref<ContentItem[]>([
     type: "ContentCardCollection",
     props: {
       noColumns: false,
-      carousel: false,
+      carousel: true,
       cards: [
         {
           title: 'Lorem ipsum',

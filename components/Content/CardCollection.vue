@@ -38,15 +38,16 @@ const threeColumns = computed(() => {
 
 </script>
 <template>
-  <section :class="{
-    'grid gap-4 max-lg:flex max-lg:overflow-x-scroll max-lg:-m-4 max-lg:p-4 max-lg:snap-x max-lg:snap-mandatory': carousel,
-    'grid gap-4': !carousel,
+  <section class="grid gap-4 " :class="{
+    'max-lg:flex max-lg:overflow-x-scroll max-lg:-m-4 max-lg:p-4 max-lg:snap-x max-lg:snap-mandatory': carousel && props.cards.length > 2,
+    'sm:grid-cols-2 max-sm:flex max-sm:overflow-x-scroll max-sm:-m-4 max-sm:p-4 max-sm:snap-x max-sm:snap-mandatory': carousel && props.cards.length === 2,
     'md:grid-cols-2': twoColumns,
     'md:grid-cols-2 lg:grid-cols-3 ': threeColumns,
     'md:max-lg:grid-cols-1': !carousel && props.cards.length === 3 && !props.noColumns
   }">
     <div v-for="(card, index) in props.cards" :key="index" class="@container/cards grid" :class="{
-      'max-sm:w-[75vw] max-lg:w-[40vw] max-lg:flex-none max-lg:snap-center max-lg:snap-always': carousel
+      'max-sm:w-[75vw] max-lg:w-[40vw] max-lg:flex-none max-lg:snap-center max-lg:snap-always': carousel && props.cards.length > 2,
+      'max-sm:w-[75vw]  max-sm:flex-none max-sm:snap-center max-sm:snap-always': carousel && props.cards.length === 2,
     }">
       <ContentCard v-bind="card" />
     </div>

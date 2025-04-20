@@ -1,5 +1,15 @@
 const config = useRuntimeConfig()
 
+type Group = {
+  coordinates: {
+    latitude: number
+    longitude: number
+  }
+  title: string
+  organizer: string
+  slug: string
+}
+
 export default defineEventHandler(async (event) => {
   const response: any = await $fetch('https://graphql.datocms.com/', {
     method: 'POST',
@@ -10,28 +20,18 @@ export default defineEventHandler(async (event) => {
     },
     body: {
       query: `query AllGroups {
-  allGroups(first: 500) {
-    coordinates {
-      latitude
-      longitude
-    }
-    title
-    organizer
-    slug
-  }
-}`,
+        allGroups(first: 500) {
+          coordinates {
+            latitude
+            longitude
+          }
+          title
+          organizer
+          slug
+        }
+      }`,
     },
   })
-
-  type Group = {
-    coordinates: {
-      latitude: number
-      longitude: number
-    }
-    title: string
-    organizer: string
-    slug: string
-  }
 
   return response.data.allGroups as Group[]
 })

@@ -1,10 +1,25 @@
 const config = useRuntimeConfig()
 import postcodes from '@/server/api/postcodes'
 
-const tempResults = {
-  totalCount: 6682,
-  newContacts: 84,
-  postcodes: [
+type Contact = {
+  coordinates: [number, number]
+  province: string
+  municipality: string
+  count: number
+}
+
+type Results = {
+  totalCount: number
+  newContactsThisWeek: number
+  newContactsLastWeek: number
+  contacts: Contact[]
+}
+
+const tempResults: Results = {
+  totalCount: 9999,
+  newContactsThisWeek: 99,
+  newContactsLastWeek: 99,
+  contacts: [
     {
       coordinates: [52.3729515169, 4.90590642981],
       province: 'Noord-Holland',
@@ -10639,21 +10654,31 @@ export default defineEventHandler(async (event) => {
     return tempResults
   } else {
     const newPostcodes = JSON.parse(JSON.stringify(postcodes))
-    const finalResults: any = []
+    const contacts: any = []
 
     const results = await fetchAllPages(
       'https://api.hubapi.com/crm/v3/objects/contacts?limit=100&archived=false&properties=zip'
     )
 
     const totalContacts = results.length
-    let newContacts = 0
+    let newContactsThisWeek = 0
+    let newContactsLastWeek = 0
 
     const sevenDaysAgo = new Date()
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
+    const fourteenDaysAgo = new Date()
+    fourteenDaysAgo.setDate(sevenDaysAgo.getDate() - 14)
+
     results.forEach((result) => {
-      if (new Date(result.properties.createdate) >= sevenDaysAgo) {
-        newContacts += 1
+      const createdDate = new Date(result.createdate)
+
+      if (createdDate >= sevenDaysAgo) {
+        newContactsThisWeek += 1
+      }
+
+      if (createdDate >= fourteenDaysAgo && createdDate < sevenDaysAgo) {
+        newContactsLastWeek += 1
       }
 
       if (result.properties.zip) {
@@ -10670,26 +10695,29 @@ export default defineEventHandler(async (event) => {
 
     Object.keys(newPostcodes).forEach((key) => {
       if (newPostcodes[key].count > 0) {
-        finalResults.push(newPostcodes[key])
+        contacts.push(newPostcodes[key])
       }
     })
 
-    return {
+    const result: Results = {
       totalCount: totalContacts,
-      newContacts,
-      postcodes: finalResults,
+      newContactsThisWeek,
+      newContactsLastWeek,
+      contacts,
     }
+
+    return result
   }
 })
 
 async function fetchAllPages(initialUrl: string | null) {
   let currentPageUrl = initialUrl
 
-  let test = 1
+  let numberOfRuns = 0
   const results: any[] = []
 
-  while (currentPageUrl && test < 80) {
-    test++
+  while (currentPageUrl && numberOfRuns < 80) {
+    numberOfRuns++
     try {
       // Fetch the current page's data
 
