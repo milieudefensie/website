@@ -1,7 +1,32 @@
 const config = useRuntimeConfig()
 import postcodes from '@/server/api/postcodes'
 
-type Contact = {
+type HubspotContact = {
+  createdAt: string
+  archived: Boolean
+  archivedAt: String
+  propertiesWithHistory: Object
+  id: String
+  objectWriteTraceId: String
+  updatedAt: String
+  properties: {
+    zip: string
+  }
+}
+
+// Define the type for the response
+type HubspotResponse = {
+  paging?: {
+    next?: {
+      link?: string
+      after?: string
+    }
+    prev?: object // Adjust if more details are known
+  }
+  results: HubspotContact[]
+}
+
+type Postcode = {
   coordinates: [number, number]
   province: string
   municipality: string
@@ -12,14 +37,14 @@ type Results = {
   totalCount: number
   newContactsThisWeek: number
   newContactsLastWeek: number
-  contacts: Contact[]
+  postcodesWithContacts: Postcode[]
 }
 
 const tempResults: Results = {
   totalCount: 9999,
   newContactsThisWeek: 99,
   newContactsLastWeek: 99,
-  contacts: [
+  postcodesWithContacts: [
     {
       coordinates: [52.3729515169, 4.90590642981],
       province: 'Noord-Holland',
@@ -10653,14 +10678,16 @@ export default defineEventHandler(async (event) => {
   if (process.dev) {
     return tempResults
   } else {
-    const newPostcodes = JSON.parse(JSON.stringify(postcodes))
-    const contacts: any = []
+    const allPostcodes: Record<string, Postcode> = JSON.parse(
+      JSON.stringify(postcodes)
+    )
+    const postcodesWithContacts: Postcode[] = []
 
-    const results = await fetchAllPages(
+    const hubspotContacts = await fetchAllContacts(
       'https://api.hubapi.com/crm/v3/objects/contacts?limit=100&archived=false&properties=zip'
     )
 
-    const totalContacts = results.length
+    const totalContacts = hubspotContacts.length
     let newContactsThisWeek = 0
     let newContactsLastWeek = 0
 
@@ -10670,8 +10697,8 @@ export default defineEventHandler(async (event) => {
     const fourteenDaysAgo = new Date()
     fourteenDaysAgo.setDate(sevenDaysAgo.getDate() - 14)
 
-    results.forEach((result) => {
-      const createdDate = new Date(result.createdate)
+    hubspotContacts.forEach((contact) => {
+      const createdDate = new Date(contact.createdAt)
 
       if (createdDate >= sevenDaysAgo) {
         newContactsThisWeek += 1
@@ -10681,21 +10708,21 @@ export default defineEventHandler(async (event) => {
         newContactsLastWeek += 1
       }
 
-      if (result.properties.zip) {
+      if (contact.properties.zip) {
         // This contact has a zip code
         // We only use the first 4 numbers to protect the privacy of the users
-        const firstFourNumbers = result.properties.zip.substring(0, 4)
+        const firstFourNumbers = contact.properties.zip.substring(0, 4)
 
-        if (newPostcodes[firstFourNumbers]) {
+        if (allPostcodes.hasOwnProperty(firstFourNumbers)) {
           // This is a valid postcode
-          newPostcodes[firstFourNumbers].count += 1
+          allPostcodes[firstFourNumbers].count += 1
         }
       }
     })
 
-    Object.keys(newPostcodes).forEach((key) => {
-      if (newPostcodes[key].count > 0) {
-        contacts.push(newPostcodes[key])
+    Object.keys(allPostcodes).forEach((key) => {
+      if (allPostcodes[key].count > 0) {
+        postcodesWithContacts.push(allPostcodes[key])
       }
     })
 
@@ -10703,43 +10730,22 @@ export default defineEventHandler(async (event) => {
       totalCount: totalContacts,
       newContactsThisWeek,
       newContactsLastWeek,
-      contacts,
+      postcodesWithContacts,
     }
 
     return result
   }
 })
 
-async function fetchAllPages(initialUrl: string | null) {
+async function fetchAllContacts(initialUrl: string | null) {
   let currentPageUrl = initialUrl
 
   let numberOfRuns = 0
-  const results: any[] = []
+  const contacts: HubspotContact[] = []
 
   while (currentPageUrl && numberOfRuns < 80) {
     numberOfRuns++
     try {
-      // Fetch the current page's data
-
-      // Define the type for the response
-      type HubspotResponse = {
-        paging?: {
-          next?: {
-            link?: string
-            after?: string
-          }
-          prev?: object // Adjust if more details are known
-        }
-        results: Array<{
-          id?: string
-          type?: string
-          createdAt?: string
-          archived?: boolean
-          associations?: object // Adjust if more details are known
-        }>
-      }
-
-      // Use the type in the function
       const response: HubspotResponse = await $fetch(currentPageUrl, {
         method: 'GET',
         headers: {
@@ -10748,7 +10754,7 @@ async function fetchAllPages(initialUrl: string | null) {
       })
 
       // Process the data (store it or perform operations)
-      results.push(...response.results) // Assuming 'items' contains the actual data
+      contacts.push(...response.results) // Assuming 'items' contains the actual data
 
       // Get the URL for the next page, if it exists
       currentPageUrl = response.paging?.next?.link || null // Adjust this according to your API's response
@@ -10758,5 +10764,5 @@ async function fetchAllPages(initialUrl: string | null) {
     }
   }
 
-  return results
+  return contacts
 }

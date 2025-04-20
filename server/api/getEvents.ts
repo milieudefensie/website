@@ -276,7 +276,7 @@ async function fetchDatoEvents() {
     return dato
   } catch (error) {
     console.error('Error fetching DatoCMS events:', error)
-    return { data: { allEvents: [] } }
+    throw error // Rethrow the error to be handled by the caller
   }
 }
 

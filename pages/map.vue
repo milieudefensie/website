@@ -62,7 +62,7 @@ const events = await useFetch('/api/getEvents')
 
 
         <!-- CONTACTS -->
-        <MapboxMarker v-for="marker in contacts.data.value?.contacts"
+        <MapboxMarker v-for="(marker, index) in contacts.data.value?.postcodesWithContacts" :key="index"
           :lngLat="[marker.coordinates[1], marker.coordinates[0]]">
 
           <div class="tooltip">
@@ -88,7 +88,7 @@ const events = await useFetch('/api/getEvents')
         </MapboxMarker>
 
         <!-- EVENTS -->
-        <div v-for="event in events.data.value">
+        <div v-for="(event, index) in events.data.value" :key="index">
 
           <MapboxMarker v-if="event.coordinates" :lngLat="[event.coordinates.longitude, event.coordinates.latitude]">
 
@@ -112,7 +112,7 @@ const events = await useFetch('/api/getEvents')
         </div>
 
         <!-- GROUPS -->
-        <div v-for="group in groups.data.value">
+        <div v-for="(group, index) in groups.data.value" :key="index">
 
           <MapboxMarker v-if="group.coordinates" :lngLat="[group.coordinates.longitude, group.coordinates.latitude]">
 
@@ -173,38 +173,33 @@ const events = await useFetch('/api/getEvents')
         </div>
 
 
-        <div class="card bg-white shadow grid items-center justify-center" v-if="contacts.data">
+        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body ">
             <div class=" font-display flex items-center gap-8 text-5xl">
               <IconAccountGroup />
               <span>{{ groups.data.value?.length }} groepen</span>
             </div>
-
           </div>
-
         </div>
 
-        <div class="card bg-white shadow grid items-center justify-center" v-if="contacts.data">
+        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body">
             <div class=" font-display flex items-center gap-8 text-5xl">
               <IconCalendar />
               <span>{{ events.data.value?.length }} evenementen</span>
             </div>
-
           </div>
-
         </div>
 
-        <div class="card bg-white shadow grid items-center justify-center" v-if="contacts.data">
+
+        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body">
             <div class=" text-xs text-neutral/60">
               <strong>Met ❤️ gemaakt door het BO Digitale Infrastructuur team.</strong> Dagelijks automatisch
               bijgewerkt.
               Data uit Hubspot, op basis van geanonimiseerde postcodes (de eerste 4 cijfers)
             </div>
-
           </div>
-
         </div>
 
 

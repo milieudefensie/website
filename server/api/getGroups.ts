@@ -11,15 +11,16 @@ type Group = {
 }
 
 export default defineEventHandler(async (event) => {
-  const response: any = await $fetch('https://graphql.datocms.com/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      authorization: `Bearer ${config.datoSecret}`,
-    },
-    body: {
-      query: `query AllGroups {
+  try {
+    const response: any = await $fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        authorization: `Bearer ${config.datoSecret}`,
+      },
+      body: {
+        query: `query AllGroups {
         allGroups(first: 500) {
           coordinates {
             latitude
@@ -30,8 +31,12 @@ export default defineEventHandler(async (event) => {
           slug
         }
       }`,
-    },
-  })
+      },
+    })
 
-  return response.data.allGroups as Group[]
+    return response.data.allGroups as Group[]
+  } catch (error) {
+    console.error('Error fetching DatoCMS groups:', error)
+    throw error
+  }
 })
