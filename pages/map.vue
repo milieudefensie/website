@@ -195,6 +195,19 @@ const events = await useFetch('/api/getEvents')
 
         </div>
 
+        <div class="card bg-white shadow grid items-center justify-center" v-if="contacts.data">
+          <div class="card-body">
+            <div class=" text-xs text-neutral/60">
+              <strong>Met ❤️ gemaakt door het BO Digitale Infrastructuur team.</strong> Dagelijks automatisch
+              bijgewerkt.
+              Data uit Hubspot, op basis van geanonimiseerde postcodes (de eerste 4 cijfers)
+            </div>
+
+          </div>
+
+        </div>
+
+
 
 
       </div>
