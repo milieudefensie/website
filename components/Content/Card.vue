@@ -70,6 +70,18 @@ const singleLink = computed(() => {
     return props.buttons.buttons[0].link
   } else return null
 })
+
+const bool = ref(false);
+
+onMounted(() => {
+  setInterval(() => {
+    bool.value = !bool.value;
+  }, 1000);
+});
+
+
+const rerender = ref(false);
+
 </script>
 <template>
   <article class="card grid overflow-hidden " :class="{
@@ -85,9 +97,11 @@ const singleLink = computed(() => {
     }">
 
       <!-- MEDIA (Icon, image or video) -->
-      <div class="bg-primary @2xl/cards:w-1/2 @4xl/cards:w-2/6">
+      <div class="bg-base-200 @2xl/cards:w-1/2 @4xl/cards:w-2/6 flex">
         <NuxtPicture v-if="props.image" format="avif,webp" :src="props.image.src" :alt="props.image.alt" width="1000px"
           height="1000px" sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" />
+        <NuxtPicture v-if="props.image" format="avif,webp" :src="'/jong.jpg'" :alt="props.image.alt" width="1000px"
+          height="1000px" sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" class="border-l-2 border-white" />
       </div>
 
       <!-- TEXT CONTENT -->

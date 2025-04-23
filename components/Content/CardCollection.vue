@@ -36,20 +36,46 @@ const threeColumns = computed(() => {
   } else return false
 })
 
+const rerender = ref(false);
+
+
+onMounted(() => {
+
+  // This is a fix for a bug in Chrome where the cards suddenly are no longer rendered on window resize. By hiding & then showing the cards we force a rerender.
+  // @ts-ignore 
+  if (props.cards.length > 1 && window.chrome) {
+    const updateWidth = () => {
+      rerender.value = true
+      nextTick(() => {
+        rerender.value = false
+      });
+    };
+    window.addEventListener('resize', updateWidth);
+  }
+
+});
+
 </script>
 <template>
-  <section class="grid gap-4 " :class="{
-    'max-lg:flex max-lg:overflow-x-scroll max-lg:-m-4 max-lg:p-4 max-lg:snap-x max-lg:snap-mandatory': carousel && props.cards.length > 2,
-    'sm:grid-cols-2 max-sm:flex max-sm:overflow-x-scroll max-sm:-m-4 max-sm:p-4 max-sm:snap-x max-sm:snap-mandatory': carousel && props.cards.length === 2,
-    'md:grid-cols-2': twoColumns,
-    'md:grid-cols-2 lg:grid-cols-3 ': threeColumns,
-    'md:max-lg:grid-cols-1': !carousel && props.cards.length === 3 && !props.noColumns
-  }">
-    <div v-for="(card, index) in props.cards" :key="index" class="@container/cards grid" :class="{
-      'max-sm:w-[75vw] max-lg:w-[40vw] max-lg:flex-none max-lg:snap-center max-lg:snap-always': carousel && props.cards.length > 2,
-      'max-sm:w-[75vw]  max-sm:flex-none max-sm:snap-center max-sm:snap-always': carousel && props.cards.length === 2,
+
+
+  <div class="@container/cards-collection" v-if="!rerender">
+
+    <section class="grid gap-4 " :class="{
+      '@max-4xl/cards-collection:flex @max-4xl/cards-collection:overflow-x-scroll @max-4xl/cards-collection:-m-4 @max-4xl/cards-collection:p-4 @max-4xl/cards-collection:snap-x @max-4xl/cards-collection:snap-mandatory': carousel && props.cards.length > 2,
+      '@xl/cards-collection:grid-cols-2 @max-xl/cards-collection:flex @max-xl/cards-collection:overflow-x-scroll @max-xl/cards-collection:-m-4 @max-xl/cards-collection:p-4 @max-xl/cards-collection:snap-x @max-xl/cards-collection:snap-mandatory': carousel && props.cards.length === 2,
+      '@2xl/cards-collection:grid-cols-2': twoColumns,
+      '@2xl/cards-collection:grid-cols-2 @4xl/cards-collection:grid-cols-3 ': threeColumns,
+      '@2xl/cards-collection:@max-4xl/cards-collection:grid-cols-1': !carousel && props.cards.length === 3 && !props.noColumns
     }">
-      <ContentCard v-bind="card" />
-    </div>
-  </section>
+      <div v-for="(card, index) in props.cards" :key="index" class="@container/cards grid" :class="{
+        '@max-xl/cards-collection:w-[75%] @max-4xl/cards-collection:w-[40%] @max-4xl/cards-collection:flex-none @max-4xl/cards-collection:snap-center @max-4xl/cards-collection:snap-always': carousel && props.cards.length > 2,
+        '@max-xl/cards-collection:w-[75%] @max-xl/cards-collection:flex-none @max-xl/cards-collection:snap-center @max-xl/cards-collection:snap-always': carousel && props.cards.length === 2,
+      }">
+        <ContentCard v-bind="card" />
+      </div>
+    </section>
+  </div>
+
+
 </template>

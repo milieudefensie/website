@@ -1,15 +1,72 @@
 <script setup lang="ts">
-import type { ContentItem } from '~/components/ContentBuilder.vue';
+// import type { ContentItem } from '~/components/ContentBuilder.vue';
 
-const directus = useDirectusStore()
-const route = useRoute()
+export interface Article {
+  id: number
+  path: string
+  title: string
+  content: string
+}
 
-// Fetches the article from Directus based on the current slug, using the useAsyncData function
+export interface Event {
+  title: string
+  path: string
+  date: Date
+  location: string
+}
+
+interface Schema {
+  articles: Article[]
+  events: Event[]
+}
+
+import { createDirectus, rest, readItems, graphql } from '@directus/sdk'
+const config = useRuntimeConfig()
+
+const directus = createDirectus<Schema>(config.public.directusServer).with(
+  graphql()
+)
+
+// // Fetches the article from Directus based on the current slug, using the useAsyncData function
 const { slug } = useRoute().params
 
-const { data, error } = await useAsyncData(`article:${slug[0]}`, () => {
-  return directus.fetchArticle(slug[0])
+const { data, error } = await useAsyncData(`article:${slug[0]}`, async () => {
+  const query = {
+    filter: { path: { _eq: slug } },
+    limit: 1,
+  }
+
+  const articles = await directus.query<Article[]>(`
+    query {
+      articles {
+        id
+        path
+        title
+        content
+      }
+    }
+  `)
+
+  console.log('articles', articles)
+
+  return articles
+
+  // if (!articles[0]) {
+  //   throw new Error('Article not found')
+  // } else {
+  //   return articles[0]
+  // }
+
 })
+prerenderRoutes(["/sluit-je-aan"]);
+
+
+// if (!data.value) {
+//   throw createError({
+//     statusCode: 404,
+//     statusMessage: 'Page Not Found'
+//   })
+// }
 
 
 // const content = ref<ContentItem[]>([
@@ -136,6 +193,8 @@ const { data, error } = await useAsyncData(`article:${slug[0]}`, () => {
 //   }
 // ]
 // )
+
+
 </script>
 
 <template>
@@ -146,48 +205,6 @@ const { data, error } = await useAsyncData(`article:${slug[0]}`, () => {
     {{ data }}
 
     {{ error }}
-
-    <ContentBuilder :content="content" />
-
-    <!-- <NuxtIsland name="ContentProse" :content="`<p>Test test!</p>`">
-    </NuxtIsland> -->
-
-    <Container>
-
-      <ContentProse content="<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem cumque nostrum nihil pariatur et provident
-          quibusdam corporis laboriosam temporibus, perferendis reprehenderit deleniti maxime facere impedit optio
-          voluptatum sint, ratione rem! <a href='/test'>Test!</a></p>
-        <h1>Garlic bread with cheese: What the science tells us</h1>
-        <p>
-          For years parents have espoused the health benefits of eating garlic bread with cheese to their
-          children, with the food earning such an iconic status in our culture that kids will often dress
-          up as warm, cheesy loaf for Halloween.
-        </p>
-        <blockquote>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod dolorum, a aut, adipisci veniam maxime animi
-          odio
-          labore deleniti totam doloribus suscipit? Impedit nobis ipsum eos, iure dignissimos voluptas commodi.
-        </blockquote>
-        <ul>
-          <li>Garlic bread with cheese: A retrospective</li>
-          <li>Garlic bread with cheese: A comprehensive review</li>
-          <li>Garlic bread with cheese: A new hope</li>
-        </ul>
-        <p>Klik deze knoppen:</p>" />
-
-    </Container>
-
-
-    <Container>
-      <ContentList class="card shadow-sm bg-white"
-        :items="[{ title: 'Item 1', subtitle: 'Subtitle 1', description: 'Description 1', type: 'event', link: '/' }, { title: 'Item 2', subtitle: 'Subtitle 2', description: 'Description 2', type: 'group', link: '/' }]"
-        color="primary" />
-    </Container>
-
-
-    <Map />
-
-
 
 
   </div>
