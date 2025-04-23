@@ -10,25 +10,28 @@
 
   <!-- Left Column: Local Groups -->
   <div
-    class="w-full shadow-lg lg:h-full lg:w-1/3  absolute top-[60vh] lg:top-0  right-0 z-2 overflow-y-scroll bg-base-100 p-2 pt-4">
+    class="w-full shadow-lg lg:h-full lg:w-1/3  absolute top-[60vh] lg:top-0  right-0 z-2 overflow-y-scroll bg-base-100 p-2 py-8">
 
     <div class="px-4 space-y-4">
       <!-- <ContentProse content="<h1>Lokale groepen</h1>" /> -->
 
       <label class="floating-label">
         <span>Locatie</span>
-        <input type="text" class="input input-md w-full" value="Utrecht" />
+        <input type="search" class="input input-md w-full" value="Utrecht" />
       </label>
 
       <ContentCardCollection :cards="[{
         title: 'Milieudefensie Utrecht',
         variant: 'shadow',
-        reverse: false,
+        reverse: true,
         images: [{
           src: 'https://picsum.photos/805',
           alt: 'Fabriek'
         }, {
           src: 'https://picsum.photos/806',
+          alt: 'Fabriek'
+        }, {
+          src: 'https://picsum.photos/807',
           alt: 'Fabriek'
         }],
         buttons: {
@@ -110,7 +113,7 @@ const content = ref<ContentItem[]>([
     type: "ContentProse",
     props: {
       content: `
-      <h2>Wat kan ik doen in een lokale groep?</h2>
+      <h2>Wat kan ik doen?</h2>
       <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
       `
     }

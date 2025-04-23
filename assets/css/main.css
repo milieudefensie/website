@@ -6,6 +6,10 @@
 @plugin "daisyui";
 @plugin "@tailwindcss/typography";
 
+.input {
+  @apply text-[16px];
+}
+
 .btn {
   @apply font-bold;
 }
