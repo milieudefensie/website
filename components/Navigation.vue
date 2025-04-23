@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import IconMenu from '~icons/mdi/menu'
 import IconClose from '~icons/mdi/close'
 import IconSearch from '~icons/mdi/search'
@@ -7,10 +7,17 @@ import IconClick from '~icons/mdi/cursor-default-click'
 import IconMapMarker from '~icons/mdi/map-marker'
 import IconEuro from '~icons/mdi/euro'
 
+export type NavigationProps = {
+  fullscreen?: boolean
+}
 
+const props = defineProps<NavigationProps>()
 </script>
 <template>
-  <nav class="flex justify-between px-6 py-6 items-center max-w-[1000px] mx-auto h-[119.13px]">
+  <nav class="flex justify-between px-6 py-6 items-center mx-auto h-[119.13px] w-full" :class="{
+    'max-w-[1000px]': !fullscreen,
+    'absolute top-0 left-0 z-100': fullscreen,
+  }">
     <!-- <NuxtPicture format="avif,webp" src="/logo.png" width="176" class="-rotate-1" quality="10" /> -->
     <!-- <img src="/logo-compressed-176x70-V2.svg" alt="Milieudefensie" width="176" height="71.13" /> -->
     <!-- <NuxtImg format="avif" src="/logo-352x140.png" width="176" height="70" densities="x1 x2" quality="20" /> -->
@@ -18,15 +25,24 @@ import IconEuro from '~icons/mdi/euro'
 
     <div class="space-x-3 flex" sizes="176px" densities="x1 x2">
 
-      <a class="btn btn-primary md:btn-outline md:!text-black font-display text-xl px-5 max-sm:hidden" contenteditable>✊
+      <a class="btn btn-neutral btn-outline bg-base-100 hover:bg-neutral font-display text-xl px-5 max-sm:hidden"
+        contenteditable :class="{
+          'shadow': fullscreen
+        }">✊
         Word actief</a>
-      <a class="btn btn-primary font-display text-xl px-5 max-md:hidden" contenteditable>🌍 Word lid</a>
+      <a class="btn btn-primary font-display text-xl px-5 max-md:hidden" contenteditable :class="{
+        'shadow': fullscreen
+      }">🌍 Word lid</a>
 
       <div class="drawer drawer-end">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
           <!-- Page content here -->
-          <label for="my-drawer" class="btn font-display btn-ghost text-xl drawer-button">
+          <label for="my-drawer"
+            class="btn font-display bg-base-100 hover:bg-base-300 hover:border-white btn-ghost text-xl drawer-button"
+            :class="{
+              'shadow': fullscreen
+            }">
             <IconMenu /> Menu
           </label>
         </div>

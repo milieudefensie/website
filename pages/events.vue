@@ -75,7 +75,7 @@ SUNDAY
 
 
 <script lang="ts" setup>
-import type { Event } from '~/stores/directus';
+import type { Event } from '~/server/api/getEvents';
 
 const today = ref()
 const currentDayOfWeek = ref()
@@ -165,10 +165,10 @@ const content = ref<ContentItem[]>([
           content: 'Iedere woensdagavond 20:00 verwelkomen wij nieuwe veranderaars. Denk jij erover om je aan te sluiten bij Milieudefensie? Sluit aan bij onze online intro-avond en leer wat jij kan doen.',
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/fabriek.jpeg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -396,10 +396,10 @@ const content = ref<ContentItem[]>([
           content: "Ingewikkelde zaken, zoals gevaarlijke klimaatverandering uitgelegd, maar dan zonder saaie grafieken en droge cijfers. Kom lachen, ontmoet leuke mensen en ontdek wat jij kan doen.",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -440,10 +440,10 @@ const content = ref<ContentItem[]>([
           content: 'Grote vervuilende bedrijven gaan door met graaien en het veroorzaken van gevaarlijke klimaatverandering. Wij roepen ze ter verantwoording tijdens hun aandeelhoudersvergaderingen. Leer meer tijdens een training!',
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/fabriek.jpeg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -507,10 +507,10 @@ const content = ref<ContentItem[]>([
           badges: ['🎤  Milieudefensie on Tour'],
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-2.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -549,10 +549,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-1.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -571,10 +571,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -594,10 +594,10 @@ const content = ref<ContentItem[]>([
           badges: ['👋 Intro avond'],
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/fabriek.jpeg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -637,10 +637,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-2.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -680,10 +680,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-1.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -702,10 +702,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -747,10 +747,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-1.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -769,10 +769,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -792,10 +792,10 @@ const content = ref<ContentItem[]>([
           badges: ['👋 Intro avond'],
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/fabriek.jpeg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -815,10 +815,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/fabriek.jpeg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -838,10 +838,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-1.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -861,10 +861,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -904,10 +904,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-2.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -946,10 +946,10 @@ const content = ref<ContentItem[]>([
           content: "17 maart 20:00",
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/campagnedag-2.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',

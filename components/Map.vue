@@ -35,8 +35,8 @@ function mapboxCreated(mapInstance: mapboxgl.Map) {
       mapStyle="mapbox://styles/joppe-milieudefensie/cm7p5awl8001y01r18vay203m?optimize=true" :pitchWithRotate="false"
       :dragRotate="false" logoPosition="bottom-right" @mb-created="mapboxCreated($event)" :bounds="mapBounds"
       :fitBoundsOptions="mapBoundsOptions" :zoom="zoom" class="w-full">
-      <MapboxGeocoder position="top-left" />
-      <MapboxGeolocateControl />
+      <!-- <MapboxGeocoder position="bottom-right" />
+      <MapboxGeolocateControl /> -->
       <MapboxNavigationControl position="bottom-right" />
       <slot name="default"></slot>
     </MapboxMap>

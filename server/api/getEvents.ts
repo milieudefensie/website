@@ -1,6 +1,6 @@
 const config = useRuntimeConfig()
 
-type Event = {
+export type Event = {
   coordinates?: {
     latitude: number
     longitude: number

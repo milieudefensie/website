@@ -2,14 +2,63 @@
 
 
   <!-- Right Column: Map -->
-  <Map class="w-full md:w-2/3 h-[80vh] md:h-[100vh] fixed top-30 right-0 z-1">
+  <Map class="w-full md:w-2/3  h-[80vh] md:h-[100vh] fixed top-0 right-0 z-1">
   </Map>
 
 
 
   <!-- Left Column: Local Groups -->
   <div
-    class="w-full md:h-full md:w-1/3 absolute top-[80vh] md:top-30  left-0 z-2 overflow-y-scroll bg-base-100 p-4 border-t border-neutral/20">
+    class="w-full shadow-lg md:h-full md:w-1/3  absolute top-[80vh] md:top-0  left-0 z-2 overflow-y-scroll bg-base-100 p-2 md:pt-30">
+
+    <div class="p-4 space-y-4">
+      <ContentProse content="<h1>Lokale groepen</h1>
+      <p>Iets doen aan het klimaat kan gewoon bij jou in de buurt. Samen met anderen.</p>" />
+
+      <ContentCardCollection :cards="[{
+        title: 'Milieudefensie Utrecht',
+        // subtitle: 'Lokale groep',
+        variant: 'shadow',
+        reverse: false,
+        images: [{
+          src: '/fabriek.jpeg',
+          alt: 'Fabriek'
+        }, {
+          src: '/fabriek.jpeg',
+          alt: 'Fabriek'
+        }],
+        buttons: {
+          buttons: [{
+            label: 'Bekijk de groep',
+            link: '/test',
+            color: 'secondary',
+            style: 'default',
+            width: 'default'
+          }]
+        },
+        list: {
+          color: 'secondary',
+          items: [{
+            title: 'Morgen 20:00',
+            subtitle: 'Online',
+            description: 'Intro-avond',
+            type: 'event',
+            link: '/'
+          },
+          {
+            title: 'Woe, 12 maart 20:00',
+            subtitle: 'Online',
+            description: 'Intro-avond',
+            type: 'event',
+            link: '/'
+          },
+          ]
+        },
+      },]" />
+
+    </div>
+
+
     <!-- <h1 class="text-6xl font-display m-4 mt-8">Lokale groepen</h1> -->
     <ContentBuilder :content="content" />
 
@@ -21,7 +70,7 @@
 
 <script lang="ts" setup>
 
-
+import type { ContentItem } from '~/components/ContentBuilder.vue';
 type LocalGroups = {
   name: string;
   description: string;
@@ -29,65 +78,19 @@ type LocalGroups = {
   slug: string;
 }[];
 
-// definePageMeta({
-//   layout: 'fullscreen',
-// });
+definePageMeta({
+  layout: 'fullscreen',
+});
 
-const content = ref([
+const content = ref<ContentItem[]>([
+
   {
     type: "ContentProse",
     props: {
       content: `
-      <h1>Lokale groepen</h1>
+      <h2>Wat kan ik doen?</h2>
       <p>Iets doen aan het klimaat kan gewoon bij jou in de buurt. Samen met anderen.</p>
       `
-    }
-  },
-
-  {
-    type: "ContentCardCollection",
-    props: {
-      noColumns: false,
-      carousel: false,
-      cards: [
-        {
-          title: 'Milieudefensie Utrecht',
-          subtitle: 'Lokale groep',
-          variant: 'shadow',
-          reverse: false,
-          image: {
-            src: '/fabriek.jpeg',
-            alt: 'Fabriek'
-          },
-          buttons: {
-            buttons: [{
-              label: 'Bekijk de groep',
-              link: '/test',
-              color: 'secondary',
-              style: 'default',
-              width: 'default'
-            }]
-          },
-          list: {
-            color: 'secondary',
-            items: [{
-              title: 'Morgen 20:00',
-              subtitle: 'Online',
-              description: 'Intro-avond',
-              type: 'event',
-              link: '/'
-            },
-            {
-              title: 'Woe, 12 maart 20:00',
-              subtitle: 'Online',
-              description: 'Intro-avond',
-              type: 'event',
-              link: '/'
-            },
-            ]
-          },
-        },
-      ]
     }
   },
 
@@ -111,10 +114,10 @@ const content = ref([
           subtitle: 'Lokale groep',
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
@@ -131,10 +134,10 @@ const content = ref([
           subtitle: 'Lokale groep',
           variant: 'shadow',
           reverse: false,
-          image: {
+          images: [{
             src: '/jong.jpg',
             alt: 'Fabriek'
-          },
+          }],
           buttons: {
             buttons: [{
               label: 'Meld je aan',
