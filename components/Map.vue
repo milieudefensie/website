@@ -15,8 +15,8 @@ const mapBounds = ref([
   [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
 ])
 const mapBoundsOptions = ref({
-  padding: { top: 0, bottom: 0, left: 0, right: 0 },
-  animate: false
+  padding: { top: 80, bottom: 0, left: 0, right: 0 },
+  animate: true
 })
 
 function mapboxCreated(mapInstance: mapboxgl.Map) {

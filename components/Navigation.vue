@@ -8,15 +8,14 @@ import IconMapMarker from '~icons/mdi/map-marker'
 import IconEuro from '~icons/mdi/euro'
 
 export type NavigationProps = {
-  fullscreen?: boolean
+  fullWidth?: boolean
 }
 
 const props = defineProps<NavigationProps>()
 </script>
 <template>
   <nav class="flex justify-between px-6 py-6 items-center mx-auto h-[119.13px] w-full" :class="{
-    'max-w-[1000px]': !fullscreen,
-    'absolute top-0 left-0 z-100': fullscreen,
+    'max-w-[1000px]': !fullWidth,
   }">
     <!-- <NuxtPicture format="avif,webp" src="/logo.png" width="176" class="-rotate-1" quality="10" /> -->
     <!-- <img src="/logo-compressed-176x70-V2.svg" alt="Milieudefensie" width="176" height="71.13" /> -->

@@ -1,4 +1,4 @@
 <template>
-  <Navigation fullscreen />
+  <!-- <Navigation fullscreen /> -->
   <slot />
 </template>

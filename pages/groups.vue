@@ -2,29 +2,33 @@
 
 
   <!-- Right Column: Map -->
-  <Map class="w-full md:w-2/3  h-[80vh] md:h-[100vh] fixed top-0 right-0 z-1">
+  <Map class="w-full lg:w-2/3  h-[60vh] lg:h-[100vh] absolute lg:fixed top-0 left-0 z-1">
   </Map>
 
+  <Navigation class="absolute top-0 left-0 z-10 lg:!w-2/3" full-width />
 
 
   <!-- Left Column: Local Groups -->
   <div
-    class="w-full shadow-lg md:h-full md:w-1/3  absolute top-[80vh] md:top-0  left-0 z-2 overflow-y-scroll bg-base-100 p-2 md:pt-30">
+    class="w-full shadow-lg lg:h-full lg:w-1/3  absolute top-[60vh] lg:top-0  right-0 z-2 overflow-y-scroll bg-base-100 p-2 pt-4">
 
-    <div class="p-4 space-y-4">
-      <ContentProse content="<h1>Lokale groepen</h1>
-      <p>Iets doen aan het klimaat kan gewoon bij jou in de buurt. Samen met anderen.</p>" />
+    <div class="px-4 space-y-4">
+      <!-- <ContentProse content="<h1>Lokale groepen</h1>" /> -->
+
+      <label class="floating-label">
+        <span>Locatie</span>
+        <input type="text" class="input input-md w-full" value="Utrecht" />
+      </label>
 
       <ContentCardCollection :cards="[{
         title: 'Milieudefensie Utrecht',
-        // subtitle: 'Lokale groep',
         variant: 'shadow',
         reverse: false,
         images: [{
-          src: '/fabriek.jpeg',
+          src: 'https://picsum.photos/805',
           alt: 'Fabriek'
         }, {
-          src: '/fabriek.jpeg',
+          src: 'https://picsum.photos/806',
           alt: 'Fabriek'
         }],
         buttons: {
@@ -84,12 +88,30 @@ definePageMeta({
 
 const content = ref<ContentItem[]>([
 
+
+
+  {
+    type: "ContentTestimonial",
+    props: {
+      testimonials: [
+        {
+          author: 'Jan de Boer',
+          content: 'Ik ben lid geworden van de lokale groep in mijn buurt. We organiseren samen acties en evenementen om het klimaat te beschermen.'
+        },
+        {
+          author: 'Marie Jansen',
+          content: 'De lokale groep is een geweldige manier om nieuwe mensen te ontmoeten en samen te werken aan een betere toekomst voor onze planeet.'
+        }
+      ]
+    }
+  },
+
   {
     type: "ContentProse",
     props: {
       content: `
-      <h2>Wat kan ik doen?</h2>
-      <p>Iets doen aan het klimaat kan gewoon bij jou in de buurt. Samen met anderen.</p>
+      <h2>Wat kan ik doen in een lokale groep?</h2>
+      <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
       `
     }
   },
@@ -111,16 +133,19 @@ const content = ref<ContentItem[]>([
       cards: [
         {
           title: 'Milieudefensie Amersfoort',
-          subtitle: 'Lokale groep',
           variant: 'shadow',
           reverse: false,
           images: [{
-            src: '/jong.jpg',
+            src: 'https://picsum.photos/801',
+            alt: 'Fabriek'
+          },
+          {
+            src: 'https://picsum.photos/802',
             alt: 'Fabriek'
           }],
           buttons: {
             buttons: [{
-              label: 'Meld je aan',
+              label: 'Bekijk groep',
               link: '/test',
               color: 'secondary',
               style: 'default',
@@ -131,16 +156,19 @@ const content = ref<ContentItem[]>([
         },
         {
           title: 'Milieudefensie Amsterdam',
-          subtitle: 'Lokale groep',
           variant: 'shadow',
           reverse: false,
           images: [{
-            src: '/jong.jpg',
+            src: 'https://picsum.photos/803',
+            alt: 'Fabriek'
+          },
+          {
+            src: 'https://picsum.photos/804',
             alt: 'Fabriek'
           }],
           buttons: {
             buttons: [{
-              label: 'Meld je aan',
+              label: 'Bekijk groep',
               link: '/test',
               color: 'secondary',
               style: 'default',
@@ -153,14 +181,6 @@ const content = ref<ContentItem[]>([
       ]
     }
   },
-
-
-
-
-
-
-
-
 
 
 ]

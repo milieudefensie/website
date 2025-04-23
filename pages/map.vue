@@ -44,7 +44,7 @@ const events = await useFetch('/api/getEvents')
 </script>
 <template>
 
-  <div class="drawer drawer-open">
+  <div class="drawer drawer-open max-md:hidden">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center">
       <!-- Page content here -->
@@ -197,7 +197,7 @@ const events = await useFetch('/api/getEvents')
             <div class=" text-xs text-neutral/60">
               <strong>Met ❤️ gemaakt door het BO Digitale Infrastructuur team.</strong> Dagelijks automatisch
               bijgewerkt.
-              Data uit Hubspot, op basis van geanonimiseerde postcodes (de eerste 4 cijfers)
+              Data uit Hubspot, ControlShiftLabs en Dato. Op basis van geanonimiseerde postcodes (de eerste 4 cijfers)
             </div>
           </div>
         </div>
@@ -207,6 +207,10 @@ const events = await useFetch('/api/getEvents')
 
       </div>
     </div>
+  </div>
+
+  <div class="md:hidden text-center p-8">
+    Deze kaart werkt nu alleen nog op grote schermen :(
   </div>
 
 
