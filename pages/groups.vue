@@ -17,7 +17,7 @@
 
       <label class="floating-label">
         <span>Locatie</span>
-        <input type="search" class="input input-md w-full" value="Utrecht" />
+        <input type="search" class="input input-sm w-full" value="Utrecht" />
       </label>
 
       <ContentCardCollection :cards="[{
