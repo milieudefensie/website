@@ -229,7 +229,7 @@ const exampleEvents: Event[] = [
 ]
 
 export default defineEventHandler(async (event) => {
-  if (!process.dev) {
+  if (process.dev) {
     return exampleEvents
   } else {
     let events: Event[] = []
