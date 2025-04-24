@@ -970,6 +970,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Purmerend',
       count: 11,
+      hasNewContacts: true,
     },
     {
       coordinates: [52.5157872259, 4.96769310634],
@@ -1114,6 +1115,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Enkhuizen',
       count: 3,
+      hasNewContacts: true,
     },
     {
       coordinates: [52.7244759575, 5.26996101791],
@@ -1528,6 +1530,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Beverwijk',
       count: 2,
+      hasNewContacts: true,
     },
     {
       coordinates: [52.5178267669, 4.67486655402],
@@ -10382,12 +10385,14 @@ const tempResults: Results = {
       province: 'Groningen',
       municipality: 'Groningen',
       count: 9,
+      hasNewContacts: true,
     },
     {
       coordinates: [53.2366469327, 6.55245592835],
       province: 'Groningen',
       municipality: 'Groningen',
       count: 7,
+      hasNewContacts: true,
     },
     {
       coordinates: [53.2303050782, 6.5411268625],
@@ -10526,6 +10531,7 @@ const tempResults: Results = {
       province: 'Groningen',
       municipality: 'Westerkwartier',
       count: 1,
+      hasNewContacts: true,
     },
     {
       coordinates: [53.3038143701, 6.39059726305],
@@ -10628,6 +10634,7 @@ const tempResults: Results = {
       province: 'Groningen',
       municipality: 'Het Hogeland',
       count: 1,
+      hasNewContacts: true,
     },
     {
       coordinates: [53.3379925977, 6.42010605352],

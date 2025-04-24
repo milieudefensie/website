@@ -41,6 +41,41 @@ const contacts = await useFetch('/api/getContacts')
 const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
 
+const nextGoal = ref(150)
+const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
+const progress = ref()
+const goalReached = ref()
+
+if (newContactsThisWeek.value) {
+  progress.value = Math.min(100, Math.floor((newContactsThisWeek.value) / nextGoal.value * 100))
+
+  goalReached.value = newContactsThisWeek.value > nextGoal.value
+
+  if (goalReached.value) {
+    const { onLoaded } = useScriptNpm({
+      packageName: 'js-confetti',
+      file: 'dist/js-confetti.browser.js',
+      version: '0.12.0',
+      scriptOptions: {
+        use() {
+          return { JSConfetti: window.JSConfetti }
+        },
+      },
+    })
+    onLoaded(({ JSConfetti }) => {
+      // using the real API instance
+      const confetti = new JSConfetti()
+
+      // Throw confetti every 10 seconds
+      setInterval(() => {
+        confetti.addConfetti({ emojis: ['✊', '⚡️', '💥', '✨', '💚', '🎉'] })
+      }, 4000)
+    })
+  }
+}
+
+
+
 </script>
 <template>
 
@@ -148,6 +183,9 @@ const events = await useFetch('/api/getEvents')
 
 
       </MapboxMap>
+
+
+
     </div>
     <div class="drawer-side">
       <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
@@ -157,7 +195,10 @@ const events = await useFetch('/api/getEvents')
           Dagelijks automatisch bijgewerkt
         </div> -->
 
-        <div class="stats shadow bg-accent text-accent-content text-center flex items-center">
+        <div class="stats text-white shadow text-center flex items-center" :class="{
+          ' bg-accent': !goalReached,
+          ' bg-secondary': goalReached,
+        }">
           <div class="stat py-12">
             <!-- <div class="stat-figure text-primary">
               <IconAccountGroup class="text-[2vw]" />
@@ -165,9 +206,10 @@ const events = await useFetch('/api/getEvents')
 
             <div class="stat-value text-[200px] font-display leading-none">{{
               contacts.data.value?.totalCount?.toLocaleString('nl-NL') }}</div>
-            <div class="stat-title text-6xl font-display -mb-4 text-accent-content">Veranderaars</div>
+            <div class="stat-title text-6xl font-display -mb-4 text-white">Veranderaars</div>
             <div class="flex justify-center">
-              <div class="stat-desc mt-12 text-5xl bg-accent-content text-neutral px-8 py-4 rounded-full">
+              <div class="stat-desc mt-12 text-5xl bg-accent-content text-neutral px-8 py-4 rounded-full"
+                :class="{ 'animate-bounce': contacts.data.value?.newContactsThisWeek && contacts.data.value?.newContactsThisWeek > nextGoal }">
                 <span class="font-bold">+ {{
                   contacts.data.value?.newContactsThisWeek?.toLocaleString('nl-NL') }}</span>
                 deze
@@ -206,7 +248,8 @@ const events = await useFetch('/api/getEvents')
         <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body">
             <div class=" text-xs text-neutral/60">
-              <strong>Met ❤️ gemaakt door het BO Digitale Infrastructuur team.</strong> Dagelijks automatisch
+              <strong>Met ❤️ gemaakt door het Digitale Infrastructuur team van bewegingsopbouw.</strong> Dagelijks
+              automatisch
               bijgewerkt.
               Data uit Hubspot, ControlShiftLabs en Dato. Op basis van geanonimiseerde postcodes (de eerste 4 cijfers)
             </div>
@@ -219,6 +262,23 @@ const events = await useFetch('/api/getEvents')
       </div>
     </div>
   </div>
+
+  <div class="fixed bottom-12 right-12 flex items-center gap-4">
+    <div class=" text-center py-2 px-4 rounded-full font-bold text-xl shadow-lg max-w-70" :class="{
+      'bg-secondary text-secondary-content': goalReached,
+      'bg-accent text-accent-content': !goalReached,
+    }">
+      Doel: {{ nextGoal }} nieuwe veranderaars per week
+    </div>
+    <div class="radial-progress bg-white  border-white border-4 font-bold text-3xl shadow-lg" :class="{
+      'text-secondary': goalReached,
+      'text-accent': !goalReached,
+    }" :style="`--value:${progress}; --size: 10rem; --thickness: 32px; aria-valuenow=70`" role="progressbar">
+      {{ progress }}%
+    </div>
+  </div>
+
+
 
   <div class="md:hidden text-center p-8">
     Deze kaart werkt nu alleen nog op grote schermen :(

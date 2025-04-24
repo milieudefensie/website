@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     // '@nuxt/scripts', FIX NEEDED: [error] [ nuxi ] Nuxt Build Error: [vite]: Rollup failed to resolve import "unenv/runtime/mock/noop" from "/opt/buildhome/repo/node_modules/.pnpm/@nuxt+scripts@0.10.5_@types+youtube@0.1.0_@unhead+vue@1.11.20_typescript@5.8.2/node_modules/@nuxt/scripts/dist/runtime/validation/mock.js"
     '@pinia/nuxt',
     '@nuxtjs/storybook',
+    '@nuxt/scripts',
   ],
   devtools: { enabled: true },
 
