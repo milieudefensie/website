@@ -89,7 +89,7 @@ const events = await useFetch('/api/getEvents')
                 'bg-accent/70': marker.count === 4,
                 'bg-accent/60': marker.count === 3,
                 'bg-accent/50': marker.count === 2,
-                'border-3 border-accent': marker.hasNewContacts
+                'border-2 border-white ring-accent ring-2': marker.hasNewContacts
               }"></span>
             </span>
 
