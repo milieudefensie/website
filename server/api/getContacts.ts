@@ -31,6 +31,7 @@ type Postcode = {
   province: string
   municipality: string
   count: number
+  hasNewContacts?: boolean
 }
 
 type Results = {
@@ -50,6 +51,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Amsterdam',
       count: 22,
+      hasNewContacts: true,
     },
     {
       coordinates: [52.375555382, 4.89638572979],
@@ -1778,6 +1780,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Haarlemmermeer',
       count: 1,
+      hasNewContacts: true,
     },
     {
       coordinates: [52.3119911976, 4.64417463058],
@@ -5828,6 +5831,7 @@ const tempResults: Results = {
       province: 'Noord-Brabant',
       municipality: 'Vught',
       count: 1,
+      hasNewContacts: true,
     },
     {
       coordinates: [51.6452054881, 5.20593933074],
@@ -8426,6 +8430,7 @@ const tempResults: Results = {
       province: 'Overijssel',
       municipality: 'Enschede',
       count: 2,
+      hasNewContacts: true,
     },
     {
       coordinates: [52.2647232788, 6.90383651583],
@@ -9680,6 +9685,7 @@ const tempResults: Results = {
       province: 'Fryslân',
       municipality: 'Tytsjerksteradiel',
       count: 1,
+      hasNewContacts: true,
     },
     {
       coordinates: [53.2707250792, 5.87650414704],
@@ -10700,8 +10706,11 @@ export default defineEventHandler(async (event) => {
     hubspotContacts.forEach((contact) => {
       const createdDate = new Date(contact.createdAt)
 
+      let isNewContact = false
+
       if (createdDate >= sevenDaysAgo) {
         newContactsThisWeek += 1
+        isNewContact = true
       }
 
       if (createdDate >= fourteenDaysAgo && createdDate < sevenDaysAgo) {
@@ -10716,6 +10725,10 @@ export default defineEventHandler(async (event) => {
         if (allPostcodes.hasOwnProperty(firstFourNumbers)) {
           // This is a valid postcode
           allPostcodes[firstFourNumbers].count += 1
+
+          if (isNewContact) {
+            allPostcodes[firstFourNumbers].hasNewContacts = true
+          }
         }
       }
     })

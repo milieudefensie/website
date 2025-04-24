@@ -72,17 +72,28 @@ const events = await useFetch('/api/getEvents')
               <div>{{ marker.count }} veranderaar<span v-if="marker.count > 1">s</span></div>
             </div>
 
-            <span class="relative inline-flex size-2 rounded-full bg-accent opacity-40" :class="{
+            <span class="relative flex size-2" :class="{
               'size-3': currentZoomLevel > 9,
               'size-4': currentZoomLevel > 10,
               'size-6': currentZoomLevel > 11,
-              'opacity-100': marker.count > 6,
-              'opacity-90': marker.count === 6,
-              'opacity-80': marker.count === 5,
-              'opacity-70': marker.count === 4,
-              'opacity-60': marker.count === 3,
-              'opacity-50': marker.count === 2
-            }"></span>
+            }">
+              <span v-if="marker.hasNewContacts"
+                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent"></span>
+              <span class="relative inline-flex size-2 rounded-full bg-accent/40" :class="{
+                'size-3': currentZoomLevel > 9,
+                'size-4': currentZoomLevel > 10,
+                'size-6': currentZoomLevel > 11,
+                'bg-accent': marker.count > 6,
+                'bg-accent/90': marker.count === 6,
+                'bg-accent/80': marker.count === 5,
+                'bg-accent/70': marker.count === 4,
+                'bg-accent/60': marker.count === 3,
+                'bg-accent/50': marker.count === 2,
+                'border-3 border-accent': marker.hasNewContacts
+              }"></span>
+            </span>
+
+
           </div>
 
         </MapboxMarker>
@@ -214,16 +225,19 @@ const events = await useFetch('/api/getEvents')
   </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 </template>
+
+<style>
+.animate-ping {
+  animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+}
+
+@keyframes ping {
+
+  75%,
+  100% {
+    transform: scale(8);
+    opacity: 0;
+  }
+}
+</style>

@@ -100,7 +100,8 @@ const rerender = ref(false);
       <div class="bg-base-200 @2xl/cards:w-1/2 @4xl/cards:w-2/6 flex">
         <NuxtPicture v-for="(image, index) in props.images" format="avif,webp" :src="image.src" :alt="image.alt"
           width="1000px" height="1000px" sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" :class="{
-            'border-l-2 border-white': index > 0
+            'border-l-2 border-white': index > 0,
+            '@2xl/cards:hidden': index > 0
           }" />
 
 

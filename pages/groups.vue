@@ -2,7 +2,7 @@
 
 
   <!-- Right Column: Map -->
-  <Map class="w-full lg:w-2/3  h-[60vh] lg:h-[100vh] absolute lg:fixed top-0 left-0 z-1">
+  <Map class="w-full lg:w-2/3 h-[calc(60vh+18px)] lg:h-[100vh] absolute lg:fixed top-0 left-0 z-1">
   </Map>
 
   <Navigation class="absolute top-0 left-0 z-10 lg:!w-2/3" full-width />
@@ -10,18 +10,23 @@
 
   <!-- Left Column: Local Groups -->
   <div
-    class="w-full shadow-lg lg:h-full lg:w-1/3  absolute top-[60vh] lg:top-0  right-0 z-2 overflow-y-scroll bg-base-100 p-2 py-8">
+    class="w-full shadow-lg lg:h-full lg:w-1/3  absolute top-[calc(60vh+18px)] lg:top-0  right-0 z-2 lg:overflow-y-scroll bg-base-100 p-2 py-8">
 
-    <div class="px-4 space-y-4">
+    <div class="px-2 lg:px-4 space-y-4">
       <!-- <ContentProse content="<h1>Lokale groepen</h1>" /> -->
 
-      <label class="floating-label">
-        <span>Locatie</span>
-        <input type="search" class="input input-sm w-full" value="Utrecht" />
-      </label>
+      <div class="card bg-white shadow max-lg:-mt-18 p-4">
+        <label class="floating-label">
+          <span>Locatie</span>
+          <input type="search" class="input input-sm w-full" value="Utrecht" />
+        </label>
+      </div>
+
+
 
       <ContentCardCollection :cards="[{
         title: 'Milieudefensie Utrecht',
+        content: 'Lokale organizer: Angela',
         variant: 'shadow',
         reverse: true,
         images: [{
