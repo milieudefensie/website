@@ -114,7 +114,7 @@ if (newContactsThisWeek.value) {
             }">
               <span v-if="marker.hasNewContacts"
                 class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent"></span>
-              <span class="relative inline-flex size-2 rounded-full bg-accent/40" :class="{
+              <span class="relative inline-flex size-2 rounded-full" :class="{
                 'size-3': currentZoomLevel > 9,
                 'size-4': currentZoomLevel > 10,
                 'size-6': currentZoomLevel > 11,
@@ -124,6 +124,7 @@ if (newContactsThisWeek.value) {
                 'bg-accent/70': marker.count === 4,
                 'bg-accent/60': marker.count === 3,
                 'bg-accent/50': marker.count === 2,
+                'bg-accent/40': marker.count === 1,
                 'border-2 border-white ring-accent ring-2': marker.hasNewContacts
               }"></span>
             </span>
