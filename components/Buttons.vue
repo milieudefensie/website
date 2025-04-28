@@ -5,7 +5,7 @@ import type { RouteLocationRaw } from 'vue-router'
 export interface Button {
   label: string;
   link?: RouteLocationRaw;
-  color: "default" | "primary" | "secondary" | "accent";
+  color: "neutral" | "primary" | "secondary" | "accent";
   style: "default" | "soft" | "outline" | "dash" | "ghost";
   width: "default" | "wide" | "full";
 }
@@ -31,6 +31,7 @@ const props = defineProps<ButtonProps>()
           'btn-outline text-neutral': button.style === 'outline',
           'btn-dash text-neutral': button.style === 'dash',
           'btn-ghost text-neutral': button.style === 'ghost',
+          'btn-neutral': button.color === 'neutral',
           'btn-primary': button.color === 'primary',
           'btn-secondary': button.color === 'secondary',
           'btn-accent': button.color === 'accent',

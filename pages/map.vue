@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import IconAccountGroup from '~icons/mdi/account-group'
 import IconCalendar from '~icons/mdi/calendar'
+import IconLink from '~icons/mdi/link'
 
 
 import { MapboxMap, MapboxMarker, MapboxGeocoder, MapboxGeolocateControl, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl';
@@ -40,11 +41,19 @@ function mapboxCreated(mapInstance: mapboxgl.Map) {
 const contacts = await useFetch('/api/getContacts')
 const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
+const websiteVistorsLastWeek = ref(14000)
 
 const nextGoal = ref(120)
 const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
 const progress = ref()
 const goalReached = ref()
+
+const conversionRatio = computed(() => {
+  if (websiteVistorsLastWeek.value && newContactsThisWeek.value) {
+    return ((newContactsThisWeek.value / websiteVistorsLastWeek.value) * 100).toFixed(2);
+  }
+  return 0;
+})
 
 if (newContactsThisWeek.value) {
   progress.value = Math.min(100, Math.floor((newContactsThisWeek.value) / nextGoal.value * 100))
@@ -200,7 +209,7 @@ if (newContactsThisWeek.value) {
           ' bg-accent': !goalReached,
           ' bg-secondary': goalReached,
         }">
-          <div class="stat py-12">
+          <div class="stat py-6">
             <!-- <div class="stat-figure text-primary">
               <IconAccountGroup class="text-[2vw]" />
             </div> -->
@@ -209,12 +218,13 @@ if (newContactsThisWeek.value) {
               contacts.data.value?.totalCount?.toLocaleString('nl-NL') }}</div>
             <div class="stat-title text-6xl font-display -mb-4 text-white">Veranderaars</div>
             <div class="flex justify-center">
-              <div class="stat-desc mt-12 text-5xl bg-accent-content text-neutral px-8 py-4 rounded-full"
+              <div class="stat-desc mt-12 text-4xl bg-accent-content text-neutral px-8 py-4 rounded-full"
                 :class="{ 'animate-bounce': contacts.data.value?.newContactsThisWeek && contacts.data.value?.newContactsThisWeek > nextGoal }">
                 <span class="font-bold">+ {{
                   contacts.data.value?.newContactsThisWeek?.toLocaleString('nl-NL') }}</span>
                 deze
                 week
+
               </div>
             </div>
 
@@ -222,6 +232,25 @@ if (newContactsThisWeek.value) {
               <span class="font-bold">+ {{ contacts.data.value?.newContactsLastWeek?.toLocaleString('nl-NL') }}</span>
               afgelopen
               week
+            </div>
+          </div>
+        </div>
+
+        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
+          <div class="card-body">
+            <div class="flex items-center gap-8 ">
+              <IconLink class="text-5xl" />
+              <div>
+                <div class="font-display text-4xl pb-2"> <span class="bg-accent rounded px-2 text-accent-content">{{
+                  conversionRatio
+                    }}%</span>
+                  conversie
+                  ratio
+                </div>
+                <div class="text-lg"> <strong>{{
+                  websiteVistorsLastWeek.toLocaleString('nl-NL') }}</strong> website bezoekers afgelopen week</div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -247,7 +276,7 @@ if (newContactsThisWeek.value) {
 
 
         <div class="card bg-white shadow grid items-center" v-if="contacts.data">
-          <div class="card-body">
+          <div class="p-4">
             <div class=" text-xs text-neutral/60">
               <strong>Met ❤️ gemaakt door het Digitale Infrastructuur team van bewegingsopbouw.</strong> Dagelijks
               automatisch

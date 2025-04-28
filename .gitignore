@@ -24,3 +24,7 @@ logs
 !.env.example
 
 *storybook.log
+
+directus/local-dev/data
+directus/local-dev/extensions
+directus/local-dev/uploads
