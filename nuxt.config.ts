@@ -27,7 +27,6 @@ export default defineNuxtConfig({
     // can be overridden by NUXT_.... environment variable
     hubspotSecret: '',
     datoSecret: '',
-    makeGa4Secret: '',
     cslSecret: '',
     public: {
       // Can be overridden by NUXT_PUBLIC_..... environment variables

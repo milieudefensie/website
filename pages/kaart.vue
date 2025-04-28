@@ -41,7 +41,9 @@ function mapboxCreated(mapInstance: mapboxgl.Map) {
 const contacts = await useFetch('/api/getContacts')
 const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
-const websiteVistorsLastWeek = ref(14000)
+const analytics = await useFetch('/api/getAnalytics')
+
+
 
 const nextGoal = ref(120)
 const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
@@ -49,8 +51,8 @@ const progress = ref()
 const goalReached = ref()
 
 const conversionRatio = computed(() => {
-  if (websiteVistorsLastWeek.value && newContactsThisWeek.value) {
-    return ((newContactsThisWeek.value / websiteVistorsLastWeek.value) * 100).toFixed(2);
+  if (analytics.data.value && newContactsThisWeek.value) {
+    return ((newContactsThisWeek.value / analytics.data.value?.totalActiveUsers) * 100).toFixed(2);
   }
   return 0;
 })
@@ -83,6 +85,15 @@ if (newContactsThisWeek.value) {
     })
   }
 }
+
+
+onMounted(() => {
+  // Reload this page every hour
+  setInterval(() => {
+    window.location.reload();
+  }, 3600000); // 3600000 milliseconds = 1 hour
+
+})
 
 
 
@@ -249,7 +260,8 @@ if (newContactsThisWeek.value) {
                   ratio
                 </div>
                 <div class="text-lg"> <strong>{{
-                  websiteVistorsLastWeek.toLocaleString('nl-NL') }}</strong> website bezoekers afgelopen week</div>
+                  analytics.data.value?.totalActiveUsers.toLocaleString('nl-NL') }}</strong> website bezoekers
+                  afgelopen week</div>
               </div>
 
             </div>
@@ -294,7 +306,7 @@ if (newContactsThisWeek.value) {
     </div>
   </div>
 
-  <div class="fixed bottom-12 right-12 flex items-center gap-4">
+  <div class="fixed bottom-12 right-12 flex items-center gap-4 max-md:hidden">
     <div class=" text-center py-2 px-4 rounded-full font-bold text-xl shadow-lg max-w-70" :class="{
       'bg-secondary text-secondary-content': goalReached,
       'bg-accent text-accent-content': !goalReached,
@@ -311,8 +323,12 @@ if (newContactsThisWeek.value) {
 
 
 
-  <div class="md:hidden text-center p-8">
-    Deze kaart werkt nu alleen nog op grote schermen :(
+  <div class="md:hidden text-center py-32 px-6">
+    <h1 class="font-bold text-xl mb-4">🗺️ Milieudefensie Kaart</h1>
+    <p>De Milieudefensie Kaart werkt alleen op grote schermen. We hebben te veel veranderaars om die allemaal op
+      een klein scherm te
+      laten zien :)</p>
+    <p class="mt-6 text-neutral/50">beweging.milieudefensie.nl/kaart</p>
   </div>
 
 

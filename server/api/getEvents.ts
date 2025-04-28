@@ -1,5 +1,6 @@
 const config = useRuntimeConfig()
 
+// Type to be used in the front-end
 export type Event = {
   coordinates?: {
     latitude: number
@@ -10,12 +11,14 @@ export type Event = {
   slug: string
 }
 
+// Dato API call response
 type DatoCMSResponse = {
   data: {
     allEvents: Event[]
   }
 }
 
+// ControlShift Labs event (using authenticated API)
 type CSLEvent = {
   slug: string
   title: string
@@ -64,6 +67,7 @@ type CSLEvent = {
   labels: string[]
 }
 
+// ControlShift Labs event API response (using authenticated API) - This one will return ALL events
 type CSLEventResponse = {
   events: CSLEvent[]
   meta: {
@@ -74,21 +78,34 @@ type CSLEventResponse = {
   }
 }
 
+// ControlShift Labs local point (using public API)
 type CSLLocalPoint = {
   type: 'Event' | 'Group'
-  id: string
+  id: number
+  slug: string
   title: string
   description: string
+  virtual: boolean
   start_at: string
+  start_tz: string
+  end_at: string | null
+  end_tz: string | null
+  hiddenAddress: boolean
+  public_path: string
+  image_url: string
+  attendees_count: number
 }
 
 type CSLLocalPointResponse = {
-  events: CSLLocalPoint[]
+  data: CSLLocalPoint[]
   meta: {
-    current_page: number
+    count: number
+    page: number
+    per_page: number
     total_pages: number
-    previous_page: number | null
-    next_page: number | null
+    filter: {
+      searched_location: string
+    }
   }
 }
 
@@ -236,7 +253,19 @@ export default defineEventHandler(async (event) => {
 
     const dato = await fetchDatoEvents()
 
-    events = [...dato.data.allEvents, ...(await fetchAllCSLEvents())]
+    const allCSLEvents = await fetchAllCSLEvents()
+
+    events = dato.data.allEvents
+
+    // First, we need to get all events, including non-public and deleted ones. This is required, becuse the public CSL API does not return event coordinates. After that, we'll filter this full list by the ones that are public (using the public API).
+    const publicEventSlugs = await fetchPublicEventSlugs()
+
+    allCSLEvents.forEach((event) => {
+      if (publicEventSlugs.includes(event.slug)) {
+        // This is a public event, so we'll show it on the map
+        events.push(event)
+      }
+    })
 
     return events
   }
@@ -292,16 +321,6 @@ async function fetchAllCSLEvents() {
     try {
       // Fetch the current page's data
 
-      type CSLResponse = {
-        events: CSLEvent[]
-        meta: {
-          current_page: number
-          total_pages: number
-          previous_page: number | null
-          next_page: number | null
-        }
-      }
-
       const csl: CSLEventResponse = await $fetch(
         `https://lokaal.milieudefensie.nl/api/v1/events?page=${currentPage}`,
         {
@@ -346,56 +365,42 @@ async function fetchAllCSLEvents() {
 }
 
 // Using the CSL local points API, we can determine which local points are upcoming and not cancelled or hidden for some reason.
-// async function fetchAllCSLLocalPoints() {
-//   let currentPage: number | null = 1
+async function fetchPublicEventSlugs() {
+  let currentPage = 1
+  let totalPages = 1
+  let eventSlugs: string[] = []
 
-//   let numberOfRuns = 1
-//   let events: Event[] = []
+  while (currentPage <= totalPages && currentPage < 50) {
+    try {
+      // Fetch the current page's data
+      const csl: CSLLocalPointResponse = await $fetch(
+        `https://lokaal.milieudefensie.nl/api/local.json?page=${currentPage}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            authorization: `Bearer ${config.cslSecret}`,
+          },
+        }
+      )
 
-//   while (currentPage && numberOfRuns < 50) {
-//     numberOfRuns++
+      totalPages = csl.meta.total_pages
 
-//     try {
-//       // Fetch the current page's data
-//       const csl: CSLLocalPointResponse = await $fetch(
-//         `https://lokaal.milieudefensie.nl/api/local.json?page=${currentPage}`,
-//         {
-//           method: 'GET',
-//           headers: {
-//             'Content-Type': 'application/json',
-//             Accept: 'application/json',
-//             authorization: `Bearer ${config.cslSecret}`,
-//           },
-//         }
-//       )
+      csl.data.forEach((localPoint) => {
+        const today = new Date()
+        const eventDate = new Date(localPoint.start_at)
+        if (localPoint.type === 'Event') {
+          eventSlugs.push(localPoint.slug)
+        }
+      })
 
-//       csl.events.forEach((event) => {
-//         const today = new Date()
-//         const eventDate = new Date(event.start_at)
-//         if (eventDate > today) {
-//           let coordinates
-//           if (event.location) {
-//             coordinates = {
-//               latitude: parseFloat(event.location.latitude),
-//               longitude: parseFloat(event.location.longitude),
-//             }
-//           }
-//           events.push({
-//             title: event.title,
-//             date: event.start_at,
-//             slug: event.slug,
-//             coordinates,
-//           })
-//         }
-//       })
+      currentPage++
+    } catch (error) {
+      console.error('Error fetching events:', error)
+      break // Exit loop on error
+    }
+  }
 
-//       // Get the URL for the next page, if it exists
-//       currentPage = csl.meta.next_page || null
-//     } catch (error) {
-//       console.error('Error fetching events:', error)
-//       break // Exit loop on error
-//     }
-//   }
-
-//   return events
-// }
+  return eventSlugs
+}
