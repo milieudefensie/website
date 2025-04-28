@@ -67,6 +67,7 @@ if (newContactsThisWeek.value) {
       version: '0.12.0',
       scriptOptions: {
         use() {
+          // @ts-ignore
           return { JSConfetti: window.JSConfetti }
         },
       },
@@ -92,9 +93,9 @@ if (newContactsThisWeek.value) {
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col items-center justify-center">
       <!-- Page content here -->
-      <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
+      <!-- <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
         Open drawer
-      </label>
+      </label> -->
 
       <MapboxMap class="w-full h-screen !fixed top-0 left-0" :access-token="config.public.mapboxApi"
         mapStyle="mapbox://styles/joppe-milieudefensie/cm7p5awl8001y01r18vay203m?optimize=true" :pitchWithRotate="false"

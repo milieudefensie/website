@@ -34,7 +34,19 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    return response.data.allGroups as Group[]
+    const groups: Group[] = []
+
+    response.data.allGroups.forEach((group: Group) => {
+      if (
+        group.title !== 'Zeeland' &&
+        group.title !== 'Flevoland' &&
+        group.title !== 'Drenthe'
+      ) {
+        groups.push(group)
+      }
+    })
+
+    return groups
   } catch (error) {
     console.error('Error fetching DatoCMS groups:', error)
     throw error
