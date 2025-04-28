@@ -9,6 +9,7 @@ export type Event = {
   title: string
   date: string
   slug: string
+  platform: 'csl' | 'dato'
 }
 
 // Dato API call response
@@ -118,130 +119,7 @@ const exampleEvents: Event[] = [
     date: '2025-04-22',
     title: 'Voer mee actie bij de AVA van ING!',
     slug: 'ava-seizoen-2025-ing',
-  },
-  {
-    coordinates: null,
-    date: '2025-06-03',
-    title: 'Kom naar de pre-ALV',
-    slug: 'pre-alv-2024',
-  },
-  {
-    coordinates: {
-      latitude: 52.07521209999999,
-      longitude: 5.121321000000001,
-    },
-    date: '2025-06-14',
-    title: 'Meld je aan voor onze Algemene Ledenvergadering',
-    slug: 'alv',
-  },
-  {
-    coordinates: {
-      latitude: 52.3334487,
-      longitude: 4.9171106,
-    },
-    date: '2025-05-10',
-    title: ' Veranderaarsacademie - Masterclass',
-    slug: 'veranderaarsacademie-masterclass-1',
-  },
-  {
-    coordinates: {
-      latitude: 52.3438475,
-      longitude: 4.7063326,
-    },
-    date: '2025-07-05',
-    title: 'Bulderbos Onderhoudsdag',
-    slug: 'bulderbos-onderhoudsdag',
-  },
-  {
-    title: 'Maak kennis met Milieudefensie 👋',
-    date: '2025-04-23T18:00:00Z',
-    slug: 'online-introductie-welkom-bij-milieudefensie-40',
-  },
-  {
-    title: 'Maak kennis met Milieudefensie 👋',
-    date: '2025-04-30T18:00:00Z',
-    slug: 'online-introductie-welkom-bij-milieudefensie-41',
-  },
-  {
-    title: 'MD Utrecht: Klimaatcafé en pubquiz over duurzaam reizen!',
-    date: '2025-05-08T18:00:00Z',
-    slug: 'md-utrecht-klimaatcafe-en-pubquiz-over-duurzaam-reizen',
-    coordinates: {
-      latitude: 52.0953333,
-      longitude: 5.1168333,
-    },
-  },
-  {
-    title: 'Ledenavond: Sneak Preview Meerjarenstrategie',
-    date: '2025-05-06T18:00:00Z',
-    slug: 'ledenavond-sneak-preview-meerjarenstrategie',
-  },
-  {
-    title: 'Klimaatcafé Zwolle: KlimaatGesprekken',
-    date: '2025-05-09T18:00:00Z',
-    slug: 'klimaatcafe-md-zwolle-klimaatgesprekken',
-    coordinates: {
-      latitude: 52.5067975,
-      longitude: 6.0990397,
-    },
-  },
-  {
-    title: 'TEST waitinglist',
-    date: '2025-08-29T07:00:00Z',
-    slug: 'test-waitinglist',
-  },
-  {
-    title: 'test external link',
-    date: '2025-09-12T07:00:00Z',
-    slug: 'test-external-link',
-  },
-  {
-    title: 'Workshop voedsel & Ahold: maak impact met storytelling ✨',
-    date: '2025-04-24T16:00:00Z',
-    slug: 'ahold-delhaize-storytelling-workshop',
-    coordinates: {
-      latitude: 52.0929579,
-      longitude: 5.1121901,
-    },
-  },
-  {
-    title: 'TEST staff led',
-    date: '2025-09-14T13:00:00Z',
-    slug: 'test-staff-led',
-  },
-  {
-    title: 'Maak kennis met Milieudefensie 👋',
-    date: '2025-05-07T18:00:00Z',
-    slug: 'maak-kennis-met-milieudefensie',
-  },
-  {
-    title: 'Maak kennis met Milieudefensie 👋',
-    date: '2025-05-14T18:00:00Z',
-    slug: 'maak-kennis-met-milieudefensie-1',
-  },
-  {
-    title: 'Maak kennis met Milieudefensie 👋',
-    date: '2025-05-21T18:00:00Z',
-    slug: 'maak-kennis-met-milieudefensie-2',
-  },
-  {
-    title: 'Maak kennis met Milieudefensie 👋',
-    date: '2025-05-28T18:00:00Z',
-    slug: 'maak-kennis-met-milieudefensie-3',
-  },
-  {
-    title: 'Ledenavond: Sneak Preview Meerjarenstrategie',
-    date: '2025-05-06T18:00:00Z',
-    slug: 'ledenavond-sneak-preview-meerjarenstrategie-1',
-  },
-  {
-    title: 'Klimaatcafé Groningen: Voedsel',
-    date: '2025-05-23T17:30:00Z',
-    slug: 'klimaatcafe-groningen-voedsel',
-    coordinates: {
-      latitude: 53.2336247,
-      longitude: 6.5596403,
-    },
+    platform: 'dato',
   },
 ]
 
@@ -253,9 +131,9 @@ export default defineEventHandler(async (event) => {
 
     const dato = await fetchDatoEvents()
 
-    const allCSLEvents = await fetchAllCSLEvents()
+    events = dato
 
-    events = dato.data.allEvents
+    const allCSLEvents = await fetchAllCSLEvents()
 
     // First, we need to get all events, including non-public and deleted ones. This is required, becuse the public CSL API does not return event coordinates. After that, we'll filter this full list by the ones that are public (using the public API).
     const publicEventSlugs = await fetchPublicEventSlugs()
@@ -302,7 +180,19 @@ async function fetchDatoEvents() {
       },
     })
 
-    return dato
+    let events: Event[] = []
+
+    dato.data.allEvents.forEach((event) => {
+      events.push({
+        coordinates: event.coordinates,
+        date: event.date,
+        title: event.title,
+        slug: event.slug,
+        platform: 'dato',
+      })
+    })
+
+    return events
   } catch (error) {
     console.error('Error fetching DatoCMS events:', error)
     throw error // Rethrow the error to be handled by the caller
@@ -348,6 +238,7 @@ async function fetchAllCSLEvents() {
             title: event.title,
             date: event.start_at,
             slug: event.slug,
+            platform: 'csl',
             coordinates,
           })
         }

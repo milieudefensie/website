@@ -9,6 +9,7 @@ import { MapboxMap, MapboxMarker, MapboxGeocoder, MapboxGeolocateControl, Mapbox
 import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import type { Event } from '~/server/api/getEvents';
 
 const config = useRuntimeConfig()
 const zoom = parseFloat(config.public.mapZoom);
@@ -50,6 +51,17 @@ const nextGoal = ref(120)
 const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
 const progress = ref()
 const goalReached = ref()
+
+
+function eventURL(event: Event) {
+  if (event.platform === 'csl') {
+    return `https://veranderaars.milieudefensie.nl/lokaal/${event.slug}`
+  } else if (event.platform === 'dato') {
+    return `https://veranderaars.milieudefensie.nl/agenda/${event.slug}`
+  } else {
+    return ''
+  }
+}
 
 const conversionRatio = computed(() => {
   if (analytics.data.value && newContactsThisWeek.value) {
@@ -173,7 +185,7 @@ onMounted(() => {
                 </div>
               </div>
 
-              <a :href="`https://veranderaars.milieudefensie.nl/agenda/${event.slug}`" target="_blank" class="btn btn-circle btn-xs btn-primary shadow-md font-display scale-75 hover:scale-100
+              <a :href="eventURL(event)" target="_blank" class="btn btn-circle btn-xs btn-primary shadow-md font-display scale-75 hover:scale-100
             transition-transform">
                 <IconCalendar class="text-[12px]" />
               </a>
