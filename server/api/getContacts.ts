@@ -31,7 +31,7 @@ type Postcode = {
   province: string
   municipality: string
   count: number
-  hasNewContacts?: boolean
+  newContactsCount?: number
 }
 
 type Results = {
@@ -51,7 +51,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Amsterdam',
       count: 22,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [52.375555382, 4.89638572979],
@@ -970,7 +970,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Purmerend',
       count: 11,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [52.5157872259, 4.96769310634],
@@ -1115,7 +1115,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Enkhuizen',
       count: 3,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [52.7244759575, 5.26996101791],
@@ -1530,7 +1530,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Beverwijk',
       count: 2,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [52.5178267669, 4.67486655402],
@@ -1783,7 +1783,7 @@ const tempResults: Results = {
       province: 'Noord-Holland',
       municipality: 'Haarlemmermeer',
       count: 1,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [52.3119911976, 4.64417463058],
@@ -5834,7 +5834,7 @@ const tempResults: Results = {
       province: 'Noord-Brabant',
       municipality: 'Vught',
       count: 1,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [51.6452054881, 5.20593933074],
@@ -8433,7 +8433,7 @@ const tempResults: Results = {
       province: 'Overijssel',
       municipality: 'Enschede',
       count: 2,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [52.2647232788, 6.90383651583],
@@ -9688,7 +9688,7 @@ const tempResults: Results = {
       province: 'Fryslân',
       municipality: 'Tytsjerksteradiel',
       count: 1,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [53.2707250792, 5.87650414704],
@@ -10385,14 +10385,14 @@ const tempResults: Results = {
       province: 'Groningen',
       municipality: 'Groningen',
       count: 9,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [53.2366469327, 6.55245592835],
       province: 'Groningen',
       municipality: 'Groningen',
       count: 7,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [53.2303050782, 6.5411268625],
@@ -10531,7 +10531,7 @@ const tempResults: Results = {
       province: 'Groningen',
       municipality: 'Westerkwartier',
       count: 1,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [53.3038143701, 6.39059726305],
@@ -10634,7 +10634,7 @@ const tempResults: Results = {
       province: 'Groningen',
       municipality: 'Het Hogeland',
       count: 1,
-      hasNewContacts: true,
+      newContactsCount: 1,
     },
     {
       coordinates: [53.3379925977, 6.42010605352],
@@ -10734,7 +10734,11 @@ export default defineEventHandler(async (event) => {
           allPostcodes[firstFourNumbers].count += 1
 
           if (isNewContact) {
-            allPostcodes[firstFourNumbers].hasNewContacts = true
+            if (!allPostcodes[firstFourNumbers].newContactsCount) {
+              allPostcodes[firstFourNumbers].newContactsCount = 1
+            } else {
+              allPostcodes[firstFourNumbers].newContactsCount += 1
+            }
           }
         }
       }

@@ -2,6 +2,7 @@
 import IconAccountGroup from '~icons/mdi/account-group'
 import IconCalendar from '~icons/mdi/calendar'
 import IconLink from '~icons/mdi/link'
+import IconStar from '~icons/mdi/star'
 
 
 import { MapboxMap, MapboxMarker, MapboxGeocoder, MapboxGeolocateControl, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl';
@@ -126,6 +127,9 @@ onMounted(() => {
             <div class="tooltip-content">
               <div class="font-bold">Wijk in {{ marker.municipality }}</div>
               <div>{{ marker.count }} veranderaar<span v-if="marker.count > 1">s</span></div>
+              <div v-if="marker.newContactsCount" class="text-white/80 flex items-center justify-center gap-1 mt-2">
+                <IconStar /> {{ marker.newContactsCount }} nieuw
+              </div>
             </div>
 
             <span class="relative flex size-2" :class="{
@@ -133,7 +137,7 @@ onMounted(() => {
               'size-4': currentZoomLevel > 10,
               'size-6': currentZoomLevel > 11,
             }">
-              <span v-if="marker.hasNewContacts"
+              <span v-if="marker.newContactsCount"
                 class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent"></span>
               <span class="relative inline-flex size-2 rounded-full" :class="{
                 'size-3': currentZoomLevel > 9,
@@ -146,7 +150,7 @@ onMounted(() => {
                 'bg-accent/60': marker.count === 3,
                 'bg-accent/50': marker.count === 2,
                 'bg-accent/40': marker.count === 1,
-                'border-2 border-white ring-accent ring-2': marker.hasNewContacts
+                'border-2 border-white ring-accent ring-2': marker.newContactsCount
               }"></span>
             </span>
 
