@@ -3,6 +3,7 @@ import IconAccountGroup from '~icons/mdi/account-group'
 import IconCalendar from '~icons/mdi/calendar'
 import IconLink from '~icons/mdi/link'
 import IconStar from '~icons/mdi/star'
+import IconChat from '~icons/mdi/chat-processing'
 
 
 import { MapboxMap, MapboxMarker, MapboxGeocoder, MapboxGeolocateControl, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl';
@@ -44,8 +45,6 @@ const contacts = await useFetch('/api/getContacts')
 const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
 const analytics = await useFetch('/api/getAnalytics')
-
-
 
 const nextGoal = ref(120)
 const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
@@ -267,7 +266,7 @@ onMounted(() => {
         <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body">
             <div class="flex items-center gap-8 ">
-              <IconLink class="text-5xl" />
+              <IconLink class="text-4xl" />
               <div>
                 <div class="font-display text-4xl pb-2"> <span class="bg-accent rounded px-2 text-accent-content">{{
                   conversionRatio
@@ -287,16 +286,26 @@ onMounted(() => {
 
         <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body ">
-            <div class=" font-display flex items-center gap-8 text-5xl">
-              <IconAccountGroup />
-              <span>{{ groups.data.value?.length }} groepen</span>
+            <div class="  flex items-center gap-8">
+              <IconAccountGroup class="text-4xl" />
+
+              <div>
+                <div class="text-4xl font-display pb-2">{{ groups.data.value?.length }} groepen</div>
+                <div class="text-lg"> <span class="bg-accent rounded p-1 text-accent-content flex items-center gap-1">
+                    <IconChat /> <strong>
+                      {{ analytics.data.value?.joinChatConversions.toLocaleString('nl-NL') }}
+                    </strong> nieuwe groep
+                    chat
+                    leden
+                  </span> </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="card-body">
-            <div class=" font-display flex items-center gap-8 text-5xl">
+            <div class=" font-display flex items-center gap-8 text-4xl">
               <IconCalendar />
               <span>{{ events.data.value?.length }} evenementen</span>
             </div>
