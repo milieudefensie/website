@@ -25,6 +25,11 @@ logs
 
 *storybook.log
 
+# Directus
 directus/local-dev/data
 directus/local-dev/extensions
 directus/local-dev/uploads
+
+# Vitepress
+docs/.vitepress/dist
+docs/.vitepress/cache

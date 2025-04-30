@@ -8,7 +8,10 @@
     "preview": "npx serve .output/public",
     "postinstall": "nuxt prepare",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@directus/sdk": "^19.1.0",
@@ -43,6 +46,7 @@
     "playwright": "^1.52.0",
     "storybook": "^8.6.12",
     "unplugin-icons": "^22.1.0",
+    "vitepress": "^1.6.3",
     "vitest": "^3.1.2"
   },
   "pnpm": {
@@ -52,5 +56,5 @@
       "sharp"
     ]
   },
-  "packageManager": "pnpm@10.9.0+sha512.0486e394640d3c1fb3c9d43d49cf92879ff74f8516959c235308f5a8f62e2e19528a65cdc2a3058f587cde71eba3d5b56327c8c33a97e4c4051ca48a10ca2d5f"
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
 }

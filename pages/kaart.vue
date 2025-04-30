@@ -319,7 +319,8 @@ onMounted(() => {
               <strong>Met ❤️ gemaakt door het Digitale Infrastructuur team van bewegingsopbouw.</strong> Dagelijks
               automatisch
               bijgewerkt.
-              Data uit Hubspot, ControlShiftLabs en Dato. Op basis van geanonimiseerde postcodes (de eerste 4 cijfers)
+              Data uit Hubspot, ControlShiftLabs, Dato en Google Analytics. Op basis van geanonimiseerde postcodes (de
+              eerste 4 cijfers)
             </div>
           </div>
         </div>
