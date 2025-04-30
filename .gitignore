@@ -33,3 +33,6 @@ directus/local-dev/uploads
 # Vitepress
 docs/.vitepress/dist
 docs/.vitepress/cache
+
+# Storybook
+storybook-static
