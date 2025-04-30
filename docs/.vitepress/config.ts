@@ -5,6 +5,7 @@ export default defineConfig({
   title: 'Campaign website',
   description: 'Open source campaign website for activists',
   ignoreDeadLinks: true,
+  cleanUrls: true,
 
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -47,5 +48,9 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/milieudefensie/website' },
     ],
+
+    editLink: {
+      pattern: 'https://github.com/milieudefensie/website/edit/main/docs/:path',
+    },
   },
 })
