@@ -1,17 +1,15 @@
 {
-  "name": "nuxt-app",
+  "name": "@milieudefensie/website",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "npx serve .output/public",
     "postinstall": "nuxt prepare",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@directus/sdk": "^19.1.0",
@@ -46,7 +44,6 @@
     "playwright": "^1.52.0",
     "storybook": "^8.6.12",
     "unplugin-icons": "^22.1.0",
-    "vitepress": "^1.6.3",
     "vitest": "^3.1.2"
   },
   "pnpm": {
