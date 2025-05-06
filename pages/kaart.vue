@@ -46,7 +46,7 @@ const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
 const analytics = await useFetch('/api/getAnalytics')
 
-const nextGoal = ref(120)
+const nextGoal = ref(300)
 const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
 const progress = ref()
 const goalReached = ref()

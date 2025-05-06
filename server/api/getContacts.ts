@@ -10708,7 +10708,7 @@ export default defineEventHandler(async (event) => {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
     const fourteenDaysAgo = new Date()
-    fourteenDaysAgo.setDate(sevenDaysAgo.getDate() - 14)
+    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14)
 
     hubspotContacts.forEach((contact) => {
       const createdDate = new Date(contact.createdAt)
