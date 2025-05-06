@@ -5,6 +5,7 @@ const config: StorybookConfig = {
     // "../components/**/*.mdx",
     '../components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
+  staticDirs: ['../public'],
   addons: [
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',

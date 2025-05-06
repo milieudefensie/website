@@ -20,10 +20,10 @@ export const Story: Story = {
 
   args: {
     steps: [
-      { title: 'Step 1' },
-      { title: 'Step 2' },
-      { title: 'Step 3' },
-      { title: 'Step 4' },
+      { title: 'Step 1', link: '#1' },
+      { title: 'Step 2', link: '#2' },
+      { title: 'Step 3', link: '#3' },
+      { title: 'Step 4', link: '#4' },
     ],
   },
 }
