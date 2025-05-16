@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 
+import IconSend from '~icons/mdi/send'
+
+
 // Import the functions you need from the SDKs you need
 import { initializeApp, type FirebaseApp } from "firebase/app";
 import { getAuth, signInAnonymously, type Auth } from "firebase/auth";
@@ -361,12 +364,12 @@ function trackButtonClick(label: string, link: string) {
     <div class="pb-32 space-y-8">
 
       <div class="flex justify-center">
-        <Logo />
+        <Logo class="max-md:w-[88px] max-md:h-[35px]" />
       </div>
       <div>
-        <div class="card border-2 border-neutral/10 bg-white">
-          <div class="card-body gap-y-4">
-            <div class="text-xl md:text-3xl font-bold font-display">Welkom bij Milieudefensie!</div>
+        <div class="card shadow bg-white">
+          <div class="card-body max-md:p-4 gap-y-2">
+            <div class="text-xl md:text-2xl font-bold font-display">Welkom bij Milieudefensie!</div>
             <div class="md:text-lg"><strong>Je bent gekoppelt aan een buddy om je de weg te wijzen.
               </strong>Praat met
               Sophie, jou digitale
@@ -375,7 +378,7 @@ function trackButtonClick(label: string, link: string) {
           </div>
         </div>
 
-        <div class="mt-4 text-neutral/70 text-xs">
+        <div class="mt-2 text-neutral/70 text-xs">
           Sophie kan fouten maken, dus check onze website voor meer informatie. Lees ons <a
             href="https://milieudefensie.nl/over-ons/cookies-en-privacy" target="_blank"
             class="underline">privacybeleid</a> en de Gemini <a href="https://ai.google.dev/gemini-api/terms"
@@ -418,40 +421,44 @@ function trackButtonClick(label: string, link: string) {
 
       </div>
 
+      <div class="space-y-4">
 
-      <div v-for="(message, index) in chatHistory" :key="index">
-        <div v-for="part in message.parts" :class="{
-          'hidden': part.text === 'Hoi',
-          'chat': part.text,
-          'chat-end': message.role === 'user' && part.text,
-          'chat-start': message.role === 'model' && part.text,
-          'p-4 gap-2 flex': part.functionCall
-        }">
-          <div v-if="part.text" class="chat-bubble">
-            <span class="whitespace-pre-line">{{ part.text.replaceAll("Charlie", naam) }}</span>
+        <div v-for="(message, index) in chatHistory" :key="index">
+          <div v-for="part in message.parts" :class="{
+            'hidden': part.text === 'Hoi',
+            'chat': part.text,
+            'chat-end': message.role === 'user' && part.text,
+            'chat-start': message.role === 'model' && part.text,
+            'p-4 gap-2 flex': part.functionCall
+          }">
+            <div v-if="part.text" class="chat-bubble">
+              <span class="whitespace-pre-line">{{ part.text.replaceAll("Charlie", naam) }}</span>
+
+            </div>
+            <NuxtLink v-if="part.functionCall?.name === 'showLinkButton'" class="btn btn-lg btn-primary"
+              :to="(part.functionCall?.args as any).link" target="_blank"
+              @click="trackButtonClick((part.functionCall?.args as any).label, (part.functionCall?.args as any).link)">
+              {{
+                (part.functionCall?.args as any).label
+              }}
+            </NuxtLink>
+
+
 
           </div>
-          <NuxtLink v-if="part.functionCall?.name === 'showLinkButton'" class="btn btn-lg btn-primary"
-            :to="(part.functionCall?.args as any).link" target="_blank"
-            @click="trackButtonClick((part.functionCall?.args as any).label, (part.functionCall?.args as any).link)">
-            {{
-              (part.functionCall?.args as any).label
-            }}
-          </NuxtLink>
-
-
-
         </div>
-      </div>
 
-      <div v-if="typing" class="text-neutral/80 text-xs mt-4">
-        <div>Sophie is aan het typen...</div>
-        <div class="chat chat-start">
-          <div class="chat-bubble">
-            <div class="typingIndicatorBubble my-2">
-              <div class="typingIndicatorBubbleDot"></div>
-              <div class="typingIndicatorBubbleDot"></div>
-              <div class="typingIndicatorBubbleDot"></div>
+
+
+        <div v-if="typing" class="text-neutral/80 text-xs mt-4">
+          <div>Sophie is aan het typen...</div>
+          <div class="chat chat-start">
+            <div class="chat-bubble">
+              <div class="typingIndicatorBubble my-2">
+                <div class="typingIndicatorBubbleDot"></div>
+                <div class="typingIndicatorBubbleDot"></div>
+                <div class="typingIndicatorBubbleDot"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -463,10 +470,13 @@ function trackButtonClick(label: string, link: string) {
 
   <div class="fixed bottom-0 left-0 flex w-full bg-white shadow-2xl">
 
-    <Container class="flex w-full gap-x-2">
-      <input type="text" placeholder="Typ hier..." class="input input-lg w-full" @keyup.enter="getResponse()" autofocus
-        v-model="userMessage" ref="userMessageInput" />
-      <button class="btn btn-lg btn-full btn-accent max-md:hidden" @click="getResponse()">Verstuur</button>
+    <Container class="flex w-full gap-x-2 max-md:!p-2">
+      <input type="text" placeholder="Typ hier..." class="input md:input-lg w-full" @keyup.enter="getResponse()"
+        autofocus v-model="userMessage" ref="userMessageInput" />
+      <button class="btn btn-lg btn-accent max-md:hidden" @click="getResponse()">Verstuur</button>
+      <button class="btn btn-circle  btn-accent md:hidden" @click="getResponse()">
+        <IconSend />
+      </button>
     </Container>
   </div>
 
