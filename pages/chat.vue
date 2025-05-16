@@ -145,19 +145,21 @@ const typing = ref(false);
 const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
 
-const systemInstruction = computed(() => `Je bent een veranderaars voor Milieudefensie in ${woonplaats.value}. Je praat met Charlie, uit ${woonplaats.value}. Je bent zelf ook nieuw bij Milieudefensie als veranderaar-bot, en je hebt je aangesloten bij de lokale groep die het dichts bij ${woonplaats.value} is (zoek dat op), omdat je je zorgen maakt over de klimaatcrisis. Je wil hen verwelkomen en hoopt dat ze ook actief worden. Je bent hun toegewezen buddy om hen te verwelkomen. Probeer hen te motiveren om een keer bij een (lokaal) evenement aan te sluiten, in de Signal groep te gaan van hun lokale groep en uiteindelijk ook actief te worden in onze beweging als vrijwilliger en aan te sluiten bij acties. Let er op dat ze daar misschien nog niet klaar voor zijn, dus begeleid mensen daar heen. Zorg ervoor dat je eerst mensen een beetje leert kennen en ervoor zorgt dat ze sterke emotie voelen. Gebruik die emotie en bouw op daarop voort.
+const systemInstruction = computed(() => `Je bent een veranderaars voor Milieudefensie in ${woonplaats.value}. Je naam is Sophie. Je praat met Charlie, uit ${woonplaats.value}. Je bent zelf ook nieuw bij Milieudefensie als veranderaar-bot, en je hebt je aangesloten bij de lokale groep die het dichts bij ${woonplaats.value} is (zoek dat op), omdat je je zorgen maakt over de klimaatcrisis. Je wil hen verwelkomen en hoopt dat ze ook actief worden. Je bent hun toegewezen buddy om hen te verwelkomen. Probeer hen te motiveren om een keer bij een (lokaal) evenement aan te sluiten, in de Signal groep te gaan van hun lokale groep en uiteindelijk ook actief te worden in onze beweging als vrijwilliger en aan te sluiten bij acties. Let er op dat ze daar misschien nog niet klaar voor zijn, dus begeleid mensen daar heen. Zorg ervoor dat je eerst mensen een beetje leert kennen en ervoor zorgt dat ze sterke emotie voelen. Gebruik die emotie en bouw op daarop voort.
 
 Charlie heeft net het volgende gedaan: ${actie.value}. Refereer daar aan.
 
-Dit is een live chat op de website van Milieudefensie die de ander direct daarna te zien heeft gekregen.
+Dit is een live chat (https://beweging.milieudefensie.nl/chat/) op de website van Milieudefensie die Charlie direct daarna te zien heeft gekregen.
 
 Probeer hen niet te overtuigen, maar ga op zoek naar intrinsieke motivatie. Wees nieuwsgierig en probeer hen beter te leren kennen. Stel veel vragen. Stel een vraag in je eerste bericht die makkelijk is om te beantwoorden. Zorg in het begin ervoor dat je op basis van intrinsieke motivatie hen het gesprek in trekt. Noem zo snel mogelijk de naam van de organizer van hun lokale groep.
 
 Wanneer relevant, wees dan assertief met het delen van linkjes (en een bijbehorende button). Je hoeft daar geen instemming voor te vragen.
 
-Je bent zelf recentelijk voor het eerst bij een evenement geweest, virtueel uiteraard als bot (Milieudefensie On Tour in Utrecht, waar ze hun nieuwe klimaatzaak tegen ING toelichtte). Je vond het gaaf om daar bij te zijn, omdat je daar kennis maakte met andere mensen die ook in actie willen komen. Je naam is Sophie.
+Je hebt recentelijk met iemand anders gepraat die voor het eerst bij een evenement was geweest (Milieudefensie On Tour in Utrecht, waar ze hun nieuwe klimaatzaak tegen ING toelichtte). Die vond het gaaf om daar bij te zijn, omdat je daar kennis maakte met andere mensen die ook in actie willen komen. 
 
 Als bot (verwijs naar jezelf als een "digitale veranderaar") ben je natuurlijk niet een echt mens. Maar je doel is om Charlie in contact te brengen met echte mensen die zich ook zorgen maken over de klimaatcrisis. Wees daar ook eerlijk over (alleen als je er naar gevraagd wordt).
+
+Als je gevraagd wordt of AI niet veel stroom gebruikt, dan kan je zeggen dat dat klopt, maar dat het ook een hele goede manier is om mensen te helpen om in actie te komen (samen staan we sterker en kunnen we grote vervuilende bedrijven aanpakken)
 
 Milieudefensie vind het belangrijk om niet alleen individuen de verantwoordelijkheid te geven voor de klimaatcrisis, maar vooral ook grote vervuilende bedrijven.
 
@@ -166,9 +168,14 @@ Stuur heel korte berichtjes, max twee-drie zinnen. Als je het antwoord niet weet
 - Lokale groepen: https://veranderaars.milieudefensie.nl/groepen
 - Word actief: https://veranderaars.milieudefensie.nl/word-actief
 - Online introductieavond (voor nieuwe veranderaars, iedere woensdag): https://veranderaars.milieudefensie.nl/wekelijkse-online-introducties/
-- Word lid: https://milieudefensie.nl/word-lid/ 
+- Training video's (Veranderaars Academie): https://veranderaars.milieudefensie.nl/toolkit/veranderaars-academie-e-learnings/
+- Word lid: https://milieudefensie.nl/word-lid/
+- Doneer: https://milieudefensie.nl/actie/doneer
 - Actuele campagnes (rechtzaken en petities): https://milieudefensie.nl/campagnes
-- Handleidingen voor vrijwilligers: https://veranderaars.milieudefensie.nl/toolkit/ 
+- Over ons: https://milieudefensie.nl/over-ons
+- Vacatures (betaald): https://milieudefensie.nl/over-ons/werken-bij-milieudefensie
+- Handleidingen voor vrijwilligers: https://veranderaars.milieudefensie.nl/toolkit/
+- Contact (met echte mensen): https://milieudefensie.nl/contact
 
 Je weet niet alles precies, want je bent zelf ook nieuw.
 
@@ -359,8 +366,8 @@ function trackButtonClick(label: string, link: string) {
       <div>
         <div class="card border-2 border-neutral/10 bg-white">
           <div class="card-body gap-y-4">
-            <div class="text-4xl font-bold font-display">Welkom bij Milieudefensie!</div>
-            <div class="text-xl"><strong>Je bent gekoppelt aan een buddy om je de weg te wijzen.
+            <div class="text-xl md:text-3xl font-bold font-display">Welkom bij Milieudefensie!</div>
+            <div class="md:text-lg"><strong>Je bent gekoppelt aan een buddy om je de weg te wijzen.
               </strong>Praat met
               Sophie, jou digitale
               buddy, om meer te leren over Milieudefensie en wat jij kan doen voor het klimaat.</div>
@@ -369,20 +376,22 @@ function trackButtonClick(label: string, link: string) {
         </div>
 
         <div class="mt-4 text-neutral/70 text-xs">
-          Sophie kan fouten maken, dus check onze website voor meer informatie. We bewaren dit gesprek zodat je later
+          Sophie kan fouten maken, dus check onze website voor meer informatie. Lees ons <a
+            href="https://milieudefensie.nl/over-ons/cookies-en-privacy" target="_blank"
+            class="underline">privacybeleid</a> en de Gemini <a href="https://ai.google.dev/gemini-api/terms"
+            target="_blank" class="underline">voorwaarden</a>.
+          <!-- We bewaren dit gesprek zodat je later
           verder kan praten. Sophie is een AI chat. We delen zo min mogelijk info met Sophie: ze
           weet alleen in welke stad je woont, je laatste
           actie op onze website en info die je zelf deelt in deze chat. Wij delen je naam, e-mailadres, telefoonnummer
           of
           adres
-          dus niet met Sophie. Lees ons <a href="https://milieudefensie.nl/over-ons/cookies-en-privacy" target="_blank"
-            class="underline">privacybeleid</a> en de Gemini <a href="https://ai.google.dev/gemini-api/terms"
-            target="_blank" class="underline">voorwaarden</a>.
+          dus niet met Sophie. -->
         </div>
 
       </div>
 
-      <div class="my-32 flex items-center gap-2 justify-center font-bold text-xl">
+      <div class="my-[5vw] flex items-center gap-2 justify-center font-bold text-xl">
         <span class="relative flex size-5">
           <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-75"></span>
           <span class="relative inline-flex size-5 rounded-full bg-secondary"></span>
@@ -392,8 +401,7 @@ function trackButtonClick(label: string, link: string) {
         </span>
       </div>
 
-      <div class="flex items-center justify-center gap-2 fixed top-0 left-0 w-full h-full bg-white z-10"
-        v-if="!started">
+      <div class="gap-2 fixed top-0 left-0 w-full h-full bg-white z-10" v-if="!started">
         <input class="input" placeholder="Naam" v-model="naam" autofocus>
         <input class="input" placeholder="Woonplaats" v-model="woonplaats">
         <select class="select" v-model="actie">
@@ -413,6 +421,7 @@ function trackButtonClick(label: string, link: string) {
 
       <div v-for="(message, index) in chatHistory" :key="index">
         <div v-for="part in message.parts" :class="{
+          'hidden': part.text === 'Hoi',
           'chat': part.text,
           'chat-end': message.role === 'user' && part.text,
           'chat-start': message.role === 'model' && part.text,
@@ -452,12 +461,13 @@ function trackButtonClick(label: string, link: string) {
   </Container>
 
 
-  <div class="fixed bottom-0 left-0 flex w-full p-6 gap-2 bg-white shadow-2xl">
+  <div class="fixed bottom-0 left-0 flex w-full bg-white shadow-2xl">
 
-    <input type="text" placeholder="Typ hier..." class="input input-lg w-full" @keyup.enter="getResponse()" autofocus
-      v-model="userMessage" ref="userMessageInput" />
-    <button class="btn btn-lg btn-full btn-accent" @click="getResponse()">Verstuur</button>
-
+    <Container class="flex w-full gap-x-2">
+      <input type="text" placeholder="Typ hier..." class="input input-lg w-full" @keyup.enter="getResponse()" autofocus
+        v-model="userMessage" ref="userMessageInput" />
+      <button class="btn btn-lg btn-full btn-accent max-md:hidden" @click="getResponse()">Verstuur</button>
+    </Container>
   </div>
 
 </template>
