@@ -359,18 +359,3 @@ onMounted(() => {
 
 
 </template>
-
-<style>
-.animate-ping {
-  animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite !important;
-}
-
-@keyframes ping {
-
-  75%,
-  100% {
-    transform: scale(8);
-    opacity: 0;
-  }
-}
-</style>
