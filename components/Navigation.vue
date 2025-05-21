@@ -25,23 +25,16 @@ const props = defineProps<NavigationProps>()
     <div class="space-x-3 flex" sizes="176px" densities="x1 x2">
 
       <a class="btn btn-neutral btn-outline bg-base-100 hover:bg-neutral font-display text-xl px-5 max-sm:hidden"
-        contenteditable :class="{
-          'shadow': fullscreen
-        }">✊
+        contenteditable>✊
         Word actief</a>
-      <a class="btn btn-primary font-display text-xl px-5 max-md:hidden" contenteditable :class="{
-        'shadow': fullscreen
-      }">🌍 Word lid</a>
+      <a class="btn btn-primary font-display text-xl px-5 max-md:hidden" contenteditable>🌍 Word lid</a>
 
       <div class="drawer drawer-end">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
           <!-- Page content here -->
           <label for="my-drawer"
-            class="btn font-display bg-base-100 hover:bg-base-300 hover:border-white btn-ghost text-xl drawer-button"
-            :class="{
-              'shadow': fullscreen
-            }">
+            class="btn font-display bg-base-100 hover:bg-base-300 hover:border-white btn-ghost text-xl drawer-button">
             <IconMenu /> Menu
           </label>
         </div>

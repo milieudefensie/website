@@ -4,13 +4,15 @@ import IconSend from '~icons/mdi/send'
 
 
 // Import the functions you need from the SDKs you need
+import { getFunctions, httpsCallable, type Functions } from 'firebase/functions';
 import { initializeApp, type FirebaseApp } from "firebase/app";
 import { getAuth, signInAnonymously, type Auth } from "firebase/auth";
 import { getAnalytics, logEvent, type Analytics } from "firebase/analytics";
 import { Firestore, getFirestore, addDoc, collection, serverTimestamp, query, where, getDocs, orderBy, limit, onSnapshot, Timestamp, FieldValue } from "firebase/firestore";
 
 import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from "firebase/app-check";
-import { getVertexAI, getGenerativeModel, ChatSession, GenerativeModel, Schema, type VertexAI, type Content, type Part, type FunctionDeclarationsTool, SchemaType } from "firebase/vertexai";
+import { getVertexAI, getGenerativeModel, ChatSession, GenerativeModel, Schema, type VertexAI, type Content, type Part, type FunctionDeclarationsTool, SchemaType, type ModelParams, type StartChatParams } from "firebase/vertexai";
+import type { RequestOptions } from '@directus/sdk';
 
 type DatabaseMessage = Content & {
   createdAt: Timestamp | FieldValue;
@@ -42,6 +44,7 @@ const firebaseConfig = {
 
 let firebaseApp: FirebaseApp;
 let analytics: Analytics;
+let functions: Functions;
 let appCheck: AppCheck;
 let vertexAI: VertexAI;
 let model: GenerativeModel;
@@ -79,10 +82,27 @@ const geminiTools: FunctionDeclarationsTool[] = [{
         },
       },
     },
+    {
+      name: "reachOutToLocalOrganizer",
+      description:
+        "Reach out to the local organizer of the group by sending them an email with a summary of the conversation and my contact details.",
+      parameters: {
+        type: SchemaType.OBJECT,
+        properties: {
+          summary: {
+            type: SchemaType.STRING,
+            description: "An elaborate summary of this entire chat conversation, which includes the user's intrinsic motivation, ways in which they have been involved in the past, and ways in which they'd like to become involved. This summary will be sent to the local organizer.",
+          },
+        },
+      },
+    },
   ],
 }];
 
 onMounted(async () => {
+
+  console.log('systemInstruction', systemInstruction.value)
+
 
   if (import.meta.dev) {
     // @ts-ignore https://firebase.google.com/docs/app-check/web/debug-provider
@@ -92,24 +112,36 @@ onMounted(async () => {
   // Initialize Firebase
   firebaseApp = initializeApp(firebaseConfig);
 
+  functions = getFunctions(firebaseApp, 'europe-west1');
+
   auth = getAuth();
   signInAnonymously(auth)
     .then(async (user) => {
+      console.log("User signed in:", user.user?.uid);
       // Signed in..
       await getMessageHistory()
 
       // Initialize the Vertex AI service
       vertexAI = getVertexAI(firebaseApp);
 
-      // Create a `GenerativeModel` instance with a model that supports your use case
-      model = getGenerativeModel(vertexAI, { model: "gemini-2.5-pro-preview-05-06", systemInstruction: systemInstruction.value, tools: geminiTools });
+      const modelParams: ModelParams = {
+        model: "gemini-2.5-pro-preview-05-06",
+        systemInstruction: systemInstruction.value,
+        tools: geminiTools,
+      };
 
-      chat = model.startChat({
+
+      // Create a `GenerativeModel` instance with a model that supports your use case
+      model = getGenerativeModel(vertexAI, modelParams);
+
+      const StartChatParams: StartChatParams = {
         history: chatHistoryGemini.value,
         generationConfig: {
-          // maxOutputTokens: 1000,
+          maxOutputTokens: 1000,
         },
-      });
+      };
+
+      chat = model.startChat(StartChatParams);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -156,7 +188,9 @@ Dit is een live chat (https://beweging.milieudefensie.nl/chat/) op de website va
 
 Probeer hen niet te overtuigen, maar ga op zoek naar intrinsieke motivatie. Wees nieuwsgierig en probeer hen beter te leren kennen. Stel veel vragen. Stel een vraag in je eerste bericht die makkelijk is om te beantwoorden. Zorg in het begin ervoor dat je op basis van intrinsieke motivatie hen het gesprek in trekt. Noem zo snel mogelijk de naam van de organizer van hun lokale groep.
 
-Wanneer relevant, wees dan assertief met het delen van linkjes (en een bijbehorende button). Je hoeft daar geen instemming voor te vragen.
+Je hebt de volgende tools tot je beschikking:
+- showLinkButton: Wanneer relevant, wees dan assertief met het delen van linkjes (en een bijbehorende button). Je hoeft daar geen instemming voor te vragen.
+- reachOutToLocalOrganizer: Als iemand geintereseerd lijkt in een lokale groep of in contact wil komen met andere veranderaars, kan je Charlie aanbieden om een samenvatting van het gesprek en hun contactgegevens naar de dichtsbijzijnde lokale organizer te sturen. 
 
 Je hebt recentelijk met iemand anders gepraat die voor het eerst bij een evenement was geweest (Milieudefensie On Tour in Utrecht, waar ze hun nieuwe klimaatzaak tegen ING toelichtte). Die vond het gaaf om daar bij te zijn, omdat je daar kennis maakte met andere mensen die ook in actie willen komen. 
 
@@ -188,8 +222,9 @@ ${JSON.stringify(events.data.value)}
 Dit zijn alle lokale groepen:
 ${JSON.stringify(groups.data.value)}`)
 
+
 async function getMessageHistory() {
-  const q = query(collection(db, "messages"), where("createdBy", "==", auth.currentUser?.uid), orderBy("createdAt"), limit(50));
+  const q = query(collection(db, "messages"), where("createdBy", "==", auth.currentUser?.uid), orderBy("createdAt"), limit(30));
 
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
@@ -357,8 +392,33 @@ function trackButtonClick(label: string, link: string) {
   }
 }
 
+
+const searchQuery = ref<string>()
+const searchResults = ref()
+
+async function search() {
+  await addDoc(collection(db, "_firestore-vector-search", "index", "queries"), {
+    query: searchQuery.value,
+    limit: 5,
+    prefilters: [{
+      field: "createdBy",
+      operator: "==",
+      value: auth.currentUser?.uid,
+    }],
+    createdBy: auth.currentUser?.uid,
+    createdAt: serverTimestamp(),
+  }).then((docRef) => {
+    console.log("Search document written with ID: ", docRef.id);
+  }).catch((error) => {
+    console.error("Error adding document: ", error);
+  });
+}
+
 </script>
 <template>
+  <input type="text" v-model="searchQuery" @keyup.enter="search()" class="input" placeholder="Zoek in de database" />
+  <button @click="search()" class="btn btn-accent">Zoek</button>
+  searchResults: {{ searchResults }}
   <Container>
 
     <div class="pb-32 space-y-8">
@@ -443,6 +503,13 @@ function trackButtonClick(label: string, link: string) {
               }}
             </NuxtLink>
 
+            <div v-if="part.functionCall?.name === 'reachOutToLocalOrganizer'" class="card bg-white shadow">
+              <div class="card-body">
+                <h2>Samenvatting verstuurd!</h2>
+                <div>{{ (part.functionCall?.args as any).summary }}</div>
+              </div>
+            </div>
+
 
 
           </div>
@@ -472,8 +539,10 @@ function trackButtonClick(label: string, link: string) {
 
     <Container class="flex w-full gap-x-2 max-md:!p-2">
       <input type="text" placeholder="Typ hier..." class="input md:input-lg w-full" @keyup.enter="getResponse()"
-        autofocus v-model="userMessage" ref="userMessageInput" />
-      <button class="btn btn-lg btn-accent max-md:hidden" @click="getResponse()">Verstuur</button>
+        v-model="userMessage" ref="userMessageInput" />
+      <button class="btn btn-lg btn-accent max-md:hidden" @click="getResponse()">
+        <IconSend /> Verstuur
+      </button>
       <button class="btn btn-circle  btn-accent md:hidden" @click="getResponse()">
         <IconSend />
       </button>

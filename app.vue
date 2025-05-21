@@ -24,4 +24,10 @@ useHead({
   //   },
   // ]
 })
+
+const firebase = useFirebaseStore()
+onMounted(() => {
+  firebase.mount()
+})
+
 </script>

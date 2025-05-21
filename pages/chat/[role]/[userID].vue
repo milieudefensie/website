@@ -1,0 +1,317 @@
+<script setup lang="ts">
+import { logEvent } from 'firebase/analytics';
+import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
+import type { Content } from 'firebase/vertexai';
+import type { Message, MessageData } from '~/components/ChatConversation.vue';
+import { getGenerativeModel } from "firebase/ai";
+
+definePageMeta({
+  layout: 'fullscreen',
+});
+
+const firebase = useFirebaseStore()
+
+const role = useRoute().params.role as "user" | "admin";
+const userID = useRoute().params.userID as string;
+const chatHistory = ref<Message[]>([]);
+const chatHistoryAI = computed(() => chatHistory.value.map((message) => message.data.content))
+const typingUserNames = ref<string[]>([]);
+const chatContainer = useTemplateRef('chatContainer');
+
+const emojiInstructions = `Select one single emoji that represents the message. Reply with the code exactly as shown below. Choose from:
+1f600
+1f606
+1f605
+1f602
+1f609
+1f929
+1f973
+1f60c
+1f642_200d_2195_fe0f
+1f642_200d_2194_fe0f
+1f62c
+1f914
+1f928
+1f644
+1f620
+1f621
+1f61e
+1f61f
+1f625
+1f622
+2639_fe0f
+1f630
+1f628
+1f627
+1f92f
+1f60e
+1f4af
+1f389
+1f49a
+1f440
+1f44f
+1f44d
+1f44e
+1f64c
+270a
+1f44b
+270c_fe0f
+1f91d
+1f331
+1f308
+1f30d
+2705`
+
+const woonplaats = ref('Utrecht');
+const naam = ref('Klaas');
+const actie = ref('Petitie grote vervuilers getekend');
+
+const groups = await useFetch('/api/getGroups')
+const events = await useFetch('/api/getEvents')
+
+const responseInstructions = computed(() => `Je bent een veranderaars voor Milieudefensie in ${woonplaats.value}. Je naam is Sophie. Je praat met Charlie, uit ${woonplaats.value}. Je bent zelf ook nieuw bij Milieudefensie als veranderaar-bot, en je hebt je aangesloten bij de lokale groep die het dichts bij ${woonplaats.value} is (zoek dat op), omdat je je zorgen maakt over de klimaatcrisis. Je wil hen verwelkomen en hoopt dat ze ook actief worden. Je bent hun toegewezen buddy om hen te verwelkomen. Probeer hen te motiveren om een keer bij een (lokaal) evenement aan te sluiten, in de Signal groep te gaan van hun lokale groep en uiteindelijk ook actief te worden in onze beweging als vrijwilliger en aan te sluiten bij acties. Let er op dat ze daar misschien nog niet klaar voor zijn, dus begeleid mensen daar heen. Zorg ervoor dat je eerst mensen een beetje leert kennen en ervoor zorgt dat ze sterke emotie voelen. Gebruik die emotie en bouw op daarop voort.
+
+Charlie heeft net het volgende gedaan: ${actie.value}. Refereer daar aan.
+
+Dit is een live chat (https://beweging.milieudefensie.nl/chat/) op de website van Milieudefensie die Charlie direct daarna te zien heeft gekregen.
+
+Probeer hen niet te overtuigen, maar ga op zoek naar intrinsieke motivatie. Wees nieuwsgierig en probeer hen beter te leren kennen. Stel veel vragen. Stel een vraag in je eerste bericht die makkelijk is om te beantwoorden. Zorg in het begin ervoor dat je op basis van intrinsieke motivatie hen het gesprek in trekt. Noem zo snel mogelijk de naam van de organizer van hun lokale groep.
+
+Je hebt de volgende tools tot je beschikking:
+- showLinkButton: Wanneer relevant, wees dan assertief met het delen van linkjes (en een bijbehorende button). Je hoeft daar geen instemming voor te vragen.
+- reachOutToLocalOrganizer: Als iemand geintereseerd lijkt in een lokale groep of in contact wil komen met andere veranderaars, kan je Charlie aanbieden om een samenvatting van het gesprek en hun contactgegevens naar de dichtsbijzijnde lokale organizer te sturen. 
+
+Je hebt recentelijk met iemand anders gepraat die voor het eerst bij een evenement was geweest (Milieudefensie On Tour in Utrecht, waar ze hun nieuwe klimaatzaak tegen ING toelichtte). Die vond het gaaf om daar bij te zijn, omdat je daar kennis maakte met andere mensen die ook in actie willen komen. 
+
+Als bot (verwijs naar jezelf als een "digitale veranderaar") ben je natuurlijk niet een echt mens. Maar je doel is om Charlie in contact te brengen met echte mensen die zich ook zorgen maken over de klimaatcrisis. Wees daar ook eerlijk over (alleen als je er naar gevraagd wordt).
+
+Als je gevraagd wordt of AI niet veel stroom gebruikt, dan kan je zeggen dat dat klopt, maar dat het ook een hele goede manier is om mensen te helpen om in actie te komen (samen staan we sterker en kunnen we grote vervuilende bedrijven aanpakken)
+
+Milieudefensie vind het belangrijk om niet alleen individuen de verantwoordelijkheid te geven voor de klimaatcrisis, maar vooral ook grote vervuilende bedrijven.
+
+Stuur heel korte berichtjes, max twee-drie zinnen. Als je het antwoord niet weet, stuur mensen dan door naar deze pagina’s:
+- Agenda: https://veranderaars.milieudefensie.nl/agenda/
+- Lokale groepen: https://veranderaars.milieudefensie.nl/groepen
+- Word actief: https://veranderaars.milieudefensie.nl/word-actief
+- Online introductieavond (voor nieuwe veranderaars, iedere woensdag): https://veranderaars.milieudefensie.nl/wekelijkse-online-introducties/
+- Training video's (Veranderaars Academie): https://veranderaars.milieudefensie.nl/toolkit/veranderaars-academie-e-learnings/
+- Word lid: https://milieudefensie.nl/word-lid/
+- Doneer: https://milieudefensie.nl/actie/doneer
+- Actuele campagnes (rechtzaken en petities): https://milieudefensie.nl/campagnes
+- Over ons: https://milieudefensie.nl/over-ons
+- Vacatures (betaald): https://milieudefensie.nl/over-ons/werken-bij-milieudefensie
+- Handleidingen voor vrijwilligers: https://veranderaars.milieudefensie.nl/toolkit/
+- Contact (met echte mensen): https://milieudefensie.nl/contact
+
+Je weet niet alles precies, want je bent zelf ook nieuw.
+
+Dit zijn de aankomende evenementen:
+${JSON.stringify(events.data.value)}
+
+Dit zijn alle lokale groepen:
+${JSON.stringify(groups.data.value)}`)
+
+function scrollToBottom(behavior: ScrollBehavior) {
+  nextTick(() => {
+    // Scroll to the bottom of the chat
+    setTimeout(() => {
+      if (chatContainer.value) {
+        chatContainer.value.scrollTo({ top: chatContainer.value.scrollHeight, behavior });
+      }
+    }, 0);
+  });
+}
+
+async function getMessageHistory() {
+
+  const q = query(collection(firebase.db!, "messages"), where("createdBy", "==", userID), orderBy("createdAt", "desc"), limit(20));
+
+  let firstLoad = true;
+
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+
+    querySnapshot.docChanges().forEach((change) => {
+      const { newIndex, oldIndex, doc, type } = change
+
+      const message: Message = {
+        id: doc.id,
+        data: doc.data() as MessageData,
+      }
+
+      if (type === 'added') {
+
+        // remove the message witht the id 'streaming-response' if it exists
+        const streamingResponseIndex = chatHistory.value.findIndex((message) => message.id === 'streaming-response')
+        if (streamingResponseIndex !== -1) {
+          chatHistory.value.splice(streamingResponseIndex, 1)
+        }
+
+        chatHistory.value.splice(newIndex, 0, message)
+
+        // If the new message is the last one, scroll to the bottom
+        if (newIndex === chatHistory.value.length - 1 && chatHistory.value.length > 1) {
+          scrollToBottom('smooth')
+        }
+
+      } else if (type === 'modified') {
+        // remove the old one first
+        chatHistory.value.splice(oldIndex, 1)
+        // if we want to handle references we would have to unsubscribe
+        // from old references' listeners and subscribe to the new ones
+        chatHistory.value.splice(newIndex, 0, message)
+      } else if (type === 'removed') {
+        chatHistory.value.splice(oldIndex, 1)
+        // if we want to handle references we need to unsubscribe
+        // from old references
+      }
+    });
+
+    if (firstLoad) {
+      firstLoad = false
+      // scroll to the bottom of the chat
+      scrollToBottom('instant')
+    }
+
+  });
+}
+
+async function send(message: string) {
+
+  if (firebase.auth!.currentUser) {
+    const messageToSend = message.trim();
+
+    // USER MESSAGE
+    const currentUserMessage: Content = {
+      role: 'user',
+      parts: [{ text: messageToSend }],
+    };
+
+    const currentUserMessageWithMeta: MessageData = {
+      content: currentUserMessage,
+      conversationID: userID,
+      emoji: null,
+      createdAt: serverTimestamp(),
+      createdBy: firebase.auth!.currentUser?.uid,
+    };
+
+
+    await addDoc(collection(firebase.db!, "messages"), currentUserMessageWithMeta);
+
+    scrollToBottom('smooth');
+
+    // AI MESSAGE
+    const modelMessage: Content = {
+      role: 'model',
+      parts: [{ text: await getResponse(messageToSend) }],
+    };
+
+    const modelMessageWithMeta: MessageData = {
+      content: modelMessage,
+      conversationID: userID,
+      emoji: await getEmojiForMessage(messageToSend),
+      createdAt: serverTimestamp(),
+      createdBy: firebase.auth!.currentUser?.uid,
+    };
+
+
+    await addDoc(collection(firebase.db!, "messages"), modelMessageWithMeta);
+
+    scrollToBottom('smooth');
+
+    if (!import.meta.dev) {
+      logEvent(firebase.analytics!, 'message_sent');
+    }
+  } else {
+    console.error("User is not authenticated");
+  }
+
+}
+
+async function getEmojiForMessage(message: string) {
+  const firebase = useFirebaseStore()
+
+  const limitedMessage = message.length > 200 ? message.substring(0, 200) : message;
+
+
+  const model = getGenerativeModel(firebase.vertexAI!, {
+    model: "gemini-2.0-flash-lite",
+    systemInstruction: emojiInstructions,
+  });
+
+  // To generate text output, call generateContent with the text input
+  const result = await model.generateContent(limitedMessage);
+
+  const response = result.response;
+  const responseText = response.text();
+
+  // Trim the response text to remove any leading or trailing whitespace
+  return responseText.trim()
+}
+
+async function getResponse(message: string) {
+
+  const firebase = useFirebaseStore()
+
+  const model = getGenerativeModel(firebase.vertexAI!, {
+    model: "gemini-2.5-pro-preview-05-06",
+    systemInstruction: responseInstructions.value,
+  });
+
+  const chat = model.startChat({
+    history: chatHistoryAI.value,
+  })
+
+  typingUserNames.value.push('Sophie')
+
+  // To generate text output, call generateContent with the text input
+  const result = await chat.sendMessage(message);
+
+  typingUserNames.value.splice(typingUserNames.value.indexOf('Sophie'), 1)
+
+  const response = result.response;
+  const responseText = response.text();
+
+  // Trim the response text to remove any leading or trailing whitespace
+  return responseText.trim()
+
+}
+
+onMounted(async () => {
+  await getMessageHistory()
+})
+</script>
+<template>
+
+  <div class="drawer md:drawer-open">
+    <input id="chat-drawer" type="checkbox" class="drawer-toggle" />
+
+    <!-- CONTENT -->
+    <div class="drawer-content flex flex-col h-screen">
+      <!-- <label for="chat-drawer" class="btn btn-primary drawer-button lg:hidden">
+        Open drawer
+      </label> -->
+
+      <div class="flex-1 overflow-y-auto pb-4" ref="chatContainer">
+        <Container>
+          <ChatConversation :messages="chatHistory" :currentUserName="naam || 'veranderaar'"
+            :typingUserNames="typingUserNames" />
+        </Container>
+      </div>
+
+
+
+      <ChatInput class="mt-auto" @send="send($event)" />
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="drawer-side" v-if="role === 'admin'">
+      <label for="chat-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+      <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <!-- Sidebar content here -->
+        <li><a>Sidebar Item 1</a></li>
+        <li><a>Sidebar Item 2</a></li>
+      </ul>
+    </div>
+  </div>
+</template>
