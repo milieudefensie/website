@@ -3,8 +3,6 @@ import { logEvent } from 'firebase/analytics';
 import { FieldValue, Timestamp } from 'firebase/firestore';
 import type { Content } from 'firebase/vertexai';
 
-
-
 export type MessageData = {
   content: Content
   emoji: string | null,
@@ -50,7 +48,7 @@ function trackButtonClick(label: string, link: string) {
       <div v-for="part in message.data.content.parts" :class="{
         'hidden': part.text === 'Hoi',
 
-        'p-4 gap-2 flex': part.functionCall
+        'p-4 pl-13 gap-2 flex': part.functionCall
       }">
         <!-- MESSAGE TEXT -->
 
@@ -63,18 +61,20 @@ function trackButtonClick(label: string, link: string) {
           <div class="chat-image avatar" v-if="message.data.content.role === 'model'">
             <div class="w-10 overflow-show">
               <!-- <span>{{ message.data.emoji }}</span> -->
-              <picture>
+              <!-- <picture>
                 <source :srcset="`https://fonts.gstatic.com/s/e/notoemoji/latest/${message.data.emoji}/512.webp`"
                   type="image/webp">
                 <img :src="`https://fonts.gstatic.com/s/e/notoemoji/latest/${message.data.emoji}/512.gif`">
-              </picture>
+              </picture> -->
+
+              <Lottie :source="`https://fonts.gstatic.com/s/e/notoemoji/latest/${message.data.emoji}/lottie.json`"
+                :height="40" :width="40" :loop="false" />
+
+
+
 
             </div>
           </div>
-
-
-
-
 
 
           <div class="chat-bubble" :class="{

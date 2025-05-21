@@ -193,7 +193,7 @@ function confetti() {
 </template>
 <style>
 .tiptap p.is-editor-empty:first-child::before {
-  color: #adb5bd;
+  color: var(--color-neutral-500);
   content: attr(data-placeholder);
   float: left;
   height: 0;

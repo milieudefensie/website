@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { logEvent } from 'firebase/analytics';
 import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
-import type { Content } from 'firebase/vertexai';
+import { ChatSession, GenerativeModel, SchemaType, type Content, type FunctionCallPart, type FunctionDeclarationsTool, type Part } from 'firebase/vertexai';
 import type { Message, MessageData } from '~/components/ChatConversation.vue';
 import { getGenerativeModel } from "firebase/ai";
 
@@ -14,7 +14,7 @@ const firebase = useFirebaseStore()
 const role = useRoute().params.role as "user" | "admin";
 const userID = useRoute().params.userID as string;
 const chatHistory = ref<Message[]>([]);
-const chatHistoryAI = computed(() => chatHistory.value.map((message) => message.data.content))
+const chatHistoryAI = computed<Content[]>(() => chatHistory.value.map((message) => message.data.content).slice().reverse())
 const typingUserNames = ref<string[]>([]);
 const chatContainer = useTemplateRef('chatContainer');
 
@@ -89,13 +89,13 @@ Als je gevraagd wordt of AI niet veel stroom gebruikt, dan kan je zeggen dat dat
 
 Milieudefensie vind het belangrijk om niet alleen individuen de verantwoordelijkheid te geven voor de klimaatcrisis, maar vooral ook grote vervuilende bedrijven.
 
-Stuur heel korte berichtjes, max twee-drie zinnen. Als je het antwoord niet weet, stuur mensen dan door naar deze pagina’s:
+Stuur heel korte berichtjes, max twee-drie zinnen, en gebruik emoji. Als je het antwoord niet weet, stuur mensen dan door naar deze pagina’s:
 - Agenda: https://veranderaars.milieudefensie.nl/agenda/
 - Lokale groepen: https://veranderaars.milieudefensie.nl/groepen
 - Word actief: https://veranderaars.milieudefensie.nl/word-actief
 - Online introductieavond (voor nieuwe veranderaars, iedere woensdag): https://veranderaars.milieudefensie.nl/wekelijkse-online-introducties/
 - Training video's (Veranderaars Academie): https://veranderaars.milieudefensie.nl/toolkit/veranderaars-academie-e-learnings/
-- Word lid: https://milieudefensie.nl/word-lid/
+- Word lid: https://milieudefensie.nl/actie/lidworden
 - Doneer: https://milieudefensie.nl/actie/doneer
 - Actuele campagnes (rechtzaken en petities): https://milieudefensie.nl/campagnes
 - Over ons: https://milieudefensie.nl/over-ons
@@ -111,6 +111,44 @@ ${JSON.stringify(events.data.value)}
 Dit zijn alle lokale groepen:
 ${JSON.stringify(groups.data.value)}`)
 
+
+const geminiTools: FunctionDeclarationsTool[] = [{
+  functionDeclarations: [
+    {
+      name: "showLinkButton",
+      description:
+        "Accompany any message that contains a link with a button",
+      parameters: {
+        type: SchemaType.OBJECT,
+        properties: {
+          link: {
+            type: SchemaType.STRING,
+            description: "A fully qualified URL to open when the button is clicked.",
+          },
+          label: {
+            type: SchemaType.STRING,
+            description: "A label for the button with an emoji at the start.",
+          },
+        },
+      },
+    },
+    {
+      name: "reachOutToLocalOrganizer",
+      description:
+        "Reach out to the local organizer of the group by sending them an email with a summary of the conversation and my contact details.",
+      parameters: {
+        type: SchemaType.OBJECT,
+        properties: {
+          summary: {
+            type: SchemaType.STRING,
+            description: "An elaborate summary of this entire chat conversation, which includes the user's intrinsic motivation, ways in which they have been involved in the past, and ways in which they'd like to become involved. This summary will be sent to the local organizer.",
+          },
+        },
+      },
+    },
+  ],
+}];
+
 function scrollToBottom(behavior: ScrollBehavior) {
   nextTick(() => {
     // Scroll to the bottom of the chat
@@ -124,57 +162,95 @@ function scrollToBottom(behavior: ScrollBehavior) {
 
 async function getMessageHistory() {
 
-  const q = query(collection(firebase.db!, "messages"), where("createdBy", "==", userID), orderBy("createdAt", "desc"), limit(20));
+  return new Promise<void>((resolve) => {
 
-  let firstLoad = true;
+    const q = query(collection(firebase.db!, "messages"), where("createdBy", "==", userID), orderBy("createdAt", "desc"), limit(20));
 
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    let firstLoad = true;
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
 
 
-    querySnapshot.docChanges().forEach((change) => {
-      const { newIndex, oldIndex, doc, type } = change
+      querySnapshot.docChanges().forEach((change) => {
+        const { newIndex, oldIndex, doc, type } = change
 
-      const message: Message = {
-        id: doc.id,
-        data: doc.data() as MessageData,
-      }
-
-      if (type === 'added') {
-
-        // remove the message witht the id 'streaming-response' if it exists
-        const streamingResponseIndex = chatHistory.value.findIndex((message) => message.id === 'streaming-response')
-        if (streamingResponseIndex !== -1) {
-          chatHistory.value.splice(streamingResponseIndex, 1)
+        const message: Message = {
+          id: doc.id,
+          data: doc.data() as MessageData,
         }
 
-        chatHistory.value.splice(newIndex, 0, message)
+        if (type === 'added') {
 
-        // If the new message is the last one, scroll to the bottom
-        if (newIndex === chatHistory.value.length - 1 && chatHistory.value.length > 1) {
-          scrollToBottom('smooth')
+          // remove the message witht the id 'streaming-response' if it exists
+          const streamingResponseIndex = chatHistory.value.findIndex((message) => message.id === 'streaming-response')
+          if (streamingResponseIndex !== -1) {
+            chatHistory.value.splice(streamingResponseIndex, 1)
+          }
+
+          chatHistory.value.splice(newIndex, 0, message)
+
+          // If the new message is the last one, scroll to the bottom
+          if (newIndex === chatHistory.value.length - 1 && chatHistory.value.length > 1) {
+            scrollToBottom('smooth')
+          }
+
+        } else if (type === 'modified') {
+          // remove the old one first
+          chatHistory.value.splice(oldIndex, 1)
+          // if we want to handle references we would have to unsubscribe
+          // from old references' listeners and subscribe to the new ones
+          chatHistory.value.splice(newIndex, 0, message)
+        } else if (type === 'removed') {
+          chatHistory.value.splice(oldIndex, 1)
+          // if we want to handle references we need to unsubscribe
+          // from old references
         }
+      });
 
-      } else if (type === 'modified') {
-        // remove the old one first
-        chatHistory.value.splice(oldIndex, 1)
-        // if we want to handle references we would have to unsubscribe
-        // from old references' listeners and subscribe to the new ones
-        chatHistory.value.splice(newIndex, 0, message)
-      } else if (type === 'removed') {
-        chatHistory.value.splice(oldIndex, 1)
-        // if we want to handle references we need to unsubscribe
-        // from old references
+      if (firstLoad) {
+        firstLoad = false
+        // scroll to the bottom of the chat
+        scrollToBottom('instant')
       }
+
+      resolve()
+
     });
 
-    if (firstLoad) {
-      firstLoad = false
-      // scroll to the bottom of the chat
-      scrollToBottom('instant')
-    }
+  })
 
-  });
 }
+
+const chatModel = ref<GenerativeModel>()
+const chat = ref<ChatSession>()
+
+onMounted(async () => {
+  await getMessageHistory().then(() => {
+    console.log('Chat history:', chatHistory.value)
+
+    chatModel.value = getGenerativeModel(firebase.vertexAI!, {
+      model: "gemini-2.5-pro-preview-05-06",
+      systemInstruction: responseInstructions.value,
+      tools: geminiTools,
+      max_output_tokens: 1000,
+    });
+
+    chat.value = chatModel.value!.startChat({
+      history: [...chatHistoryAI.value],
+    })
+  })
+
+  chatModel.value = getGenerativeModel(firebase.vertexAI!, {
+    model: "gemini-2.5-pro-preview-05-06",
+    systemInstruction: responseInstructions.value,
+    tools: geminiTools,
+    max_output_tokens: 1000,
+  });
+
+  chat.value = chatModel.value!.startChat({
+    history: [...chatHistoryAI.value],
+  })
+})
 
 async function send(message: string) {
 
@@ -201,10 +277,7 @@ async function send(message: string) {
     scrollToBottom('smooth');
 
     // AI MESSAGE
-    const modelMessage: Content = {
-      role: 'model',
-      parts: [{ text: await getResponse(messageToSend) }],
-    };
+    const modelMessage: Content = await getResponse(messageToSend);
 
     const modelMessageWithMeta: MessageData = {
       content: modelMessage,
@@ -249,37 +322,39 @@ async function getEmojiForMessage(message: string) {
   return responseText.trim()
 }
 
+
+
 async function getResponse(message: string) {
-
-  const firebase = useFirebaseStore()
-
-  const model = getGenerativeModel(firebase.vertexAI!, {
-    model: "gemini-2.5-pro-preview-05-06",
-    systemInstruction: responseInstructions.value,
-  });
-
-  const chat = model.startChat({
-    history: chatHistoryAI.value,
-  })
 
   typingUserNames.value.push('Sophie')
 
   // To generate text output, call generateContent with the text input
-  const result = await chat.sendMessage(message);
+  const result = await chat.value!.sendMessage(message);
 
   typingUserNames.value.splice(typingUserNames.value.indexOf('Sophie'), 1)
 
   const response = result.response;
   const responseText = response.text();
 
+  const functionCalls = response.functionCalls() || [];
+
+  let content: Content = {
+    role: 'model',
+    parts: [{ text: responseText.trim() }],
+  }
+
+  functionCalls.forEach(functionCall => {
+    content.parts.push({
+      functionCall
+    })
+  })
+
+  console.log('Response:', content)
+
   // Trim the response text to remove any leading or trailing whitespace
-  return responseText.trim()
+  return content
 
 }
-
-onMounted(async () => {
-  await getMessageHistory()
-})
 </script>
 <template>
 
@@ -287,7 +362,7 @@ onMounted(async () => {
     <input id="chat-drawer" type="checkbox" class="drawer-toggle" />
 
     <!-- CONTENT -->
-    <div class="drawer-content flex flex-col h-screen">
+    <div class="drawer-content flex flex-col h-dvh">
       <!-- <label for="chat-drawer" class="btn btn-primary drawer-button lg:hidden">
         Open drawer
       </label> -->
