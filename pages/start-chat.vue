@@ -11,7 +11,7 @@ onMounted(() => {
   const unsubscribe = firebase.auth.onAuthStateChanged((user) => {
     if (user) {
       // User is signed in, navigate to the chat page
-      navigateTo(`/chat/${user.uid}`)
+      navigateTo(`/chat/user/${user.uid}`)
       unsubscribe() // Unsubscribe from the listener
     } else {
       // No user is signed in, navigate to the login page
