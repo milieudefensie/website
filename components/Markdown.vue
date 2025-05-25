@@ -34,6 +34,6 @@ const safeHTML = computedAsync(
 
 </script>
 <template>
-  <div v-html="safeHTML">
+  <div v-html="safeHTML" class="prose [&>:last-child]:mb-0 [&>:first-child]:mt-0 ">
   </div>
 </template>

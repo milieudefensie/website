@@ -60,25 +60,26 @@ export const useFirebaseStore = defineStore('firebase', () => {
 
     vertexAI.value = getAI(app.value, { backend: new VertexAIBackend() })
     googleAI.value = getAI(app.value, { backend: new GoogleAIBackend() })
-  }
 
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     console.log('User signed in', user.uid)
-  //   } else {
-  //     // User is signed out
-  //     console.log('User is signed out')
-  //     signInAnonymously(auth)
-  //       .then(() => {
-  //         // Signed in..
-  //       })
-  //       .catch((error) => {
-  //         const errorCode = error.code
-  //         const errorMessage = error.message
-  //         // ...
-  //       })
-  //   }
-  // })
+    onAuthStateChanged(auth.value!, (user) => {
+      if (user) {
+        console.log('User signed in', user.uid)
+      } else {
+        // User is signed out
+        console.log('User is signed out')
+        signInAnonymously(auth.value!)
+          .then(() => {
+            // Signed in..
+            console.log('User signed in anonymously')
+          })
+          .catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            // ...
+          })
+      }
+    })
+  }
 
   return {
     mount,

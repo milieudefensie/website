@@ -8,7 +8,7 @@ export type MessageData = {
   emoji: string | null,
   conversationID: string,
   createdBy: string,
-  createdAt: Timestamp | FieldValue
+  createdAt: Timestamp | FieldValue | null
 }
 
 export type Message = {
@@ -43,7 +43,7 @@ function trackButtonClick(label: string, link: string) {
 <template>
   <TransitionGroup name="chat-message" tag="div" class="flex flex-col gap-2">
     <div v-for="(message, index) in messages.slice().reverse()" :ref="message.id" :key="message.id" :class="{
-      'recent-message': !message.data.createdAt || (message.data.createdAt as Timestamp)?.toMillis() > (Date.now() - 1000),
+      'recent-message': (!message.data.createdAt || (message.data.createdAt as Timestamp)?.toMillis() > (Date.now() - 1000)) && message.data.content.role === 'user'
     }">
       <div v-for="part in message.data.content.parts" :class="{
         'hidden': part.text === 'Hoi',
@@ -67,7 +67,10 @@ function trackButtonClick(label: string, link: string) {
                 <img :src="`https://fonts.gstatic.com/s/e/notoemoji/latest/${message.data.emoji}/512.gif`">
               </picture> -->
 
-              <Lottie :source="`https://fonts.gstatic.com/s/e/notoemoji/latest/${message.data.emoji}/lottie.json`"
+
+
+              <Lottie v-if="message.data.emoji"
+                :source="`https://fonts.gstatic.com/s/e/notoemoji/latest/${message.data.emoji}/lottie.json`"
                 :height="40" :width="40" :loop="false" />
 
 
@@ -78,9 +81,10 @@ function trackButtonClick(label: string, link: string) {
 
 
           <div class="chat-bubble" :class="{
-            'chat-bubble-accent': message.data.content.role === 'user',
+            'chat-bubble-accent ': message.data.content.role === 'user',
           }">
-            <Markdown :markdown="replacedNames(part.text)" />
+            <Markdown :markdown="replacedNames(part.text)"
+              :class="{ 'text-white': message.data.content.role === 'user' }" />
           </div>
         </div>
 
@@ -120,7 +124,7 @@ function trackButtonClick(label: string, link: string) {
 <style scoped>
 .chat-message-enter-from.recent-message .chat-bubble {
   opacity: 0;
-  transform: translateY(40px) scale(3);
+  transform: translateY(40px) scale(2);
 }
 
 .chat-message-enter-active,

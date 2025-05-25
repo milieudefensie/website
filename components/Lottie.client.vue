@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { templateRef } from '@vueuse/core'
 import { Vue3Lottie } from 'vue3-lottie'
 
 export type LottieProps = {
@@ -10,7 +9,6 @@ export type LottieProps = {
 }
 
 const props = defineProps<LottieProps>()
-const lottieContainer = templateRef("lottieContainer")
 
 type LottieData = {
   v: string
@@ -29,28 +27,45 @@ type LottieData = {
     dr: number
   }[]
 }
-const { data } = await useFetch<LottieData>(`${props.source}`)
+const { data } = await useFetch<LottieData>(`${props.source}`, {
+  onRequest({ request, options }) {
+    // Set the request headers
+    // note that this relies on ofetch >= 1.4.0 - you may need to refresh your lockfile
+  },
+  onRequestError({ request, options, error }) {
+    // Handle the request errors
+    console.log('Request error:', error)
+  },
+  onResponse({ request, response, options }) {
+    // Process the response data
+    console.log('Response data:', response._data)
+  },
+  onResponseError({ request, response, options }) {
+    // Handle the response errors
+    console.log('Response error:', response._data)
+  }
+})
 
 
 const show = ref(true)
-function init() {
-
-
-
-
-  const restMarker = data.value?.markers.find((marker: any) => marker.cm === "rest")?.tm
-
-
-  if (lottieContainer.value && restMarker) {
-    lottieContainer.value.playSegments([0, restMarker], true)
-    show.value = true
-  }
-}
-
-
-
 </script>
 <template>
-  <Vue3Lottie ref="lottieContainer" v-show="show" :animationData="data" :height="props.height" :width="props.width"
-    :speed="0.2" />
+  <Transition name="fade" appear>
+    <Vue3Lottie v-if="data" ref="lottieContainer" v-show="show" :animationData="data" :height="props.height"
+      :width="props.width" :speed="0.2" />
+  </Transition>
+
+  {{ data }}
 </template>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0.5);
+}
+</style>

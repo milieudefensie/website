@@ -160,6 +160,8 @@ function scrollToBottom(behavior: ScrollBehavior) {
   });
 }
 
+let unsubscribe: (() => void) | undefined;
+
 async function getMessageHistory() {
 
   return new Promise<void>((resolve) => {
@@ -168,7 +170,7 @@ async function getMessageHistory() {
 
     let firstLoad = true;
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    unsubscribe = onSnapshot(q, (querySnapshot) => {
 
 
       querySnapshot.docChanges().forEach((change) => {
@@ -221,6 +223,13 @@ async function getMessageHistory() {
 
 }
 
+onBeforeUnmount(() => {
+  if (unsubscribe) {
+    unsubscribe();
+  }
+})
+
+
 const chatModel = ref<GenerativeModel>()
 const chat = ref<ChatSession>()
 
@@ -232,20 +241,13 @@ onMounted(async () => {
       model: "gemini-2.5-pro-preview-05-06",
       systemInstruction: responseInstructions.value,
       tools: geminiTools,
-      max_output_tokens: 1000,
+      // max_output_tokens: 1000,
     });
 
     chat.value = chatModel.value!.startChat({
       history: [...chatHistoryAI.value],
     })
   })
-
-  chatModel.value = getGenerativeModel(firebase.vertexAI!, {
-    model: "gemini-2.5-pro-preview-05-06",
-    systemInstruction: responseInstructions.value,
-    tools: geminiTools,
-    max_output_tokens: 1000,
-  });
 
   chat.value = chatModel.value!.startChat({
     history: [...chatHistoryAI.value],
@@ -272,23 +274,15 @@ async function send(message: string) {
     };
 
 
+
     await addDoc(collection(firebase.db!, "messages"), currentUserMessageWithMeta);
 
     scrollToBottom('smooth');
 
     // AI MESSAGE
-    const modelMessage: Content = await getResponse(messageToSend);
+    const modelMessageWithData: MessageData = await getResponse(messageToSend);
 
-    const modelMessageWithMeta: MessageData = {
-      content: modelMessage,
-      conversationID: userID,
-      emoji: await getEmojiForMessage(messageToSend),
-      createdAt: serverTimestamp(),
-      createdBy: firebase.auth!.currentUser?.uid,
-    };
-
-
-    await addDoc(collection(firebase.db!, "messages"), modelMessageWithMeta);
+    await addDoc(collection(firebase.db!, "messages"), modelMessageWithData);
 
     scrollToBottom('smooth');
 
@@ -329,30 +323,50 @@ async function getResponse(message: string) {
   typingUserNames.value.push('Sophie')
 
   // To generate text output, call generateContent with the text input
-  const result = await chat.value!.sendMessage(message);
+  const result = await chat.value!.sendMessageStream(message);
 
   typingUserNames.value.splice(typingUserNames.value.indexOf('Sophie'), 1)
 
-  const response = result.response;
-  const responseText = response.text();
+  let content: Content = {
+    role: 'model',
+    parts: [{ text: '' }],
+  }
+
+  let modelMessageWithMeta: MessageData = {
+    content,
+    conversationID: userID,
+    emoji: null,
+    createdAt: serverTimestamp(),
+    createdBy: firebase.auth!.currentUser?.uid || '',
+  };
+
+  chatHistory.value.unshift({
+    id: 'streaming-response',
+    data: {
+      ...modelMessageWithMeta,
+      createdAt: null,
+    },
+  });
+
+  for await (const chunk of result.stream) {
+    const chunkText = chunk.text();
+    chatHistory.value[0].data.content.parts[0].text += chunkText;
+  }
+
+  const response = await result.response;
 
   const functionCalls = response.functionCalls() || [];
 
-  let content: Content = {
-    role: 'model',
-    parts: [{ text: responseText.trim() }],
-  }
-
   functionCalls.forEach(functionCall => {
-    content.parts.push({
+    modelMessageWithMeta.content.parts.push({
       functionCall
     })
   })
 
-  console.log('Response:', content)
+  modelMessageWithMeta.emoji = await getEmojiForMessage(response.text());
 
   // Trim the response text to remove any leading or trailing whitespace
-  return content
+  return modelMessageWithMeta
 
 }
 </script>

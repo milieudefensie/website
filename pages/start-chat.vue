@@ -8,7 +8,7 @@ onMounted(() => {
   const firebase = useFirebaseStore()
 
   // Wait for the user to be authenticated
-  const unsubscribe = firebase.auth.onAuthStateChanged((user) => {
+  const unsubscribe = firebase.auth!.onAuthStateChanged((user) => {
     if (user) {
       // User is signed in, navigate to the chat page
       navigateTo(`/chat/user/${user.uid}`)
