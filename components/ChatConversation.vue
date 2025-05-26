@@ -81,6 +81,7 @@ function trackButtonClick(label: string, link: string) {
 
 
           <div class="chat-bubble" :class="{
+            'bg-accent/20 ': message.data.content.role === 'model',
             'chat-bubble-accent ': message.data.content.role === 'user',
           }">
             <Markdown :markdown="replacedNames(part.text)"

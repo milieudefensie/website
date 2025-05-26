@@ -11,11 +11,36 @@ import {
   signInAnonymously,
   type Auth,
 } from 'firebase/auth'
-import { Firestore, getFirestore } from 'firebase/firestore'
+import {
+  Firestore,
+  getFirestore,
+  onSnapshot,
+  doc,
+  setDoc,
+  serverTimestamp,
+  FieldValue,
+  Timestamp,
+} from 'firebase/firestore'
 import { getFunctions, type Functions } from 'firebase/functions'
 
 import { getAI, GoogleAIBackend, VertexAIBackend } from 'firebase/ai'
 import type { AI } from 'firebase/ai'
+
+export type User = {
+  lastOnline: Timestamp | FieldValue
+  firstName?: string | null
+  email?: string | null
+  phone?: string | null
+  postcode?: {
+    full?: string | null
+    p5?: string | null
+    p4?: string | null
+    p3?: string | null
+    p2?: string | null
+    p1?: string | null
+  }
+  recentAction?: string | null
+}
 
 export const useFirebaseStore = defineStore('firebase', () => {
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -37,6 +62,19 @@ export const useFirebaseStore = defineStore('firebase', () => {
   const googleAI = ref<AI>()
   const db = ref<Firestore>()
   const auth = ref<Auth>()
+  const currentUser = ref<User>()
+
+  async function getUser(userID: string) {
+    const user: User = {
+      lastOnline: serverTimestamp(),
+    }
+    await setDoc(doc(db.value!, 'users', userID), user, { merge: true })
+
+    onSnapshot(doc(db.value!, 'users', userID), (doc) => {
+      console.log('Current data: ', doc.data())
+      currentUser.value = doc.data() as User
+    })
+  }
 
   function mount() {
     app.value = initializeApp(firebaseConfig)
@@ -61,9 +99,10 @@ export const useFirebaseStore = defineStore('firebase', () => {
     vertexAI.value = getAI(app.value, { backend: new VertexAIBackend() })
     googleAI.value = getAI(app.value, { backend: new GoogleAIBackend() })
 
-    onAuthStateChanged(auth.value!, (user) => {
+    onAuthStateChanged(auth.value!, async (user) => {
       if (user) {
         console.log('User signed in', user.uid)
+        await getUser(user.uid)
       } else {
         // User is signed out
         console.log('User is signed out')
@@ -91,5 +130,6 @@ export const useFirebaseStore = defineStore('firebase', () => {
     googleAI,
     db,
     auth,
+    currentUser,
   }
 })

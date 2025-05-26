@@ -117,7 +117,6 @@ onMounted(async () => {
   auth = getAuth();
   signInAnonymously(auth)
     .then(async (user) => {
-      console.log("User signed in:", user.user?.uid);
       // Signed in..
       await getMessageHistory()
 

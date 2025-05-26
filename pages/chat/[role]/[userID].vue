@@ -4,6 +4,9 @@ import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp,
 import { ChatSession, GenerativeModel, SchemaType, type Content, type FunctionCallPart, type FunctionDeclarationsTool, type Part } from 'firebase/vertexai';
 import type { Message, MessageData } from '~/components/ChatConversation.vue';
 import { getGenerativeModel } from "firebase/ai";
+import IconChat from '~icons/mdi/chat';
+import IconCheck from '~icons/mdi/check-bold';
+import { get } from '@vueuse/core';
 
 definePageMeta({
   layout: 'fullscreen',
@@ -71,7 +74,7 @@ const events = await useFetch('/api/getEvents')
 
 const responseInstructions = computed(() => `Je bent een veranderaars voor Milieudefensie in ${woonplaats.value}. Je naam is Sophie. Je praat met Charlie, uit ${woonplaats.value}. Je bent zelf ook nieuw bij Milieudefensie als veranderaar-bot, en je hebt je aangesloten bij de lokale groep die het dichts bij ${woonplaats.value} is (zoek dat op), omdat je je zorgen maakt over de klimaatcrisis. Je wil hen verwelkomen en hoopt dat ze ook actief worden. Je bent hun toegewezen buddy om hen te verwelkomen. Probeer hen te motiveren om een keer bij een (lokaal) evenement aan te sluiten, in de Signal groep te gaan van hun lokale groep en uiteindelijk ook actief te worden in onze beweging als vrijwilliger en aan te sluiten bij acties. Let er op dat ze daar misschien nog niet klaar voor zijn, dus begeleid mensen daar heen. Zorg ervoor dat je eerst mensen een beetje leert kennen en ervoor zorgt dat ze sterke emotie voelen. Gebruik die emotie en bouw op daarop voort.
 
-Charlie heeft net het volgende gedaan: ${actie.value}. Refereer daar aan.
+Charlie heeft net het volgende gedaan: ${firebase.currentUser?.recentAction}. Refereer daar aan.
 
 Dit is een live chat (https://beweging.milieudefensie.nl/chat/) op de website van Milieudefensie die Charlie direct daarna te zien heeft gekregen.
 
@@ -166,7 +169,9 @@ async function getMessageHistory() {
 
   return new Promise<void>((resolve) => {
 
-    const q = query(collection(firebase.db!, "messages"), where("createdBy", "==", userID), orderBy("createdAt", "desc"), limit(20));
+    console.log(userID, 'getting message history')
+
+    const q = query(collection(firebase.db!, "messages"), where("conversationID", "==", userID), orderBy("createdAt", "desc"), limit(20));
 
     let firstLoad = true;
 
@@ -189,6 +194,7 @@ async function getMessageHistory() {
             chatHistory.value.splice(streamingResponseIndex, 1)
           }
 
+          // Add the new message to the chat history
           chatHistory.value.splice(newIndex, 0, message)
 
           // If the new message is the last one, scroll to the bottom
@@ -233,8 +239,33 @@ onBeforeUnmount(() => {
 const chatModel = ref<GenerativeModel>()
 const chat = ref<ChatSession>()
 
+
+const currentUserRef = computed(() => firebase.currentUser);
+
+
+
 onMounted(async () => {
+  firebase.auth!.onAuthStateChanged(async (user) => {
+    if (user && firebase.currentUser) {
+      init()
+    } else {
+      watch(
+        currentUserRef,
+        async (newValue, oldValue) => {
+          // when `source` changes, triggers only once
+          init()
+        },
+        { once: true, deep: true }
+      )
+
+    }
+  })
+})
+
+async function init() {
   await getMessageHistory().then(() => {
+
+
     console.log('Chat history:', chatHistory.value)
 
     chatModel.value = getGenerativeModel(firebase.vertexAI!, {
@@ -247,12 +278,12 @@ onMounted(async () => {
     chat.value = chatModel.value!.startChat({
       history: [...chatHistoryAI.value],
     })
-  })
 
-  chat.value = chatModel.value!.startChat({
-    history: [...chatHistoryAI.value],
+    if (chatHistory.value.length === 0) {
+      send(`Hoi`);
+    }
   })
-})
+}
 
 async function send(message: string) {
 
@@ -272,8 +303,6 @@ async function send(message: string) {
       createdAt: serverTimestamp(),
       createdBy: firebase.auth!.currentUser?.uid,
     };
-
-
 
     await addDoc(collection(firebase.db!, "messages"), currentUserMessageWithMeta);
 
@@ -315,8 +344,6 @@ async function getEmojiForMessage(message: string) {
   // Trim the response text to remove any leading or trailing whitespace
   return responseText.trim()
 }
-
-
 
 async function getResponse(message: string) {
 
@@ -377,15 +404,69 @@ async function getResponse(message: string) {
 
     <!-- CONTENT -->
     <div class="drawer-content flex flex-col h-dvh">
-      <!-- <label for="chat-drawer" class="btn btn-primary drawer-button lg:hidden">
-        Open drawer
-      </label> -->
+
+      <!-- Top menu -->
+      <ChatTopBar v-if="role === 'admin'" />
 
       <div class="flex-1 overflow-y-auto pb-4" ref="chatContainer">
-        <Container>
+        <Container class="space-y-12 pt-12 ">
+
+
+          <div class="flex justify-center">
+            <Logo class="max-md:w-[88px] max-md:h-[35px]" />
+          </div>
+
+          <div>
+
+
+
+            <div class="card shadow bg-accent text-accent-content">
+              <div class="p-[5vh] max-md:p-4 space-y-2">
+
+                <div class="text-xl md:text-4xl font-bold font-display flex items-center gap-2">
+                  <IconCheck />
+                  <span class="text-balance leading-none">Welkom bij Milieudefensie<span v-if="firebase.currentUser">,
+                      {{
+                        firebase.currentUser.firstName
+                      }}</span>!</span>
+                </div>
+                <div class="md:text-xl"><strong>Je bent gekoppelt aan een buddy om je de weg te wijzen.
+                  </strong>Praat met
+                  Sophie, jou digitale
+                  buddy, om meer te leren over Milieudefensie en wat jij kan doen voor het klimaat.</div>
+
+              </div>
+            </div>
+
+            <div class="mt-2 text-neutral/60 text-xs">
+              Sophie kan fouten maken, dus check onze website voor meer informatie. Lees ons <a
+                href="https://milieudefensie.nl/over-ons/cookies-en-privacy" target="_blank"
+                class="underline">privacybeleid</a> en de Gemini <a href="https://ai.google.dev/gemini-api/terms"
+                target="_blank" class="underline">voorwaarden</a>.
+            </div>
+
+          </div>
+
+          <div class="flex items-center gap-2 justify-center font-bold text-xl">
+            <span class="relative flex size-5">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"></span>
+              <span class="relative inline-flex size-5 rounded-full bg-accent"></span>
+            </span>
+            <span>
+              Sophie is online
+            </span>
+          </div>
+
           <ChatConversation :messages="chatHistory" :currentUserName="naam || 'veranderaar'"
             :typingUserNames="typingUserNames" />
+
         </Container>
+      </div>
+
+      <div class="p-2" v-if="role === 'admin' && chatHistory.length > 2">
+        <button class="btn btn-soft btn-accent w-full">
+          <IconChat />Praat verder in Signal
+        </button>
       </div>
 
 
@@ -394,13 +475,11 @@ async function getResponse(message: string) {
     </div>
 
     <!-- SIDEBAR -->
-    <div class="drawer-side" v-if="role === 'admin'">
+    <div class="drawer-side z-2 " v-if="role === 'admin'">
       <label for="chat-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-        <!-- Sidebar content here -->
-        <li><a>Sidebar Item 1</a></li>
-        <li><a>Sidebar Item 2</a></li>
-      </ul>
+      <div class=" bg-white md:border-r-2 md:border-neutral/10  w-85 sm:w-100 min-h-full p-0">
+        <ChatSidebar />
+      </div>
     </div>
   </div>
 </template>
