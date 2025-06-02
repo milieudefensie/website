@@ -49,12 +49,17 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'static',
+    // preset: 'static',
     prerender: {
       // So it does not fail when pages are not found (404)
       failOnError: false,
+      crawlLinks: true,
+      routes: [
+        '/api/getContacts',
+        '/api/getEvents',
+        '/api/getGroups',
+        '/api/getAnalytics',
+      ],
     },
   },
-
-  app: {},
 })
