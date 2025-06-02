@@ -275,7 +275,7 @@ onMounted(() => {
                   ratio
                 </div>
                 <div class="text-lg"> <strong>{{
-                  analytics.data.value?.totalActiveUsers.toLocaleString('nl-NL') }}</strong> website bezoekers
+                  analytics.data.value?.totalActiveUsers?.toLocaleString('nl-NL') }}</strong> website bezoekers
                   afgelopen week</div>
               </div>
 
@@ -293,7 +293,7 @@ onMounted(() => {
                 <div class="text-4xl font-display pb-2">{{ groups.data.value?.length }} groepen</div>
                 <div class="text-lg"> <span class="bg-accent rounded p-1 text-accent-content flex items-center gap-1">
                     <IconChat /> <strong>
-                      {{ analytics.data.value?.joinChatConversions.toLocaleString('nl-NL') }}
+                      {{ analytics.data.value?.joinChatConversions?.toLocaleString('nl-NL') }}
                     </strong> nieuwe groep
                     chat
                     leden
