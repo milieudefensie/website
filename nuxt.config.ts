@@ -49,7 +49,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    // preset: 'static',
+    preset: 'static',
     prerender: {
       // So it does not fail when pages are not found (404)
       failOnError: false,
