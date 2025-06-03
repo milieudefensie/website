@@ -1,29 +1,19 @@
 <script setup lang="ts">
 import IconCall from '~icons/mdi/call';
 import IconChat from '~icons/mdi/chat';
-import IconEdit from '~icons/mdi/edit';
 import IconInfo from '~icons/mdi/info';
 import IconBook from '~icons/mdi/book-open-variant';
 import IconOpenInNew from '~icons/mdi/open-in-new';
 import IconPhoneCancel from '~icons/mdi/phone-cancel';
 import IconWarning from '~icons/mdi/warning';
 import IconLogout from '~icons/mdi/logout';
-
+import type { Contact } from '~/components/ContactList.vue';
 
 definePageMeta({
   layout: 'fullscreen',
 });
 
-
-type Person = {
-  id: number;
-  name: string;
-  notes?: string;
-  phone: string;
-  allowedToCall: boolean; // Optional property to indicate if the person can be called
-};
-
-const people = ref<Person[]>([
+const people = ref<Contact[]>([
   {
     id: 1,
     name: 'Pietje',
@@ -62,7 +52,7 @@ const phoneModal = ref<HTMLDialogElement | null>(null);
 const notesModal = ref<HTMLDialogElement | null>(null);
 const privacyModal = ref<HTMLDialogElement | null>(null);
 
-const currentPerson = ref<Person>({
+const currentPerson = ref<Contact>({
   id: 0,
   name: '',
   notes: '',
@@ -70,23 +60,23 @@ const currentPerson = ref<Person>({
   allowedToCall: false, // Default values
 });
 
-function openChatModal(person: Person) {
+function openChatModal(person: Contact) {
   if (chatModal.value) {
-    currentPerson.value = person;
+    currentPerson.value = { ...person };;
     chatModal.value.showModal();
   }
 }
 
-function openPhoneModal(person: Person) {
+function openPhoneModal(person: Contact) {
   if (phoneModal.value) {
-    currentPerson.value = person;
+    currentPerson.value = { ...person };
     phoneModal.value.showModal();
   }
 }
 
-function openNotesModal(person: Person) {
+function openNotesModal(person: Contact) {
   if (notesModal.value && chatModal.value) {
-    currentPerson.value = person;
+    currentPerson.value = { ...person };;
     chatModal.value.close();
     notesModal.value.showModal();
   }
@@ -120,18 +110,19 @@ onMounted(() => {
         bellen (doe dit liefst binnen 24 uur, uiterlijk binnen twee weken). Stuur daarna een follow-up berichtje via
         Signal of WhatsApp.</p>
 
-      <div role="alert" class="alert">
-        <IconInfo class="text-xl" />
+      <div role="alert" class="bg-white rounded-lg shadow p-4 flex gap-2 max-md:flex-wrap items-center">
         <div>
-          We houden automatisch bij wie je hebt gebeld. Je kan zelf notities toevoegen. Deze zijn in te zien door
-          medewerkers van Milieudefensie en andere organizers van jou lokale groep. Je wordt na een uur automatisch
-          uitgelogd.
-
+          <IconInfo class="text-xl" />
         </div>
-        <button class="btn btn-primary" @click="privacyModal?.showModal()">
+        <div class="flex-grow">
+          We houden automatisch bij wie je hebt gebeld. Je kan zelf notities toevoegen. Deze zijn in te zien door
+          medewerkers van Milieudefensie en andere organizers van jouw lokale groep.
+        </div>
+        <button class=" btn btn-primary" @click="privacyModal?.showModal()">
           <IconBook />
           Handleiding bellen
         </button>
+
       </div>
     </div>
 
@@ -141,36 +132,21 @@ onMounted(() => {
       <h2 class="text-3xl font-bold font-display mb-4">
         Nog niet gebeld ☎️
       </h2>
-      <ul class="list rounded-box shadow-md bg-white">
+      <ContactList :contacts="people" @edit="openNotesModal" @call="openPhoneModal" @message="openChatModal" />
+    </div>
 
-        <li class="list-row flex justify-between items-center" v-for="person in people" :key="person.name">
-          <div>
-            <div class="font-bold">{{ person.name }}</div>
-            <div>{{ person.notes }}</div>
-            <div v-if="!person.allowedToCall" class="text-neutral/70 text-xs italic">Je kan deze persoon niet meer
-              bellen.
-            </div>
-          </div>
+    <div>
+      <h2 class="text-3xl font-bold font-display mb-4">
+        Terugbellen 📆
+      </h2>
+      <ContactList :contacts="people" @edit="openNotesModal" @call="openPhoneModal" @message="openChatModal" />
+    </div>
 
-          <div class="flex gap-2 items-center">
-
-            <button class="btn btn-circle" @click="openNotesModal(person)">
-              <IconEdit />
-            </button>
-            <div>
-              <button class="btn btn-circle btn-accent" @click="openChatModal(person)"
-                :disabled="!person.allowedToCall">
-                <IconChat />
-              </button>
-            </div>
-            <NuxtLink class="btn btn-circle btn-accent" to="tel:+31612345678" @click="openPhoneModal(person)"
-              :disabled="!person.allowedToCall">
-              <IconCall />
-            </NuxtLink>
-
-          </div>
-        </li>
-      </ul>
+    <div>
+      <h2 class="text-3xl font-bold font-display mb-4">
+        Succesvol gebeld ✅
+      </h2>
+      <ContactList :contacts="people" @edit="openNotesModal" @call="openPhoneModal" @message="openChatModal" />
     </div>
 
     <!-- Kies chat app -->
@@ -186,16 +162,16 @@ onMounted(() => {
         </h3>
         <p>Welke chat app wil je gebruiken om deze veranderaar een berichtje te sturen?</p>
         <div class="modal-action">
-          <form method="dialog" class="flex gap-2">
+          <form method="dialog" class="flex gap-2 flex-wrap">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Annuleer</button>
             <NuxtLink class="btn btn-accent" @click="openNotesModal(currentPerson)"
               :to="`https://signal.me/#p/${currentPerson?.phone}`" target="_blank">
-              <IconOpenInNew /> Signal
+              <IconOpenInNew class="max-sm:hidden" /> Signal
             </NuxtLink>
             <NuxtLink class="btn btn-accent" @click="openNotesModal(currentPerson)"
               :to="`https://wa.me/${currentPerson?.phone}`" target="_blank">
-              <IconOpenInNew /> WhatsApp
+              <IconOpenInNew class="max-sm:hidden" /> WhatsApp
             </NuxtLink>
           </form>
         </div>
@@ -280,7 +256,7 @@ onMounted(() => {
 
         </div>
         <div class="modal-action">
-          <form method="dialog" class="flex gap-2">
+          <form method="dialog" class="flex gap-2 flex-wrap">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Annuleer</button>
             <button class="btn btn-accent">Bewaar notities</button>
@@ -292,14 +268,15 @@ onMounted(() => {
 
     <!-- Privacy -->
     <dialog class="modal" ref="privacyModal">
-      <div class="modal-box space-y-6 prose">
+      <div class="modal-box space-y-6 prose max-sm:w-full max-sm:rounded-none">
         <h3 class="text-xl font-bold">
           Handleiding bellen
         </h3>
         <h4>Privacy van veranderaars</h4>
         <p>Om de privacy van veranderaars te beschermen doen we het volgende:</p>
         <ul>
-          <li>Je moet een vrijwilligerscontract tekenen om toegang te krijgen tot contactgegevens van veranderaars.</li>
+          <li>Je moet een vrijwilligerscontract tekenen om toegang te krijgen tot contactgegevens van veranderaars.
+          </li>
           <li>We houden bij wie je belt en berichtjes stuurt.</li>
           <li>Telefoonnummers van veranderaars blijven maximaal twee weken na aanmelding zichtbaar.</li>
           <li>Je mag maximaal 20 veranderaars bellen per week, en maximaal 1 per minuut.</li>
@@ -317,59 +294,11 @@ onMounted(() => {
           eius esse iste nemo reprehenderit vitae accusantium, magnam facere molestias expedita pariatur quasi?</p>
         <div class="modal-action">
           <form method="dialog" class="flex gap-2">
-            <button class="btn btn-primary">Ik heb de handleiding gelezen & ga akkoord</button>
+            <button class="btn btn-primary max-sm:btn-sm">Ik heb de handleiding gelezen & ga akkoord</button>
           </form>
         </div>
       </div>
     </dialog>
-
-
-
-    <div>
-      <h2 class="text-3xl font-bold font-display mb-4">
-        Terugbellen 📆
-      </h2>
-      <ul class="list rounded-box shadow-md bg-white">
-
-        <li class="list-row flex justify-between items-center" v-for="person in people" :key="person.name">
-          <div class="font-bold">{{ person.name }}</div>
-          <div class="flex gap-2">
-            <button class="btn btn-circle">
-              <IconEdit />
-            </button>
-            <button class="btn btn-circle btn-accent">
-              <IconChat />
-            </button>
-            <button class="btn btn-circle btn-accent">
-              <IconCall />
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-    <div>
-      <h2 class="text-3xl font-bold font-display mb-4">
-        Succesvol gebeld ✅
-      </h2>
-      <ul class="list rounded-box shadow-md bg-white">
-
-        <li class="list-row flex justify-between items-center" v-for="person in people" :key="person.name">
-          <div class="font-bold">{{ person.name }}</div>
-          <div class="flex gap-2">
-            <button class="btn btn-circle">
-              <IconEdit />
-            </button>
-            <button class="btn btn-circle btn-accent">
-              <IconChat />
-            </button>
-            <button class="btn btn-circle btn-accent">
-              <IconCall />
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
 
   </Container>
 
