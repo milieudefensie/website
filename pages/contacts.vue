@@ -164,12 +164,12 @@ onMounted(() => {
         <div class="modal-action">
           <form method="dialog" class="flex gap-2 flex-wrap">
             <!-- if there is a button in form, it will close the modal -->
-            <button class="btn">Annuleer</button>
-            <NuxtLink class="btn btn-accent" @click="openNotesModal(currentPerson)"
+            <button class="btn sm:btn-sm">Annuleer</button>
+            <NuxtLink class="btn btn-accent sm:btn-sm" @click="openNotesModal(currentPerson)"
               :to="`https://signal.me/#p/${currentPerson?.phone}`" target="_blank">
               <IconOpenInNew class="max-sm:hidden" /> Signal
             </NuxtLink>
-            <NuxtLink class="btn btn-accent" @click="openNotesModal(currentPerson)"
+            <NuxtLink class="btn btn-accent sm:btn-sm" @click="openNotesModal(currentPerson)"
               :to="`https://wa.me/${currentPerson?.phone}`" target="_blank">
               <IconOpenInNew class="max-sm:hidden" /> WhatsApp
             </NuxtLink>
@@ -219,6 +219,7 @@ onMounted(() => {
           </li>
         </ul>
         <input type="text" placeholder="Notities" class="input w-full" v-model="currentPerson.notes" />
+
         <div class="modal-action">
           <form method="dialog" class="flex gap-2">
             <!-- if there is a button in form, it will close the modal -->
@@ -238,7 +239,8 @@ onMounted(() => {
           </span>
         </h3>
 
-        <input type="text" placeholder="Notities" class="input w-full" v-model="currentPerson.notes" />
+        <!-- <input type="text" placeholder="Notities" class="input w-full" v-model="currentPerson.notes" /> -->
+        <SimpleTextEditor placeholder="Notities..." />
 
         <div class="text-xs text-neutral/70 border-1 border-neutral/10 p-4 rounded">
 
@@ -280,7 +282,6 @@ onMounted(() => {
           <li>We houden bij wie je belt en berichtjes stuurt.</li>
           <li>Telefoonnummers van veranderaars blijven maximaal twee weken na aanmelding zichtbaar.</li>
           <li>Je mag maximaal 20 veranderaars bellen per week, en maximaal 1 per minuut.</li>
-          <li>Je wordt automatisch uitgelogd na 30 minuten inactiviteit.</li>
           <li>Je krijgt alleen veranderaars te zien die in de buurt van jou lokale groep wonen.</li>
           <li>Je kan zelf notities toevoegen. Deze zijn in te zien door medewerkers van Milieudefensie en andere
             organizers van jou lokale groep (niet door de veranderaar).</li>
