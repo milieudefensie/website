@@ -457,7 +457,7 @@ async function getResponse(message: string) {
             </span>
           </div>
 
-          <ChatConversation :messages="chatHistory" :currentUserName="naam || 'veranderaar'"
+          <ChatConversation :messages="chatHistory" :currentUserName="firebase.currentUser?.firstName || 'veranderaar'"
             :typingUserNames="typingUserNames" />
 
         </Container>

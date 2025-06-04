@@ -1,9 +1,5 @@
 # Milieudefensie campaign website
 
-// "overrides": {
-    //   "chokidar": "^3.6.0"
-    // }
-
 This repository contains the source code for experiments of the Milieudefensie campaign website.
 
 ### Setup
