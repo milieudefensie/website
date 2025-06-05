@@ -1,3 +1,6 @@
+<!-- 
+Docs: https://docs-4gf.pages.dev/strategy/dashboard 
+-->
 <script lang="ts" setup>
 import IconAccountGroup from '~icons/mdi/account-group'
 import IconCalendar from '~icons/mdi/calendar'

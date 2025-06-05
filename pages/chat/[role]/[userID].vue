@@ -1,3 +1,7 @@
+<!--
+Docs: https://docs-4gf.pages.dev/strategy/pages/chat
+-->
+
 <script setup lang="ts">
 import { logEvent } from 'firebase/analytics';
 import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
@@ -457,7 +461,7 @@ async function getResponse(message: string) {
             </span>
           </div>
 
-          <ChatConversation :messages="chatHistory" :currentUserName="naam || 'veranderaar'"
+          <ChatConversation :messages="chatHistory" :currentUserName="firebase.currentUser?.firstName || 'veranderaar'"
             :typingUserNames="typingUserNames" />
 
         </Container>

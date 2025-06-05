@@ -1,3 +1,7 @@
+<!--
+Docs: https://docs-4gf.pages.dev/strategy/pages/chat
+-->
+
 <script setup lang="ts">
 import { set } from '@vueuse/core';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
