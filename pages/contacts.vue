@@ -1,3 +1,7 @@
+<!-- 
+ Docs: https://docs-4gf.pages.dev/pages/contacts
+-->
+
 <script setup lang="ts">
 import IconCall from '~icons/mdi/call';
 import IconChat from '~icons/mdi/chat';

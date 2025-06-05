@@ -1,5 +1,5 @@
 <!-- 
- Docs: https://docs-4gf.pages.dev/strategy/local-groups
+ Docs: https://docs-4gf.pages.dev/pages/local-groups
 -->
 <template>
 

@@ -1,5 +1,5 @@
 <!--
-Docs: https://docs-4gf.pages.dev/strategy/pages/chat
+Docs: https://docs-4gf.pages.dev/pages/chat
 -->
 
 <script setup lang="ts">

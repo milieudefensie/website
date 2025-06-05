@@ -1,5 +1,5 @@
 <!-- 
-Docs: https://docs-4gf.pages.dev/strategy/home
+Docs: https://docs-4gf.pages.dev/pages/home
 -->
 <template>
   Home
