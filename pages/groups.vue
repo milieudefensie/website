@@ -1,3 +1,6 @@
+<!-- 
+ Docs: https://docs-4gf.pages.dev/strategy/local-groups
+-->
 <template>
 
 

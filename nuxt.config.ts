@@ -1,21 +1,36 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// Nuxt config docs: https://nuxt.com/docs/api/configuration/nuxt-config
 
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
 
+  // Server side rendering:
+  // - https://nuxt.com/docs/getting-started/deployment#static-hosting
+  // - https://nuxt.com/docs/getting-started/prerendering
   ssr: true,
 
   modules: [
+    // Docs: https://image.nuxt.com/
     '@nuxt/image',
+
+    // Docs: https://github.com/unplugin/unplugin-icons
     ['unplugin-icons/nuxt', { scale: 1.5 }],
+
+    // Docs: https://scripts.nuxt.com/
     '@nuxt/scripts',
-    // FIX NEEDED: [error] [ nuxi ] Nuxt Build Error: [vite]: Rollup failed to resolve import "unenv/runtime/mock/noop" from "/opt/buildhome/repo/node_modules/.pnpm/@nuxt+scripts@0.10.5_@types+youtube@0.1.0_@unhead+vue@1.11.20_typescript@5.8.2/node_modules/@nuxt/scripts/dist/runtime/validation/mock.js"
+
+    // Docs: https://pinia.vuejs.org/ssr/nuxt.html
     '@pinia/nuxt',
+
+    // Docs: https://storybook.nuxtjs.org/
     '@nuxtjs/storybook',
-    '@nuxt/scripts',
+
+    // Docs: https://i18n.nuxtjs.org/
+    '@nuxtjs/i18n',
   ],
+
+  // Docs: https://devtools.nuxt.com/
   devtools: { enabled: true },
 
   vite: {
@@ -24,13 +39,14 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // Environment variables (overwrite the below values using an .env file, see .example.env)
   runtimeConfig: {
-    // can be overridden by NUXT_.... environment variable
+    // These secret environment variables can be overridden by NUXT_XYZ... in .env file
     hubspotSecret: '',
     datoSecret: '',
     cslSecret: '',
 
-    // Can be overridden by NUXT_PUBLIC_.....
+    // These public be overridden by NUXT_PUBLIC_XYZ... in .env file
     public: {
       organisationName: 'Campaign Website',
       organisationSlogan: 'This is an awesome website',
@@ -45,6 +61,7 @@ export default defineNuxtConfig({
   },
 
   experimental: {
+    // Docs: https://nuxt.com/docs/api/components/nuxt-island
     componentIslands: true,
   },
 
@@ -53,6 +70,8 @@ export default defineNuxtConfig({
     prerender: {
       // So it does not fail when pages are not found (404)
       failOnError: false,
+
+      // Docs: https://nuxt.com/docs/getting-started/prerendering#crawl-based-pre-rendering
       crawlLinks: true,
       routes: [
         '/api/getContacts',
@@ -60,9 +79,6 @@ export default defineNuxtConfig({
         '/api/getGroups',
         '/api/getAnalytics',
       ],
-    },
-    $test: {
-      preset: 'static',
     },
   },
 })
