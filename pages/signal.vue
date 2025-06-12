@@ -1,18 +1,7 @@
-<!-- 
- Docs: https://docs-4gf.pages.dev/pages/events
--->
-
-<script lang="ts" setup>
-
+<script setup lang="ts">
 import type { ContentItem } from '~/components/ContentBuilder.vue';
 
 const content = ref<ContentItem[]>([
-  {
-    type: "ContentVideo",
-    props: {
-      youtubeURL: 'https://www.youtube.com/watch?v=M8LZlnJHzXQ',
-    },
-  },
 
   {
     type: "ContentCardCollection",
@@ -20,68 +9,75 @@ const content = ref<ContentItem[]>([
       noColumns: false,
       carousel: false,
       cards: [{
-        title: 'Milieudefensie Utrecht',
-        subtitle: 'Lokale organizer: Angela',
-        content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
+        title: 'Ontvang updates via Signal',
+        subtitle: 'Milieudefensie Utrecht',
+        content: 'Blijf op de hoogte van Milieudefensie en ontvang nieuws van Angela, de lokale organizer van Milieudefensie Utrecht.',
         variant: 'shadow',
         reverse: false,
         images: [{
-          src: '/fabriek.jpeg',
-          alt: 'Fabriek'
-        }, {
-          src: 'campagnedag-1.jpg',
-          alt: 'Fabriek'
-        }, {
-          src: 'campagnedag-2.jpg',
+          src: '/qr.svg',
           alt: 'Fabriek'
         }],
         buttons: {
           size: 'lg',
           buttons: [{
-            label: 'Bekijk de groep',
+            label: '💬 Open de Signal groep',
             link: '/test',
-            color: 'secondary',
+            color: 'primary',
             style: 'default',
-            width: 'default'
+            width: 'default',
           },
-            // {
-            //   label: 'Ga in Signal groep',
-            //   link: '/test',
-            //   color: 'secondary',
-            //   style: 'outline',
-            //   width: 'default'
-            // }
-          ]
-        },
-        list: {
-          color: 'secondary',
-          items: [
-            {
-              title: 'Morgen 20:00',
-              subtitle: 'Utrecht',
-              description: 'Picknick',
-              type: 'event',
-              link: '/'
-            },
-            {
-              title: 'Woe, 12 maart 20:00',
-              subtitle: 'Utrecht',
-              description: 'Actie bij Albert Heijn',
-              type: 'event',
-              link: '/'
-            },
-            {
-              title: 'Woe, 12 maart 20:00',
-              subtitle: 'Utrecht',
-              description: 'Borrel',
-              type: 'event',
-              link: '/'
-            },
+          {
+            label: '👉 Ik woon niet in Utrecht',
+            link: '/test',
+            color: 'primary',
+            style: 'soft',
+            width: 'default',
+          },
           ]
         },
       },]
     }
   },
+
+  {
+    type: "ContentAccordion",
+    props: {
+      items: [
+        {
+          title: "Hoe werkt Signal?",
+          content: `
+            <p>Signal werkt net als WhatsApp, maar dan veiliger. Klik op de knop of scan de QR code met je telefoon om de Signal groep te openen.</p>
+          `
+        },
+        {
+          title: "Wat is het verschil met WhatsApp?",
+          content: `
+            <p>Signal is een chatapp vergelijkbaar met WhatsApp, maar dan veel veiliger. WhatsApp deelt en verkoop jouw gegevens, zoals wanneer je met wie en waar communiceert. Signal bewaart alleen je telefoonnummer en wanneer je de app voor het laatst hebt gebruikt. Daardoor is het een stuk beter voor jouw privacy.</p>
+            <p>Daarnaast is Signal een onafhankelijke non-profitorganisatie. Dit past goed bij Milieudefensie, omdat wij graag zoveel mogelijk gebruik maken van Open Source software en transparante, eerlijke diensten.</p>
+            <p>We hopen het goede voorbeeld te geven, zodat steeds meer mensen in Nederland Signal gaan gebruiken in plaats van WhatsApp. Doe jij ook mee?</p>
+          `
+        }
+      ]
+    }
+  },
+
+  {
+    type: "ContentVideo",
+    props: {
+      youtubeURL: 'https://www.youtube.com/watch?v=5RfUQOniGy4',
+    },
+  },
+
+  {
+    type: "ContentProse",
+    props: {
+      content: `
+      <h2>Alle Signal groepen</h2>
+      `
+    }
+  },
+
   {
     type: "ContentMap",
     props: {
@@ -267,104 +263,15 @@ const content = ref<ContentItem[]>([
     }
   },
 
-  {
-    type: "ContentProse",
-    props: {
-      content: `
-      <h2>Wat kan ik doen?</h2>
-      <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
-      <h2>Blijf op de hoogte via Signal</h2>
-      <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
-      `
-    }
-  },
 
-  {
-    type: "ContentProse",
-    props: {
-      content: `
-      <h2>Alle lokale groepen</h2>
-      `
-    }
-  },
-
-  {
-    type: "ContentCardCollection",
-    props: {
-      noColumns: false,
-      carousel: false,
-      cards: [
-        {
-          title: 'Milieudefensie Amersfoort',
-          variant: 'shadow',
-          reverse: false,
-          images: [{
-            src: 'https://picsum.photos/801',
-            alt: 'Fabriek'
-          },
-          {
-            src: 'https://picsum.photos/802',
-            alt: 'Fabriek'
-          }],
-          buttons: {
-            buttons: [{
-              label: 'Bekijk groep',
-              link: '/test',
-              color: 'secondary',
-              style: 'default',
-              width: 'default'
-            }]
-          },
-
-        },
-        {
-          title: 'Milieudefensie Amsterdam',
-          variant: 'shadow',
-          reverse: false,
-          images: [{
-            src: 'https://picsum.photos/803',
-            alt: 'Fabriek'
-          },
-          {
-            src: 'https://picsum.photos/804',
-            alt: 'Fabriek'
-          }],
-          buttons: {
-            buttons: [{
-              label: 'Bekijk groep',
-              link: '/test',
-              color: 'secondary',
-              style: 'default',
-              width: 'default'
-            }]
-          },
-
-        },
-
-      ]
-    }
-  },
 
 ]
 )
-
-
-
-
 </script>
 <template>
-
-  <Navigation color="secondary" />
-  <div>
-    <div class="bg-secondary text-secondary-content pt-[4vh] pb-[20vh] px-4 text-center mx-auto space-y-2">
-      <h1 class="text-5xl sm:text-7xl md:text-8xl font-display">Onze beweging</h1>
-      <p class="text-xl text-balance">Sluit je aan bij een lokale groep bij jou in de buurt. Samen staan we sterker!</p>
-    </div>
-    <div class="-mt-[16vh]">
-      <ContentBuilder :content="content" />
-    </div>
-
-  </div>
-
-
+  <Navigation color="primary" />
+  <ContentHeroSimple title="Blijf op de hoogte"
+    description="Maak jij je ook zorgen over het klimaat? Blijf op de hoogte van Milieudefensie via een van onze Signal groepen."
+    color="primary" />
+  <ContentBuilder :content="content" />
 </template>

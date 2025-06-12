@@ -5,7 +5,7 @@ Docs: https://docs-4gf.pages.dev/pages/chat
 <script setup lang="ts">
 import { set } from '@vueuse/core';
 import { doc, increment, serverTimestamp, setDoc } from 'firebase/firestore';
-import { Counter } from '@/stores/counter'; // Adjust the path as needed
+// import { Counter } from '@/stores/counter'; // Adjust the path as needed
 
 
 definePageMeta({
@@ -89,9 +89,9 @@ async function updateCounter() {
   const docRef = doc(firebase.db!, 'app/analytics');
 
   // Create a counter for the 'count' field in the document
-  const counter = new Counter(docRef, 'conversationsStarted');
+  // const counter = new Counter(docRef, 'conversationsStarted');
 
-  await counter.incrementBy(1);
+  // await counter.incrementBy(1);
 
 }
 

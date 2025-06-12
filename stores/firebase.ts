@@ -115,6 +115,16 @@ export const useFirebaseStore = defineStore('firebase', () => {
           .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
+            console.error(
+              'Error signing in anonymously',
+              errorCode,
+              errorMessage
+            )
+
+            showError({
+              statusCode: 403,
+              statusMessage: 'Forbidden',
+            })
             // ...
           })
       }
