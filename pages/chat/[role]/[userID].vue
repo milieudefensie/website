@@ -4,7 +4,7 @@ Docs: https://docs-4gf.pages.dev/pages/chat
 
 <script setup lang="ts">
 import { logEvent } from 'firebase/analytics';
-import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, doc, increment, limit, onSnapshot, orderBy, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { ChatSession, GenerativeModel, SchemaType, type Content, type FunctionCallPart, type FunctionDeclarationsTool, type Part } from 'firebase/vertexai';
 import type { Message, MessageData } from '~/components/ChatConversation.vue';
 import { getGenerativeModel } from "firebase/ai";
@@ -76,7 +76,7 @@ const actie = ref('Petitie grote vervuilers getekend');
 const groups = await useFetch('/api/getGroups')
 const events = await useFetch('/api/getEvents')
 
-const responseInstructions = computed(() => `Je bent een veranderaars voor Milieudefensie in ${woonplaats.value}. Je naam is Sophie. Je praat met Charlie, uit ${woonplaats.value}. Je bent zelf ook nieuw bij Milieudefensie als veranderaar-bot, en je hebt je aangesloten bij de lokale groep die het dichts bij ${woonplaats.value} is (zoek dat op), omdat je je zorgen maakt over de klimaatcrisis. Je wil hen verwelkomen en hoopt dat ze ook actief worden. Je bent hun toegewezen buddy om hen te verwelkomen. Probeer hen te motiveren om een keer bij een (lokaal) evenement aan te sluiten, in de Signal groep te gaan van hun lokale groep en uiteindelijk ook actief te worden in onze beweging als vrijwilliger en aan te sluiten bij acties. Let er op dat ze daar misschien nog niet klaar voor zijn, dus begeleid mensen daar heen. Zorg ervoor dat je eerst mensen een beetje leert kennen en ervoor zorgt dat ze sterke emotie voelen. Gebruik die emotie en bouw op daarop voort.
+const responseInstructions = computed(() => `Je bent een veranderaars voor Milieudefensie in ${woonplaats.value}. Je naam is Sophie. Je praat met Charlie, uit ${woonplaats.value}. Je bent zelf ook nieuw bij Milieudefensie als veranderaar-bot, en je maakt je zorgen over de klimaatcrisis. Je wil hen verwelkomen en hoopt dat ze ook actief worden. Je bent hun toegewezen buddy om hen te verwelkomen. Probeer hen te motiveren om een keer bij een (lokaal) evenement aan te sluiten, in de Signal groep te gaan van de lokale groep bij hen in de buurt (zoek dat op) en uiteindelijk ook actief te worden in onze beweging als vrijwilliger en aan te sluiten bij acties. Let er op dat ze daar misschien nog niet klaar voor zijn, dus begeleid mensen daar heen. Zorg ervoor dat je eerst mensen een beetje leert kennen en ervoor zorgt dat ze sterke emotie voelen. Gebruik die emotie en bouw op daarop voort.
 
 Charlie heeft net het volgende gedaan: ${firebase.currentUser?.recentAction}. Refereer daar aan.
 
@@ -94,7 +94,7 @@ Als bot (verwijs naar jezelf als een "digitale veranderaar") ben je natuurlijk n
 
 Als je gevraagd wordt of AI niet veel stroom gebruikt, dan kan je zeggen dat dat klopt, maar dat het ook een hele goede manier is om mensen te helpen om in actie te komen (samen staan we sterker en kunnen we grote vervuilende bedrijven aanpakken)
 
-Milieudefensie vind het belangrijk om niet alleen individuen de verantwoordelijkheid te geven voor de klimaatcrisis, maar vooral ook grote vervuilende bedrijven.
+Milieudefensie vindt het belangrijk om niet alleen individuen de verantwoordelijkheid te geven voor de klimaatcrisis, maar vooral ook grote vervuilende bedrijven.
 
 Stuur heel korte berichtjes, max twee-drie zinnen, en gebruik emoji. Als je het antwoord niet weet, stuur mensen dan door naar deze pagina’s:
 - Agenda: https://veranderaars.milieudefensie.nl/agenda/
@@ -246,8 +246,6 @@ const chat = ref<ChatSession>()
 
 const currentUserRef = computed(() => firebase.currentUser);
 
-
-
 onMounted(async () => {
   firebase.auth!.onAuthStateChanged(async (user) => {
     if (user && firebase.currentUser) {
@@ -309,6 +307,13 @@ async function send(message: string) {
     };
 
     await addDoc(collection(firebase.db!, "messages"), currentUserMessageWithMeta);
+
+    const userRef = doc(firebase.db!, "users", firebase.auth!.currentUser?.uid || '');
+
+    // Atomically increment the population of the city by 50.
+    await updateDoc(userRef, {
+      messagesSent: increment(1)
+    });
 
     scrollToBottom('smooth');
 
@@ -475,7 +480,13 @@ async function getResponse(message: string) {
 
 
 
-      <ChatInput class="mt-auto" @send="send($event)" />
+
+      <ChatInput class="mt-auto" @send="send($event)"
+        v-if="!firebase.currentUser?.messagesSent || firebase.currentUser.messagesSent as number < 50" />
+
+      <div v-else class="bg-white p-4 text-center">
+        Je kan op dit moment niet chatten. Heb je nog vragen? Neem contact via doemee@milieudefensie.nl
+      </div>
     </div>
 
     <!-- SIDEBAR -->

@@ -32,12 +32,48 @@ export default defineNuxtConfig({
 
   // Docs: https://devtools.nuxt.com/
   devtools: { enabled: true },
+  devServer: {
+    cors: {
+      origin: '*',
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
   },
 
   css: ['~/assets/css/main.css'],
+
+  i18n: {
+    defaultLocale: 'nl',
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+        // file: 'en.json'
+      },
+      {
+        code: 'nl',
+        name: 'Nederlands',
+        // file: 'nl.json'
+      },
+    ],
+    customRoutes: 'config',
+    pages: {
+      events: {
+        en: '/events',
+        nl: '/agenda',
+      },
+      groups: {
+        en: '/groups',
+        nl: '/groepen',
+      },
+      movement: {
+        en: '/movement',
+        nl: '/beweging',
+      },
+    },
+  },
 
   // Environment variables (overwrite the below values using an .env file, see .example.env)
   runtimeConfig: {
@@ -51,6 +87,8 @@ export default defineNuxtConfig({
       organisationName: 'Campaign Website',
       organisationSlogan: 'This is an awesome website',
       mapboxApi: '',
+
+      directusServer: 'http://localhost:8055', // Change to your Directus server URL
 
       // Default: focus on NL
       mapCenterLng: '5.3878',

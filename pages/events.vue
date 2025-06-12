@@ -92,7 +92,7 @@ const content = ref<ContentItem[]>([
           subtitle: 'Online',
           content: 'Iedere woensdagavond 20:00 verwelkomen wij nieuwe veranderaars. Denk jij erover om je aan te sluiten bij Milieudefensie? Sluit aan bij onze online intro-avond en leer wat jij kan doen.',
           variant: 'shadow',
-          reverse: false,
+          reverse: true,
           images: [{
             src: '/fabriek.jpeg',
             alt: 'Fabriek'
@@ -903,10 +903,12 @@ const content = ref<ContentItem[]>([
 </script>
 <template>
 
+  <Navigation color="accent" />
+
   <div>
-    <div class="bg-accent text-accent-content pt-[8vh] pb-[20vh] px-4 text-center mx-auto ">
-      <h1 class="text-4xl md:text-6xl lg:text-8xl font-display">Evenementen</h1>
-      <p class="text-xl">Aankomende trainingen,
+    <div class="bg-accent text-accent-content pt-[4vh] pb-[20vh] px-4 text-center mx-auto space-y-2">
+      <h1 class="text-5xl sm:text-7xl md:text-8xl font-display ">Evenementen</h1>
+      <p class="text-xl text-balance">Aankomende trainingen,
         acties,
         meetups en gezellige bijeenkomsten</p>
     </div>

@@ -49,7 +49,15 @@
             color: 'secondary',
             style: 'default',
             width: 'default'
-          }]
+          },
+            // {
+            //   label: 'Ga in Signal groep',
+            //   link: '/test',
+            //   color: 'secondary',
+            //   style: 'outline',
+            //   width: 'default'
+            // }
+          ]
         },
         list: {
           color: 'secondary',
@@ -122,6 +130,9 @@ const content = ref<ContentItem[]>([
     props: {
       content: `
       <h2>Wat kan ik doen?</h2>
+      <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
+      <p>VIDEO</p>
+      <h2>Blijf op de hoogte via Signal</h2>
       <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
       `
     }
