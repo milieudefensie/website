@@ -431,7 +431,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Code oranje: Grote vervuiler ING',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Zaterdag 20:00',
+          label: '18 februari',
           badges: ['🎤  Milieudefensie on Tour'],
           variant: 'shadow',
           reverse: false,
@@ -440,6 +441,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -474,14 +476,17 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          content: "17 maart 20:00",
+          // content: "17 maart 20:00",
           variant: 'shadow',
+          boldLabel: 'Morgen 20:00',
+          label: '17 maart',
           reverse: false,
           images: [{
             src: '/campagnedag-1.jpg',
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -496,7 +501,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -504,6 +510,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -518,7 +525,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Welkom bij Milieudefensie',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Donderdag 20:00',
+          label: '20 maart',
           badges: ['👋 Intro avond'],
           variant: 'shadow',
           reverse: false,
@@ -527,6 +535,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -562,7 +571,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Donderdag 20:00',
+          label: '20 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -570,6 +580,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -603,9 +614,11 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          badges: ['👋 Intro avond'],
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -613,6 +626,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -627,7 +641,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -635,6 +650,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -672,7 +688,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -680,6 +697,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -694,7 +712,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -702,6 +721,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -716,7 +736,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Welkom bij Milieudefensie',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           badges: ['👋 Intro avond'],
           variant: 'shadow',
           reverse: false,
@@ -725,6 +746,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -740,7 +762,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -748,6 +771,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -763,7 +787,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -771,6 +796,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -786,7 +812,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -794,6 +821,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -829,7 +857,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Zaterdag 20:00',
+          label: '18 februari',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -837,6 +866,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',
@@ -871,7 +901,8 @@ const content = ref<ContentItem[]>([
         {
           title: 'Lorem ipsum',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Zondag 13:00',
+          label: '1 april',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -879,6 +910,7 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
               link: '/test',

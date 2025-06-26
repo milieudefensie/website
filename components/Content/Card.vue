@@ -53,6 +53,8 @@ export interface CardProps {
   video?: CardVideo;
   title: string;
   subtitle?: string;
+  boldLabel?: string;
+  label?: string;
   content?: string;
   badges?: string[];
   buttons?: ButtonProps;
@@ -113,15 +115,25 @@ const rerender = ref(false);
 
         <div class="space-y-2">
 
+          <div class="text-secondary text-lg @md/cards:text-xl font-stretch-extra-condensed mb-2"
+            v-if="props.boldLabel || props.label">
+
+            <span class="font-bold">{{ props.boldLabel }}</span>
+            <span v-if="props.boldLabel && props.label"> - </span>
+            <span class="">{{ props.label }}</span>
+          </div>
+
           <!-- Badges -->
           <div v-if="props.badges" class="flex gap-2">
-            <span class="badge badge-secondary badge-lg font-bold" v-for="(badge, index) in props.badges" :key="index">
+            <span class="badge badge-secondary badge-sm @md/cards:badge-lg @lg/cards:badge-xl font-bold"
+              v-for="(badge, index) in props.badges" :key="index">
               {{ badge }}
             </span>
           </div>
 
           <!-- Title -->
-          <h2 class="card-title font-display text-3xl " v-if="props.title">
+          <h2 class="card-title font-display text-2xl/6 @md/cards:text-3xl/8 @xl/cards:text-4xl/8 mb-2"
+            v-if="props.title">
             {{ props.title }}
           </h2>
 
@@ -142,7 +154,11 @@ const rerender = ref(false);
 
 
         <!-- Buttons -->
-        <Buttons v-if="props.buttons" v-bind="props.buttons" />
+        <div>
+
+          <Buttons v-if="props.buttons" v-bind="props.buttons" />
+        </div>
+
 
       </div>
 
