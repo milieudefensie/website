@@ -64,6 +64,7 @@ export const useFirebaseStore = defineStore('firebase', () => {
   const googleAI = ref<AI>()
   const db = ref<Firestore>()
   const auth = ref<Auth>()
+  const authError = ref<boolean>()
   const currentUser = ref<User>()
 
   async function getUser(userID: string) {
@@ -121,10 +122,11 @@ export const useFirebaseStore = defineStore('firebase', () => {
               errorMessage
             )
 
-            showError({
-              statusCode: 403,
-              statusMessage: 'Forbidden',
-            })
+            authError.value = true
+            // showError({
+            //   statusCode: 403,
+            //   statusMessage: 'Forbidden',
+            // })
             // ...
           })
       }
@@ -141,6 +143,7 @@ export const useFirebaseStore = defineStore('firebase', () => {
     googleAI,
     db,
     auth,
+    authError,
     currentUser,
   }
 })
