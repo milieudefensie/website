@@ -89,9 +89,9 @@ const rerender = ref(false);
 
 </script>
 <template>
-  <article class="card grid overflow-hidden " :class="{
-    'cursor-pointer': singleLink,
-    'bg-white shadow-sm': props.variant === 'shadow',
+  <article class="card grid overflow-hidden shadow-transition" :class="{
+    'cursor-pointer hover:shadow-2xl ': singleLink,
+    'bg-white shadow-md': props.variant === 'shadow',
     'border-2 border-neutral/10': props.variant === 'border',
   }" :style="`view-transition-name: card-${props.id}`">
 
@@ -120,9 +120,9 @@ const rerender = ref(false);
       <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between"
         @click="singleLink ? $router.push(singleLink) : null">
 
-        <div class="space-y-2">
+        <div class="space-y-2 lg:space-y-4">
 
-          <div class="@4xl:flex items-center flex-wrap gap-x-4 gap-y-2">
+          <div class="@4xl:flex items-center justify-between flex-wrap gap-x-4 gap-y-2">
 
             <div
               class="text-secondary text-lg @md/cards:text-xl @4xl:text-2xl @6xl:text-3xl font-stretch-extra-condensed @max-4xl:mb-2"
@@ -146,15 +146,16 @@ const rerender = ref(false);
 
 
           <!-- Title -->
-          <h2 class="card-title font-display text-2xl/6 @md/cards:text-3xl/8 @xl/cards:text-4xl/8 @6xl:text-7xl/16 mb-2"
+          <h2
+            class="card-title font-display text-2xl/6 @md/cards:text-3xl/8 @xl/cards:text-4xl/8 @6xl:text-6xl/14 text-balance"
             v-if="props.title" :style="`view-transition-name: card-title-${props.id}`">
             {{ props.title }}
           </h2>
 
           <!-- Subtitle -->
-          <div class="@6xl:text-2xl flex flex-wrap  gap-2 items-center" v-if="props.subtitle"
+          <div class="@6xl:text-lg flex flex-wrap  gap-2 items-center" v-if="props.subtitle"
             :style="`view-transition-name: card-subtitle-${props.id}`">
-            <div class=" font-semibold uppercase opacity-60">
+            <div class=" font-semibold uppercase opacity-60 font-stretch-condensed">
               {{
                 props.subtitle }}</div>
             <div v-for="badge in secondaryBadges"
@@ -193,3 +194,8 @@ const rerender = ref(false);
 
 
 </template>
+<style scoped>
+.shadow-transition {
+  transition: box-shadow .2s ease-in-out;
+}
+</style>

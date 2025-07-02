@@ -64,7 +64,7 @@ const content = ref<ContentItem[]>([
           subtitle: 'Tivoli, Utrecht',
           boldLabel: 'Zondag 13:00',
           badges: ['Milieudefensie on Tour'],
-          secondaryBadges: ['Georganiseerd door lokale groep'],
+          secondaryBadges: ['Lokale groep'],
           label: '1 april',
           variant: 'shadow',
           reverse: false,
