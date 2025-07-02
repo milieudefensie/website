@@ -20,6 +20,7 @@ const content = ref<ContentItem[]>([
       noColumns: false,
       carousel: false,
       cards: [{
+        id: '1',
         title: 'Milieudefensie Utrecht',
         subtitle: 'Lokale organizer: Angela',
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
@@ -295,6 +296,7 @@ const content = ref<ContentItem[]>([
       carousel: false,
       cards: [
         {
+          id: '2',
           title: 'Milieudefensie Amersfoort',
           variant: 'shadow',
           reverse: false,
@@ -318,6 +320,7 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: '3',
           title: 'Milieudefensie Amsterdam',
           variant: 'shadow',
           reverse: false,

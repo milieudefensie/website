@@ -28,6 +28,7 @@
 
 
       <ContentCardCollection :cards="[{
+        id: '1',
         title: 'Milieudefensie Utrecht',
         content: 'Lokale organizer: Angela',
         variant: 'shadow',
@@ -154,6 +155,7 @@ const content = ref<ContentItem[]>([
       carousel: false,
       cards: [
         {
+          id: '2',
           title: 'Milieudefensie Amersfoort',
           variant: 'shadow',
           reverse: false,
@@ -177,6 +179,7 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: '3',
           title: 'Milieudefensie Amsterdam',
           variant: 'shadow',
           reverse: false,

@@ -9,6 +9,7 @@ const content = ref<ContentItem[]>([
       noColumns: false,
       carousel: false,
       cards: [{
+        id: '1',
         title: 'Ontvang updates via Signal',
         subtitle: 'Milieudefensie Utrecht',
         content: 'Blijf op de hoogte van Milieudefensie en ontvang nieuws van Angela, de lokale organizer van Milieudefensie Utrecht.',

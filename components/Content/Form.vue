@@ -14,6 +14,7 @@ export interface HubspotForm {
 
 export interface FormProps {
   form?: NativeForm; // Native form
+  label?: string; // Label for the form
   hubspot?: HubspotForm; // Embed Hubspot form
   embed?: string; // Custom embed code
 }
@@ -21,6 +22,10 @@ export interface FormProps {
 const props = defineProps<FormProps>()
 </script>
 <template>
-  Form
-  <button class="btn">Submit</button>
+  <div class="space-y-2">
+    <input class="input w-full lg:input-lg placeholder:text-neutral border-neutral bg-white" type="text"
+      placeholder="E-mail" />
+    <button class="btn w-full btn-secondary lg:btn-lg">{{ label }}</button>
+  </div>
+
 </template>

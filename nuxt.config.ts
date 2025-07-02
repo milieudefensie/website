@@ -72,6 +72,10 @@ export default defineNuxtConfig({
         en: '/movement',
         nl: '/beweging',
       },
+      'event-eventSlug': {
+        en: '/event/[eventSlug]',
+        nl: '/agenda/[eventSlug]',
+      },
     },
   },
 
@@ -101,6 +105,9 @@ export default defineNuxtConfig({
   experimental: {
     // Docs: https://nuxt.com/docs/api/components/nuxt-island
     componentIslands: true,
+
+    // Docs: https://nuxt.com/docs/getting-started/transitions#view-transitions-api-experimental
+    // viewTransition: true,
   },
 
   nitro: {
