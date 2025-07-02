@@ -48,13 +48,18 @@ export interface CardVideo {
 }
 
 export interface CardProps {
+  id: string;
   images?: CardImage[];
+  hideImagesOnMobile?: boolean;
   icon?: CardIcon;
   video?: CardVideo;
   title: string;
   subtitle?: string;
+  boldLabel?: string;
+  label?: string;
   content?: string;
   badges?: string[];
+  secondaryBadges?: string[];
   buttons?: ButtonProps;
   form?: boolean;
   list?: ListProps;
@@ -85,10 +90,10 @@ const rerender = ref(false);
 </script>
 <template>
   <article class="card grid overflow-hidden " :class="{
-    'hover:-translate-y-1 active:translate-y-1 transition-transform cursor-pointer': singleLink,
+    'cursor-pointer': singleLink,
     'bg-white shadow-sm': props.variant === 'shadow',
     'border-2 border-neutral/10': props.variant === 'border',
-  }">
+  }" :style="`view-transition-name: card-${props.id}`">
 
     <!-- REVERSABLE ITEMS (media and text content positions can be reversed) -->
     <div class="flex" :class="{
@@ -97,11 +102,14 @@ const rerender = ref(false);
     }">
 
       <!-- MEDIA (Icon, image or video) -->
-      <div class="bg-base-200 @2xl/cards:w-1/2 @4xl/cards:w-2/6 flex">
+      <div class="@2xl/cards:w-1/2 @4xl/cards:w-2/6 flex" :class="{
+        'max-md:hidden': props.hideImagesOnMobile,
+      }" @click="singleLink ? $router.push(singleLink) : null" :style="`view-transition-name: card-image-${props.id}`">
         <NuxtPicture v-for="(image, index) in props.images" format="avif,webp" :src="image.src" :alt="image.alt"
           width="1000px" height="1000px" sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" :class="{
             'border-l-2 border-white': index > 0,
-            '@2xl/cards:hidden': index > 0
+            '@2xl/cards:hidden': index > 0,
+
           }" />
 
 
@@ -109,25 +117,49 @@ const rerender = ref(false);
       </div>
 
       <!-- TEXT CONTENT -->
-      <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between">
+      <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between"
+        @click="singleLink ? $router.push(singleLink) : null">
 
         <div class="space-y-2">
 
-          <!-- Badges -->
-          <div v-if="props.badges" class="flex gap-2">
-            <span class="badge badge-secondary badge-lg font-bold" v-for="(badge, index) in props.badges" :key="index">
-              {{ badge }}
-            </span>
+          <div class="@4xl:flex items-center flex-wrap gap-x-4 gap-y-2">
+
+            <div
+              class="text-secondary text-lg @md/cards:text-xl @4xl:text-2xl @6xl:text-3xl font-stretch-extra-condensed @max-4xl:mb-2"
+              v-if="props.boldLabel || props.label">
+
+              <span class="font-bold">{{ props.boldLabel }}</span>
+              <span v-if="props.boldLabel && props.label"> - </span>
+              <span class="">{{ props.label }}</span>
+            </div>
+
+            <!-- Badges -->
+            <div v-if="props.badges" class="flex gap-2">
+              <span class="badge badge-secondary badge-sm @md/cards:badge-lg @lg/cards:badge-xl font-bold"
+                v-for="(badge, index) in props.badges" :key="index">
+                {{ badge }}
+              </span>
+            </div>
+
           </div>
 
+
+
           <!-- Title -->
-          <h2 class="card-title font-display text-3xl " v-if="props.title">
+          <h2 class="card-title font-display text-2xl/6 @md/cards:text-3xl/8 @xl/cards:text-4xl/8 @6xl:text-7xl/16 mb-2"
+            v-if="props.title" :style="`view-transition-name: card-title-${props.id}`">
             {{ props.title }}
           </h2>
 
           <!-- Subtitle -->
-          <div class="text-md uppercase font-semibold opacity-60" v-if="props.subtitle">
-            {{ props.subtitle }}
+          <div class="@6xl:text-2xl flex flex-wrap  gap-2 items-center" v-if="props.subtitle"
+            :style="`view-transition-name: card-subtitle-${props.id}`">
+            <div class=" font-semibold uppercase opacity-60">
+              {{
+                props.subtitle }}</div>
+            <div v-for="badge in secondaryBadges"
+              class="badge py-0 badge-sm  bg-white font-stretch-extra-condensed text-neutral-800">{{ badge
+              }}</div>
           </div>
 
           <!-- Content -->
@@ -135,14 +167,20 @@ const rerender = ref(false);
             {{ props.content }}
           </div>
 
-          <ContentForm v-if="props.form" />
 
         </div>
 
 
 
         <!-- Buttons -->
-        <Buttons v-if="props.buttons" v-bind="props.buttons" />
+        <div>
+
+          <ContentForm v-if="props.form" label="👉 Ik ben er bij!" />
+
+
+          <Buttons v-if="props.buttons" v-bind="props.buttons" />
+        </div>
+
 
       </div>
 

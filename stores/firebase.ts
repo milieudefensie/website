@@ -40,6 +40,8 @@ export type User = {
     p1?: string | null
   }
   recentAction?: string | null
+  messagesSent?: number | FieldValue
+  conversationsStarted?: number | FieldValue
 }
 
 export const useFirebaseStore = defineStore('firebase', () => {
@@ -71,7 +73,6 @@ export const useFirebaseStore = defineStore('firebase', () => {
     await setDoc(doc(db.value!, 'users', userID), user, { merge: true })
 
     onSnapshot(doc(db.value!, 'users', userID), (doc) => {
-      console.log('Current data: ', doc.data())
       currentUser.value = doc.data() as User
     })
   }
@@ -101,7 +102,7 @@ export const useFirebaseStore = defineStore('firebase', () => {
 
     onAuthStateChanged(auth.value!, async (user) => {
       if (user) {
-        console.log('User signed in', user.uid)
+        // console.log('User signed in', user.uid)
         await getUser(user.uid)
       } else {
         // User is signed out
@@ -109,11 +110,21 @@ export const useFirebaseStore = defineStore('firebase', () => {
         signInAnonymously(auth.value!)
           .then(() => {
             // Signed in..
-            console.log('User signed in anonymously')
+            // console.log('User signed in anonymously')
           })
           .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
+            console.error(
+              'Error signing in anonymously',
+              errorCode,
+              errorMessage
+            )
+
+            showError({
+              statusCode: 403,
+              statusMessage: 'Forbidden',
+            })
             // ...
           })
       }

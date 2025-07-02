@@ -6,6 +6,11 @@
 @plugin "daisyui";
 @plugin "@tailwindcss/typography";
 
+* {
+  /* scroll-behavior: smooth; */
+  /* scroll-padding-top: 10px; */
+}
+
 .animate-ping {
   animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite !important;
 }
@@ -113,6 +118,13 @@
   --font-body: 'Poppins', ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   /* ... */
+}
+
+@theme {
+  --color-primary-contrast: oklch(1 0 0);
+  --color-secondary-contrast: oklch(1 0 0);
+  --color-accent-contrast: oklch(14% 0.004 49.25);
+  --color-neutral-contrast: oklch(14% 0.004 49.25);
 }
 
 @plugin "daisyui/theme" {

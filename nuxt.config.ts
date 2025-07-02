@@ -32,12 +32,52 @@ export default defineNuxtConfig({
 
   // Docs: https://devtools.nuxt.com/
   devtools: { enabled: true },
+  devServer: {
+    cors: {
+      origin: '*',
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
   },
 
   css: ['~/assets/css/main.css'],
+
+  i18n: {
+    defaultLocale: 'nl',
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+        // file: 'en.json'
+      },
+      {
+        code: 'nl',
+        name: 'Nederlands',
+        // file: 'nl.json'
+      },
+    ],
+    customRoutes: 'config',
+    pages: {
+      events: {
+        en: '/events',
+        nl: '/agenda',
+      },
+      groups: {
+        en: '/groups',
+        nl: '/groepen',
+      },
+      movement: {
+        en: '/movement',
+        nl: '/beweging',
+      },
+      'event-eventSlug': {
+        en: '/event/[eventSlug]',
+        nl: '/agenda/[eventSlug]',
+      },
+    },
+  },
 
   // Environment variables (overwrite the below values using an .env file, see .example.env)
   runtimeConfig: {
@@ -52,6 +92,8 @@ export default defineNuxtConfig({
       organisationSlogan: 'This is an awesome website',
       mapboxApi: '',
 
+      directusServer: 'http://localhost:8055', // Change to your Directus server URL
+
       // Default: focus on NL
       mapCenterLng: '5.3878',
       mapCenterLat: '52.1561',
@@ -63,6 +105,9 @@ export default defineNuxtConfig({
   experimental: {
     // Docs: https://nuxt.com/docs/api/components/nuxt-island
     componentIslands: true,
+
+    // Docs: https://nuxt.com/docs/getting-started/transitions#view-transitions-api-experimental
+    // viewTransition: true,
   },
 
   nitro: {

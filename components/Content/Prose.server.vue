@@ -27,6 +27,7 @@ const options = {
     li: [],
     blockquote: [],
     a: ["href", "title", "target"],
+    strong: []
   },
 };
 

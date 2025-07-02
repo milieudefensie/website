@@ -1,78 +1,6 @@
 <!-- 
-This event page was designed by taking inspiration from 
-
-Event categories:
-- Highlighted events ⭐️
-- Near you ('City') ⭐️
-- Today / Tonight
-- Tomorrow ('Day')
-- Later this week ('Day',
-'Day',
-...) / 'Friday'
-- This weekend (Sat,
-Sun)
-- Next week
-- Later this month (‘Month')
-- Next month ('Month'): this month +1
-- ‘Month’: this month +2,
-etc
-
-We show different event categories based on the day of the week.
-
-ON ALL DAYS
-- Highlighted events ⭐️
-- Near you ('City') 
-...⭐️based on the day of the week ...
-- Later this month: only if the end of 'Next week' is before the end of this month
-- Next month
-- 'Month'
-
-MONDAY
-- Today / Tonight
-- Tomorrow (Tue)
-- Later this week (Wed,
-Thu,
-Fri)
-- This weekend
-- Next week
-
-TUESDAY
-- Today / Tonight
-- Tomorrow (Wed)
-- Later this week (Thu,
-Fri)
-- This weekend
-- Next week
-
-WEDNESDAY
-- Today / Tonight
-- Tomorrow (Thu)
-- Friday
-- This weekend
-- Next week
-
-THURSDAY
-- Today / Tonight
-- Tomorrow (Fri)
-- This weekend
-- Next week
-
-FRIDAY
-- Today / Tonight
-- This weekend
-- Next week
-
-SATURDAY
-- Today / Tonight
-- Tomorrow (Sun)
-- Next week
-
-SUNDAY
-- Today / Tonight
-- Next week
-
+ Docs: https://docs-4gf.pages.dev/pages/events
 -->
-
 
 <script lang="ts" setup>
 import type { Event } from '~/server/api/getEvents';
@@ -160,6 +88,7 @@ const content = ref<ContentItem[]>([
       carousel: false,
       cards: [
         {
+          id: "1",
           title: 'Intro-avond voor nieuwe veranderaars',
           subtitle: 'Online',
           content: 'Iedere woensdagavond 20:00 verwelkomen wij nieuwe veranderaars. Denk jij erover om je aan te sluiten bij Milieudefensie? Sluit aan bij onze online intro-avond en leer wat jij kan doen.',
@@ -172,7 +101,7 @@ const content = ref<ContentItem[]>([
           buttons: {
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'default',
               width: 'default'
@@ -391,6 +320,7 @@ const content = ref<ContentItem[]>([
       carousel: false,
       cards: [
         {
+          id: "2",
           title: 'Milieudefensie on Tour',
           subtitle: 'Avond met hoop, humor en energie',
           content: "Ingewikkelde zaken, zoals gevaarlijke klimaatverandering uitgelegd, maar dan zonder saaie grafieken en droge cijfers. Kom lachen, ontmoet leuke mensen en ontdek wat jij kan doen.",
@@ -403,7 +333,7 @@ const content = ref<ContentItem[]>([
           buttons: {
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/on-tour',
               color: 'secondary',
               style: 'default',
               width: 'default'
@@ -435,6 +365,7 @@ const content = ref<ContentItem[]>([
           },
         },
         {
+          id: "3",
           title: 'Aandeelhouder acties',
           subtitle: 'Stop vervuilende bedrijven',
           content: 'Grote vervuilende bedrijven gaan door met graaien en het veroorzaken van gevaarlijke klimaatverandering. Wij roepen ze ter verantwoording tijdens hun aandeelhoudersvergaderingen. Leer meer tijdens een training!',
@@ -447,7 +378,7 @@ const content = ref<ContentItem[]>([
           buttons: {
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'default',
               width: 'default'
@@ -501,9 +432,11 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          id: "4",
           title: 'Code oranje: Grote vervuiler ING',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Zaterdag 20:00',
+          label: '18 februari',
           badges: ['🎤  Milieudefensie on Tour'],
           variant: 'shadow',
           reverse: false,
@@ -512,9 +445,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/on-tour',
               color: 'secondary',
               style: 'outline',
 
@@ -544,19 +478,25 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          id: "5",
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          content: "17 maart 20:00",
+          secondaryBadges: ['Lokale groep'],
+
+          // content: "17 maart 20:00",
           variant: 'shadow',
+          boldLabel: 'Morgen 20:00',
+          label: '17 maart',
           reverse: false,
           images: [{
             src: '/campagnedag-1.jpg',
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -566,9 +506,13 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: "6",
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          secondaryBadges: ['Lokale groep'],
+
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -576,9 +520,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -588,9 +533,11 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: "7",
           title: 'Welkom bij Milieudefensie',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Donderdag 20:00',
+          label: '20 maart',
           badges: ['👋 Intro avond'],
           variant: 'shadow',
           reverse: false,
@@ -599,9 +546,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -632,9 +580,11 @@ const content = ref<ContentItem[]>([
       carousel: false,
       cards: [
         {
+          id: "8",
           title: 'Lorem ipsum',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Donderdag 20:00',
+          label: '20 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -642,9 +592,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -675,9 +626,12 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          id: "9",
+          badges: ['👋 Intro avond'],
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -685,9 +639,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -697,9 +652,13 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: "10",
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          secondaryBadges: ['Lokale groep'],
+
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -707,9 +666,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -742,9 +702,13 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          id: "11",
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          secondaryBadges: ['Lokale groep'],
+
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -752,9 +716,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -764,9 +729,13 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: "12",
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
+          secondaryBadges: ['Lokale groep'],
+
           subtitle: 'Arnhem',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -774,9 +743,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -786,9 +756,11 @@ const content = ref<ContentItem[]>([
 
         },
         {
+          id: "13",
           title: 'Welkom bij Milieudefensie',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           badges: ['👋 Intro avond'],
           variant: 'shadow',
           reverse: false,
@@ -797,9 +769,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -810,9 +783,11 @@ const content = ref<ContentItem[]>([
         },
 
         {
+          id: "14",
           title: 'Lorem ipsum',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -820,9 +795,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -833,9 +809,11 @@ const content = ref<ContentItem[]>([
         },
 
         {
+          id: "15",
           title: 'Lorem ipsum',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -843,9 +821,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -856,9 +835,11 @@ const content = ref<ContentItem[]>([
         },
 
         {
+          id: "16",
           title: 'Lorem ipsum',
           subtitle: 'Online',
-          content: "17 maart 20:00",
+          boldLabel: 'Woensdag 20:00',
+          label: '18 maart',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -866,9 +847,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -899,9 +881,11 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          id: "17",
           title: 'Lorem ipsum',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Zaterdag 20:00',
+          label: '18 februari',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -909,9 +893,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -941,9 +926,11 @@ const content = ref<ContentItem[]>([
       carousel: true,
       cards: [
         {
+          id: "18",
           title: 'Lorem ipsum',
           subtitle: 'Tivoli, Utrecht',
-          content: "17 maart 20:00",
+          boldLabel: 'Zondag 13:00',
+          label: '1 april',
           variant: 'shadow',
           reverse: false,
           images: [{
@@ -951,9 +938,10 @@ const content = ref<ContentItem[]>([
             alt: 'Fabriek'
           }],
           buttons: {
+            size: 'sm',
             buttons: [{
               label: 'Meld je aan',
-              link: '/test',
+              link: '/agenda/test',
               color: 'secondary',
               style: 'outline',
 
@@ -975,10 +963,12 @@ const content = ref<ContentItem[]>([
 </script>
 <template>
 
+  <Navigation color="accent" />
+
   <div>
-    <div class="bg-accent text-accent-content pt-[8vh] pb-[20vh] px-4 text-center mx-auto ">
-      <h1 class="text-4xl md:text-6xl lg:text-8xl font-display">Evenementen</h1>
-      <p class="text-xl">Aankomende trainingen,
+    <div class="bg-accent text-accent-content pt-[4vh] pb-[20vh] px-4 text-center mx-auto space-y-2">
+      <h1 class="text-5xl sm:text-7xl md:text-8xl font-display ">Evenementen</h1>
+      <p class="text-xl text-balance">Aankomende trainingen,
         acties,
         meetups en gezellige bijeenkomsten</p>
     </div>

@@ -35,11 +35,11 @@ function stateChange(event: any) {
 
 <template>
   <div>
-    <div class="video-player flex items-center justify-center group  hover:shadow-lg rounded-md overflow-hidden ">
-      FIX NEEDED: [error] [ nuxi ] Nuxt Build Error: [vite]: Rollup failed to resolve import "unenv/runtime/mock/noop"
+    <div class="video-player flex items-center justify-center group shadow rounded-lg overflow-hidden ">
+      <!-- FIX NEEDED: [error] [ nuxi ] Nuxt Build Error: [vite]: Rollup failed to resolve import "unenv/runtime/mock/noop"
       from
-      "/opt/buildhome/repo/node_modules/.pnpm/@nuxt+scripts@0.10.5_@types+youtube@0.1.0_@unhead+vue@1.11.20_typescript@5.8.2/node_modules/@nuxt/scripts/dist/runtime/validation/mock.js"
-      <!-- <ScriptYouTubePlayer ref="video" :video-id="videoID" @ready="isLoaded = true" @state-change="stateChange"
+      "/opt/buildhome/repo/node_modules/.pnpm/@nuxt+scripts@0.10.5_@types+youtube@0.1.0_@unhead+vue@1.11.20_typescript@5.8.2/node_modules/@nuxt/scripts/dist/runtime/validation/mock.js" -->
+      <ScriptYouTubePlayer ref="video" :video-id="videoID" @ready="isLoaded = true" @state-change="stateChange"
         thumbnail-size="hqdefault">
         <template #awaitingLoad>
           <div
@@ -50,7 +50,7 @@ function stateChange(event: any) {
             </button>
           </div>
         </template>
-</ScriptYouTubePlayer> -->
+      </ScriptYouTubePlayer>
     </div>
   </div>
 </template>

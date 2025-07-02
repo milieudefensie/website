@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@directus/sdk": "^19.1.0",
+    "@directus/visual-editing": "^1.1.0",
     "@nuxt/image": "^1.10.0",
     "@nuxt/scripts": "^0.11.8",
     "@nuxtjs/i18n": "9.5.5",
@@ -37,6 +38,7 @@
     "nuxt": "^3.17.4",
     "pinia": "^3.0.2",
     "tailwindcss": "^4.1.8",
+    "uuid": "^11.1.0",
     "vue": "latest",
     "vue-router": "latest",
     "vue3-lottie": "^3.3.1",
@@ -73,5 +75,5 @@
       "chokidar": "^3.6.0"
     }
   },
-  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
+  "packageManager": "pnpm@10.12.1"
 }

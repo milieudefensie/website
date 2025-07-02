@@ -1,5 +1,5 @@
 <!-- 
-Docs: https://docs-4gf.pages.dev/strategy/dashboard 
+Docs: https://docs-4gf.pages.dev/pages/dashboard 
 -->
 <script lang="ts" setup>
 import IconAccountGroup from '~icons/mdi/account-group'

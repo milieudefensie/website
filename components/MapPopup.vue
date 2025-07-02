@@ -10,14 +10,12 @@
 
       </form>
       <ContentCardCollection :cards="[{
+        id: '1',
         title: props.marker?.title || '',
         content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit assumenda dolores ea, ducimus id distinctio dolore, aliquam libero aspernatur sed illo cupiditate repellendus a maiores placeat vel, iusto iure aut?',
         variant: 'shadow',
         reverse: false,
-        image: {
-          src: '/jong.jpg',
-          alt: 'Leiden'
-        },
+
         buttons: {
           buttons: [{
             label: 'Meld je aan voor groep',

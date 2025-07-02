@@ -1,10 +1,12 @@
 <!--
-Docs: https://docs-4gf.pages.dev/strategy/pages/chat
+Docs: https://docs-4gf.pages.dev/pages/chat
 -->
 
 <script setup lang="ts">
 import { set } from '@vueuse/core';
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, increment, serverTimestamp, setDoc } from 'firebase/firestore';
+// import { Counter } from '@/stores/counter'; // Adjust the path as needed
+
 
 definePageMeta({
   layout: 'fullscreen',
@@ -77,8 +79,20 @@ async function setUserData(userID: string) {
       },
     } : {}),
     lastOnline: serverTimestamp(),
+    conversationsStarted: increment(1),
   }
   await setDoc(doc(firebase.db!, 'users', userID), userDB, { merge: true })
+}
+
+async function updateCounter() {
+  // Reference to a Firestore document where you want the counter
+  const docRef = doc(firebase.db!, 'app/analytics');
+
+  // Create a counter for the 'count' field in the document
+  // const counter = new Counter(docRef, 'conversationsStarted');
+
+  // await counter.incrementBy(1);
+
 }
 
 onMounted(async () => {
@@ -89,6 +103,7 @@ onMounted(async () => {
       // User is signed in, navigate to the chat page
 
       await setUserData(user.uid)
+      await updateCounter();
 
       navigateTo(`/chat/user/${user.uid}`)
     } else {
