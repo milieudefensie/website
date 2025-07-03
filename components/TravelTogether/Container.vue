@@ -199,7 +199,7 @@ function nextStep() {
               reverse: false,
               hideImagesOnMobile: true,
               images: [{
-                src: '/qr.svg',
+                src: '/qr.png',
                 alt: 'Fabriek'
               }],
               buttons: {
