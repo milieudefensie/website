@@ -8,7 +8,7 @@
 
 * {
   /* scroll-behavior: smooth; */
-  /* scroll-padding-top: 10px; */
+  scroll-padding-top: 24px;
 }
 
 .animate-ping {

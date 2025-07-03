@@ -11,6 +11,7 @@ import { createDirectus, readItems, rest } from '@directus/sdk'
 export type NavigationProps = {
   fullWidth?: boolean
   color?: 'default' | 'primary' | 'secondary' | 'accent' | 'neutral'
+  focus?: boolean
 }
 
 const props = defineProps<NavigationProps>()
@@ -63,7 +64,7 @@ const { data, error } = await useAsyncData(`navigation_items`, async () => {
       <div class="space-x-3 flex" sizes="176px" densities="x1 x2">
 
         <!-- Secondary CTA -->
-        <a class="btn shadow-none font-display text-xl px-5 max-md:hidden" :class="{
+        <a v-if="!focus" class="btn shadow-none font-display text-xl px-5 max-md:hidden" :class="{
           'bg-base-100 border-primary text-neutral  hover:border-neutral hover:bg-neutral hover:text-neutral-content': props.color === 'default',
           'bg-primary border-primary-content text-primary-content hover:bg-primary-contrast hover:text-primary-content': props.color === 'primary',
           'bg-secondary border-secondary-content text-secondary-content hover:bg-secondary-contrast hover:text-secondary-content': props.color === 'secondary',
@@ -75,7 +76,7 @@ const { data, error } = await useAsyncData(`navigation_items`, async () => {
 
         <!-- Primary CTA -->
 
-        <a class="btn shadow-none font-display text-xl px-5 max-md:hidden" :class="{
+        <a v-if="!focus" class="btn shadow-none font-display text-xl px-5 max-md:hidden" :class="{
           'btn-primary': props.color === 'default',
           'bg-primary-content border-primary-content text-primary-contrast hover:bg-primary-contrast hover:text-primary-content hover:border-primary-contrast': props.color === 'primary',
           'bg-secondary-content border-secondary-content text-secondary-contrast hover:bg-secondary-contrast hover:text-secondary-content hover:border-secondary-contrast': props.color === 'secondary',

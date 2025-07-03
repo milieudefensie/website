@@ -51,7 +51,7 @@ const content = ref<ContentItem[]>([
 </script>
 <template>
 
-  <Navigation color="default" />
+  <Navigation color="default" focus />
   <div>
 
     <div>
@@ -66,7 +66,7 @@ const content = ref<ContentItem[]>([
           badges: ['Milieudefensie on Tour'],
           secondaryBadges: ['Lokale groep'],
           label: '1 april',
-          variant: 'shadow',
+          variant: 'ghost',
           reverse: false,
           form: true,
           images: [{

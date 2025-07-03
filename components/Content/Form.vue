@@ -22,10 +22,15 @@ export interface FormProps {
 const props = defineProps<FormProps>()
 </script>
 <template>
-  <div class="space-y-2">
-    <input class="input w-full lg:input-lg placeholder:text-neutral border-neutral bg-white" type="text"
-      placeholder="E-mail" />
-    <button class="btn w-full btn-secondary lg:btn-lg">{{ label }}</button>
+  <div class="space-y-4">
+    <input class="input input-lg xl:input-xl w-full placeholder:text-neutral hover:border-neutral bg-white md:!text-lg"
+      type="text" placeholder="E-mail" />
+    <div><label class="flex gap-2 items-center text-lg/6 text-balance xl:text-xl group cursor-pointer"><input
+          type="checkbox" class="checkbox checkbox-lg xl:checkbox-xl group-hover:border-neutral" /> Houd mij
+        op de
+        hoogte van de
+        beweging</label></div>
+    <button class="btn btn-lg xl:btn-xl w-full btn-secondary ">{{ label }}</button>
   </div>
 
 </template>
