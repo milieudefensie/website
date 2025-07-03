@@ -9,6 +9,7 @@
 <script lang="ts" setup>
 
 import type { ContentItem } from '~/components/ContentBuilder.vue';
+import type { CardProps } from '~/components/Content/Card.vue';
 
 import TrainIcon from '~icons/mdi/train';
 
@@ -20,7 +21,7 @@ const content = ref<ContentItem[]>([
     props: {
       content: `
       <p><strong>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</strong></p>
-      <h2>Blijf op de hoogte via Signal</h2>
+      <h2>Lorem ipsum</h2>
       <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
       `
     }
@@ -37,6 +38,86 @@ const content = ref<ContentItem[]>([
         {
           author: 'Marie Jansen',
           content: 'De lokale groep is een geweldige manier om nieuwe mensen te ontmoeten en samen te werken aan een betere toekomst voor onze planeet.'
+        }
+      ]
+    }
+  },
+
+  {
+    type: "ContentCardCollection",
+    props: {
+      cards: [
+        {
+          id: 'actiepakket',
+          title: 'Bestel een actiepakket',
+          variant: 'shadow',
+          reverse: false,
+          images: [
+            {
+              src: '/campagnedag-1.jpg',
+              alt: 'Actiepakket'
+            }
+          ],
+          content: 'Ontvang een compleet actiepakket met materialen om direct aan de slag te gaan voor het klimaat.',
+          buttons: {
+            buttons: [
+              {
+                label: 'Bestel nu',
+                link: '/actiepakket-bestellen',
+                color: 'primary',
+                style: 'default',
+                width: 'default'
+              }
+            ]
+          }
+        },
+        {
+          id: 'protestbord',
+          title: 'Knutsel samen een protestbord',
+          variant: 'shadow',
+          reverse: false,
+          images: [
+            {
+              src: '/campagnedag-2.jpg',
+              alt: 'Protestbord knutselen'
+            }
+          ],
+          content: 'Kom samen en maak creatieve protestborden voor de volgende actie of demonstratie.',
+          buttons: {
+            buttons: [
+              {
+                label: 'Bekijk tips',
+                link: '/protestbord-tips',
+                color: 'primary',
+                style: 'default',
+                width: 'default'
+              }
+            ]
+          }
+        },
+        {
+          id: 'organiseren',
+          title: 'Help mee met organiseren',
+          variant: 'shadow',
+          reverse: false,
+          images: [
+            {
+              src: '/fabriek-vierkant.jpeg',
+              alt: 'Meehelpen organiseren'
+            }
+          ],
+          content: 'Word actief in de organisatie en draag bij aan het succes van lokale klimaatacties.',
+          buttons: {
+            buttons: [
+              {
+                label: 'Doe mee',
+                link: '/help-organiseren',
+                color: 'primary',
+                style: 'default',
+                width: 'default'
+              }
+            ]
+          }
         }
       ]
     }

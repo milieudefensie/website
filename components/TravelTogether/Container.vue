@@ -292,11 +292,10 @@ function nextStep() {
 
 
 
-  <div class="my-32 bg-amber-300 p-4">
-    <label>
-      <input type="checkbox" class="toggle" v-model="chatExists" /> Devtool: A chat group already exists for this city
-    </label>
-  </div>
+  <label class="fixed bottom-0 left-0 bg-base-200 shadow-4xl p-2 text-sm">
+    <input type="checkbox" class="toggle toggle-xs" v-model="chatExists" /> Devtool: A chat group already exists for
+    this city
+  </label>
 
 
 
