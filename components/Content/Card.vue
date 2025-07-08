@@ -89,11 +89,12 @@ const rerender = ref(false);
 
 </script>
 <template>
-  <article class="card grid overflow-hidden shadow-transition" :class="{
+  <article class="card grid shadow-transition" :class="{
     'cursor-pointer hover:shadow-2xl ': singleLink,
     'bg-white shadow': props.variant === 'shadow',
     'border-2 border-neutral/10': props.variant === 'border',
-    'border-b-2 border-neutral/10 pb-6 rounded-none': props.variant === 'ghost'
+    'border-b-2 border-neutral/10 pb-6 rounded-none': props.variant === 'ghost',
+    'overflow-hidden': props.variant !== 'ghost',
   }" :style="`view-transition-name: card-${props.id}`">
 
     <!-- REVERSABLE ITEMS (media and text content positions can be reversed) -->
@@ -163,7 +164,7 @@ const rerender = ref(false);
               {{
                 props.subtitle }}</div>
             <div v-for="badge in secondaryBadges"
-              class="badge py-0 badge-sm  bg-white font-stretch-extra-condensed text-neutral-800">{{ badge
+              class="badge py-0 badge-sm  bg-white font-stretch-extra-condensed opacity-50 ">{{ badge
               }}</div>
           </div>
 

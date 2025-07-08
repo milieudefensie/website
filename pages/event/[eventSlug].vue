@@ -65,7 +65,7 @@ const content = ref<ContentItem[]>([
                 label: 'Bestel nu',
                 link: '/actiepakket-bestellen',
                 color: 'primary',
-                style: 'default',
+                style: 'outline',
                 width: 'default'
               }
             ]
@@ -89,7 +89,7 @@ const content = ref<ContentItem[]>([
                 label: 'Bekijk tips',
                 link: '/protestbord-tips',
                 color: 'primary',
-                style: 'default',
+                style: 'outline',
                 width: 'default'
               }
             ]
@@ -113,7 +113,7 @@ const content = ref<ContentItem[]>([
                 label: 'Doe mee',
                 link: '/help-organiseren',
                 color: 'primary',
-                style: 'default',
+                style: 'outline',
                 width: 'default'
               }
             ]
@@ -142,10 +142,10 @@ const content = ref<ContentItem[]>([
         <ContentCardCollection :cards="[{
           id: '7',
           title: 'Code oranje: Grote vervuiler ING',
-          subtitle: 'Tivoli, Utrecht',
+          subtitle: 'Dirk Smitsstraat 76, 3031 XE Rotterdam',
           boldLabel: 'Zondag 13:00',
           badges: ['Milieudefensie on Tour'],
-          secondaryBadges: ['Lokale groep'],
+          secondaryBadges: ['Door lokale groep'],
           label: '1 april',
           variant: 'ghost',
           reverse: false,

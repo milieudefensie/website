@@ -481,7 +481,7 @@ const content = ref<ContentItem[]>([
           id: "5",
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
-          secondaryBadges: ['Lokale groep'],
+          secondaryBadges: ['Door lokale groep'],
 
           // content: "17 maart 20:00",
           variant: 'shadow',
@@ -510,7 +510,7 @@ const content = ref<ContentItem[]>([
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
           boldLabel: 'Woensdag 20:00',
-          secondaryBadges: ['Lokale groep'],
+          secondaryBadges: ['Door lokale groep'],
 
           label: '18 maart',
           variant: 'shadow',
@@ -656,7 +656,7 @@ const content = ref<ContentItem[]>([
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
           subtitle: 'Arnhem',
           boldLabel: 'Woensdag 20:00',
-          secondaryBadges: ['Lokale groep'],
+          secondaryBadges: ['Door lokale groep'],
 
           label: '18 maart',
           variant: 'shadow',
@@ -706,7 +706,7 @@ const content = ref<ContentItem[]>([
           title: 'Lorem ipsum dolor sit amet',
           subtitle: 'Rotterdam',
           boldLabel: 'Woensdag 20:00',
-          secondaryBadges: ['Lokale groep'],
+          secondaryBadges: ['Door lokale groep'],
 
           label: '18 maart',
           variant: 'shadow',
@@ -731,7 +731,7 @@ const content = ref<ContentItem[]>([
         {
           id: "12",
           title: 'Klimaatcafe: Arnhem klimaatbestendig',
-          secondaryBadges: ['Lokale groep'],
+          secondaryBadges: ['Door lokale groep'],
 
           subtitle: 'Arnhem',
           boldLabel: 'Woensdag 20:00',
