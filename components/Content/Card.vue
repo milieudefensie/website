@@ -63,7 +63,7 @@ export interface CardProps {
   buttons?: ButtonProps;
   form?: boolean;
   list?: ListProps;
-  variant: "shadow" | "border";
+  variant: "shadow" | "border" | "ghost";
   reverse: boolean;
 }
 
@@ -89,10 +89,12 @@ const rerender = ref(false);
 
 </script>
 <template>
-  <article class="card grid overflow-hidden " :class="{
-    'cursor-pointer': singleLink,
-    'bg-white shadow-sm': props.variant === 'shadow',
+  <article class="card grid shadow-transition" :class="{
+    'cursor-pointer hover:shadow-2xl ': singleLink,
+    'bg-white shadow': props.variant === 'shadow',
     'border-2 border-neutral/10': props.variant === 'border',
+    'border-b-2 border-neutral/10 pb-6 rounded-none': props.variant === 'ghost',
+    'overflow-hidden': props.variant !== 'ghost',
   }" :style="`view-transition-name: card-${props.id}`">
 
     <!-- REVERSABLE ITEMS (media and text content positions can be reversed) -->
@@ -102,13 +104,15 @@ const rerender = ref(false);
     }">
 
       <!-- MEDIA (Icon, image or video) -->
-      <div class="@2xl/cards:w-1/2 @4xl/cards:w-2/6 flex" :class="{
+      <div class="@2xl/cards:w-1/2 @4xl/cards:w-2/6 flex items-start" :class="{
         'max-md:hidden': props.hideImagesOnMobile,
+
       }" @click="singleLink ? $router.push(singleLink) : null" :style="`view-transition-name: card-image-${props.id}`">
         <NuxtPicture v-for="(image, index) in props.images" format="avif,webp" :src="image.src" :alt="image.alt"
           width="1000px" height="1000px" sizes="calc(100vw - 26px) md:40vw" densities="x1 x2" :class="{
             'border-l-2 border-white': index > 0,
             '@2xl/cards:hidden': index > 0,
+            'rounded-lg overflow-hidden': props.variant === 'ghost',
 
           }" />
 
@@ -117,12 +121,13 @@ const rerender = ref(false);
       </div>
 
       <!-- TEXT CONTENT -->
-      <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between"
-        @click="singleLink ? $router.push(singleLink) : null">
+      <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between" :class="{
+        'p-0 @max-2xl/cards:pt-4  @2xl/cards:pl-4 @6xl/cards:pl-8': props.variant === 'ghost',
+      }" @click="singleLink ? $router.push(singleLink) : null">
 
-        <div class="space-y-2">
+        <div class="space-y-2 @6xl/cards:space-y-6">
 
-          <div class="@4xl:flex items-center flex-wrap gap-x-4 gap-y-2">
+          <div class="@4xl:flex items-center  flex-wrap gap-x-4 gap-y-2">
 
             <div
               class="text-secondary text-lg @md/cards:text-xl @4xl:text-2xl @6xl:text-3xl font-stretch-extra-condensed @max-4xl:mb-2"
@@ -146,19 +151,20 @@ const rerender = ref(false);
 
 
           <!-- Title -->
-          <h2 class="card-title font-display text-2xl/6 @md/cards:text-3xl/8 @xl/cards:text-4xl/8 @6xl:text-7xl/16 mb-2"
-            v-if="props.title" :style="`view-transition-name: card-title-${props.id}`">
+          <h2
+            class="card-title font-display text-2xl/6 @md/cards:text-3xl/8 @4xl/cards:text-5xl/10 @6xl:text-8xl/20 text-balance hyphens-auto"
+            v-if="props.title" :style="`view-transition-name: card-title-${props.id}`" lang="nl">
             {{ props.title }}
           </h2>
 
           <!-- Subtitle -->
-          <div class="@6xl:text-2xl flex flex-wrap  gap-2 items-center" v-if="props.subtitle"
+          <div class="@6xl:text-xl flex flex-wrap  gap-2 items-center" v-if="props.subtitle"
             :style="`view-transition-name: card-subtitle-${props.id}`">
-            <div class=" font-semibold uppercase opacity-60">
+            <div class=" font-semibold uppercase opacity-60 font-stretch-condensed">
               {{
                 props.subtitle }}</div>
             <div v-for="badge in secondaryBadges"
-              class="badge py-0 badge-sm  bg-white font-stretch-extra-condensed text-neutral-800">{{ badge
+              class="badge py-0 badge-sm  bg-white font-stretch-extra-condensed opacity-50 ">{{ badge
               }}</div>
           </div>
 
@@ -193,3 +199,8 @@ const rerender = ref(false);
 
 
 </template>
+<style scoped>
+.shadow-transition {
+  transition: box-shadow .2s ease-in-out;
+}
+</style>

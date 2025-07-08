@@ -27,7 +27,7 @@ const props = defineProps<TravelTogetherConclusionProps>()
 
     <div class="font-bold">Nodig meer mensen uit:</div>
 
-    <div class="border-2 border-neutral/10 bg-white p-4 rounded-lg italic">
+    <div class="border-2 border-neutral/10 bg-white p-4 rounded-lg italic break-all">
       Ik ga hier samen met een paar andere mensen heen. Wie reist er nog meer met mij mee vanuit Utrecht?<br />
       <br />
       {{ event.title }}<br />

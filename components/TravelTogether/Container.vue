@@ -88,19 +88,26 @@ function nextStep() {
             <div>Maak een chat groep</div>
           </div>
 
-          <div v-if="step === 1" class="space-y-4">
-            <p> Maak een <NuxtLink to="https://signal.me/#eu" class="text-secondary font-bold underline"
-                target="_blank">
-                Signal</NuxtLink> chat groep (Signal werkt net als WhatsApp). Voeg
-              alvast een paar mensen toe die je
-              wil uitnodigen om
-              mee te reizen.
-            </p>
+          <div v-if="step === 1" class="flex gap-16 max-md:flex-wrap items-start">
+            <div class="space-y-4">
 
-            <button class="btn btn-secondary md:btn-lg" @click="nextStep()">✅ Ik heb een groep chat aangemaakt</button>
+              <p class="text-xl"> Maak een <NuxtLink to="https://signal.me/#eu"
+                  class="text-secondary font-bold underline" target="_blank">
+                  Signal</NuxtLink> chat groep (Signal werkt net als WhatsApp). Voeg
+                alvast een paar mensen toe die je
+                wil uitnodigen om
+                mee te reizen. Wij nodigen vervolgens nog meer mensen uit.
+              </p>
 
-            <p class="text-sm text-neutral/80 italic">Kom je er niet uit? Stuur een e-mail naar doemee@milieudefensie.nl
-            </p>
+              <button class="btn btn-secondary md:btn-lg" @click="nextStep()">✅ Ik heb een groep chat
+                aangemaakt</button>
+
+              <p class="text-sm text-neutral/80 italic">Kom je er niet uit? Stuur een e-mail naar
+                doemee@milieudefensie.nl </p>
+
+            </div>
+
+            <img src="/signal-explainer-travel-together-1.webp" class="max-w-[180px] md:-mt-12 md:-mb-40" />
 
           </div>
 
@@ -115,45 +122,65 @@ function nextStep() {
             <div>Deel de uitnodigingslink met ons</div>
           </div>
 
-          <div v-if="step === 2" class="space-y-4">
-            <p><strong>Kopieer de uitnodigingslink van jou groep chat in Signal. Plak deze hieronder.</strong> Wij
-              nodigen
-              vervolgens
-              veranderaars in Utrecht
-              uit om
-              met jou samen te
-              reizen.</p>
+          <div v-if="step === 2" class="flex gap-16 max-md:flex-wrap items-start">
 
-            <div class=" space-y-4">
+            <div class="space-y-4">
 
-              <!-- <input class="input w-full" placeholder="https://invite-link..." v-model="inviteLink" /> -->
+              <p class="text-xl"><strong>Kopieer de uitnodigingslink van jou groep chat in Signal. Plak deze
+                  hieronder.</strong> Wij
+                nodigen
+                vervolgens
+                veranderaars in Utrecht
+                uit om
+                met jou samen te
+                reizen.</p>
 
-              <label class="floating-label">
-                <span class="!bg-white">Uitnodigingslink groep chat</span>
-                <input class="input w-full bg-white validator" placeholder="https://invite-link..." autocomplete="url"
-                  type="url" v-model="inviteLink" required />
+              <div class=" space-y-4">
 
 
-              </label>
+                <div>
 
-              <label class="floating-label">
-                <span class="!bg-white">E-mail</span>
-                <input class="input w-full bg-white validator" placeholder="E-mail" autocomplete="email" type="email"
-                  v-model="email" required />
-
-
-              </label>
+                  <label class="floating-label">
+                    <span class="!bg-white">Uitnodigingslink groep chat</span>
+                    <input class="input input-lg w-full bg-white validator" placeholder="https://invite-link..."
+                      autocomplete="url" type="url" v-model="inviteLink" required />
 
 
-              <button class="btn btn-secondary w-full md:btn-lg" @click="nextStep()">👉 Publiceer link</button>
+                  </label>
+
+
+                </div>
+
+
+
+
+                <label class="floating-label">
+                  <span class="!bg-white">E-mail</span>
+                  <input class="input input-lg w-full bg-white validator" placeholder="E-mail" autocomplete="email"
+                    type="email" v-model="email" required />
+
+
+                </label>
+
+
+                <button class="btn btn-secondary w-full md:btn-lg" @click="nextStep()">👉 Publiceer link</button>
+
+              </div>
+
+              <div class="max-sm:hidden  mt-2">Kom je er niet uit? Stuur de
+                uitnodiginslink naar doemee@milieudefensie.nl</div>
+
+              <p class="text-sm text-neutral/70 italic">Wij controleren de link en delen deze openbaar op deze website,
+                zodat
+                iedereen zich makkelijk kan aanmelden om samen te reizen. Je e-mail adres blijft prive. We sturen je
+                eenmalig
+                wat tips om je te helpen met je samenreisevenement.</p>
 
             </div>
 
-            <p class="text-sm text-neutral/80 italic">Wij controleren de link en delen deze openbaar op deze website,
-              zodat
-              iedereen zich makkelijk kan aanmelden om samen te reizen. Je e-mail adres blijft prive. We sturen je
-              eenmalig
-              wat tips om je te helpen met je samenreisevenement.</p>
+            <img src="/signal-explainer-travel-together-2.webp" class="max-w-[180px] md:-mt-4" />
+
+
 
           </div>
 
@@ -199,7 +226,7 @@ function nextStep() {
               reverse: false,
               hideImagesOnMobile: true,
               images: [{
-                src: '/qr.svg',
+                src: '/qr.png',
                 alt: 'Fabriek'
               }],
               buttons: {
@@ -292,11 +319,10 @@ function nextStep() {
 
 
 
-  <div class="my-32 bg-amber-300 p-4">
-    <label>
-      <input type="checkbox" class="toggle" v-model="chatExists" /> Devtool: A chat group already exists for this city
-    </label>
-  </div>
+  <label class="fixed bottom-0 left-0 bg-base-200 shadow-4xl p-2 text-sm">
+    <input type="checkbox" class="toggle toggle-xs" v-model="chatExists" /> Devtool: A chat group already exists for
+    this city
+  </label>
 
 
 

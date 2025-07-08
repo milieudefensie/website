@@ -1,7 +1,12 @@
 <template>
   <NuxtLayout>
     <NuxtPage />
+    <!-- <div v-if="firebase.authError"
+      class="fixed bottom-0 left-0  bg-primary text-primary-content flex items-center justify-center z-50 p-2 text-xs">
+      Het is niet gelukt om te verifiëren dat je geen bot bent.
+    </div> -->
   </NuxtLayout>
+
 </template>
 <script setup>
 
@@ -23,11 +28,6 @@ useHead({
   //     defer: true
   //   },
   // ]
-})
-
-const firebase = useFirebaseStore()
-onMounted(() => {
-  firebase.mount()
 })
 
 </script>
