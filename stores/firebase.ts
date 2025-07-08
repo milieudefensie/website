@@ -78,7 +78,7 @@ export const useFirebaseStore = defineStore('firebase', () => {
     })
   }
 
-  function mount() {
+  async function init() {
     app.value = initializeApp(firebaseConfig)
     auth.value = getAuth()
     db.value = getFirestore(app.value)
@@ -133,8 +133,11 @@ export const useFirebaseStore = defineStore('firebase', () => {
     })
   }
 
+  onMounted(async () => {
+    await init()
+  })
+
   return {
-    mount,
     app,
     analytics,
     functions,
