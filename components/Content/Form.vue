@@ -25,6 +25,10 @@ const props = defineProps<FormProps>()
   <div class="space-y-4">
     <input class="input input-lg xl:input-xl w-full placeholder:text-neutral hover:border-neutral bg-white md:!text-lg"
       type="text" placeholder="E-mail" />
+
+    <div><label class="flex gap-2 items-center text-lg/6 text-balance xl:text-xl group cursor-pointer"><input
+          type="checkbox" class="checkbox checkbox-lg xl:checkbox-xl group-hover:border-neutral" /> Ik wil
+        helpen om deze mars groot te maken</label></div>
     <div><label class="flex gap-2 items-center text-lg/6 text-balance xl:text-xl group cursor-pointer"><input
           type="checkbox" class="checkbox checkbox-lg xl:checkbox-xl group-hover:border-neutral" /> Houd mij
         op de
