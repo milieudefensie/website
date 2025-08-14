@@ -10767,7 +10767,8 @@ async function fetchAllContacts(initialUrl: string | null) {
   let numberOfRuns = 0
   const contacts: HubspotContact[] = []
 
-  while (currentPageUrl && numberOfRuns < 80) {
+  // See API limits: https://developers.hubspot.com/docs/guides/apps/api-usage/usage-details#rate-limits
+  while (currentPageUrl && numberOfRuns < 180) {
     numberOfRuns++
     try {
       const response: HubspotResponse = await $fetch(currentPageUrl, {

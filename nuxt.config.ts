@@ -72,6 +72,9 @@ export default defineNuxtConfig({
         en: '/movement',
         nl: '/beweging',
       },
+      'event-klimaatmars': {
+        nl: '/agenda/klimaatmars',
+      },
       'event-eventSlug': {
         en: '/event/[eventSlug]',
         nl: '/agenda/[eventSlug]',

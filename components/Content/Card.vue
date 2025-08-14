@@ -121,7 +121,7 @@ const rerender = ref(false);
       </div>
 
       <!-- TEXT CONTENT -->
-      <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between" :class="{
+      <div class="card-body @2xl/cards:w-1/2 @4xl/cards:w-4/6 grid content-between space-y-4" :class="{
         'p-0 @max-2xl/cards:pt-4  @2xl/cards:pl-4 @6xl/cards:pl-8': props.variant === 'ghost',
       }" @click="singleLink ? $router.push(singleLink) : null">
 
