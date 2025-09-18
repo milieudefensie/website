@@ -14,6 +14,7 @@ import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import type { Event } from '~/server/api/getEvents';
+import { set } from '@vueuse/core'
 
 const config = useRuntimeConfig()
 const zoom = parseFloat(config.public.mapZoom);
@@ -34,6 +35,7 @@ definePageMeta({
 });
 
 const currentZoomLevel = ref();
+let zoomInvocationCount = 0;
 
 function mapboxCreated(mapInstance: mapboxgl.Map) {
   map.value = mapInstance;
@@ -108,8 +110,39 @@ onMounted(() => {
     window.location.reload();
   }, 3600000); // 3600000 milliseconds = 1 hour
 
+  setInterval(() => {
+    zoomToRandomGroup();
+  }, 15000); // 20000 milliseconds = 20 seconds
+
 })
 
+
+// Zoom in on a random local group every 20 seconds
+function zoomToRandomGroup() {
+  if (!map.value) return;
+
+  zoomInvocationCount++;
+
+  // Every 6th time, zoom out to show the entire Netherlands
+  if (zoomInvocationCount % 5 === 0) {
+    // Use existing bounds and options, but animate the transition for visibility
+    // mapBounds is a ref; mapBoundsOptions is a plain object
+    map.value.fitBounds(mapBounds.value, { ...mapBoundsOptions, animate: true, speed: 0.5 });
+    return;
+  }
+
+  if (groups.data.value && groups.data.value.length > 0) {
+    const randomIndex = Math.floor(Math.random() * groups.data.value.length);
+    const group = groups.data.value[randomIndex];
+    if (group?.coordinates) {
+      map.value.flyTo({
+        center: [group.coordinates.longitude, group.coordinates.latitude],
+        zoom: 10,
+        speed: 0.2, // make the flying slow
+      });
+    }
+  }
+}
 
 
 </script>
@@ -152,7 +185,7 @@ onMounted(() => {
               'size-6': currentZoomLevel > 11,
             }">
               <span v-if="marker.newContactsCount"
-                class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent"></span>
+                class="absolute inline-flex h-full w-full animate-custom-ping rounded-full bg-accent"></span>
               <span class="relative inline-flex size-2 rounded-full" :class="{
                 'size-3': currentZoomLevel > 9,
                 'size-4': currentZoomLevel > 10,
