@@ -16,6 +16,8 @@ import ContentSteps from './Content/Steps.vue';
 import ContentCountdown from './Content/Countdown.vue';
 import ContentMap from './Content/Map.vue';
 import ContentProse from './Content/Prose.server.vue';
+import TemporaryLocationSearch from './Content/TemporaryLocationSearch.vue';
+
 
 import type { CardCollectionProps } from './Content/CardCollection.vue';
 import type { ButtonProps } from './Buttons.vue';
@@ -79,7 +81,12 @@ interface ProseItem {
   props: ProseProps;
 }
 
-export type ContentItem = ButtonItem | CardCollectionItem | TestimonialItem | ImageItem | VideoItem | AccordionItem | StepsItem | CountdownItem | MapItem | ProseItem;
+
+interface TemporaryLocationSearchItem {
+  type: 'TemporaryLocationSearch';
+}
+
+export type ContentItem = ButtonItem | CardCollectionItem | TestimonialItem | ImageItem | VideoItem | AccordionItem | StepsItem | CountdownItem | MapItem | ProseItem | TemporaryLocationSearchItem;
 
 const props = defineProps<{
   content: ContentItem[]
@@ -95,6 +102,7 @@ const components = {
   'ContentSteps': ContentSteps,
   'ContentCountdown': ContentCountdown,
   'ContentMap': ContentMap,
-  'ContentProse': ContentProse
+  'ContentProse': ContentProse,
+  'TemporaryLocationSearch': TemporaryLocationSearch
 }
 </script>

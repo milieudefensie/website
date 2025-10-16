@@ -7,11 +7,15 @@
 import type { ContentItem } from '~/components/ContentBuilder.vue';
 
 const content = ref<ContentItem[]>([
+  // {
+  //   type: "ContentVideo",
+  //   props: {
+  //     youtubeURL: 'https://www.youtube.com/watch?v=M8LZlnJHzXQ',
+  //   },
+  // },
+
   {
-    type: "ContentVideo",
-    props: {
-      youtubeURL: 'https://www.youtube.com/watch?v=M8LZlnJHzXQ',
-    },
+    type: "TemporaryLocationSearch"
   },
 
   {
