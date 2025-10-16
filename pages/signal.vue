@@ -4,19 +4,24 @@ import type { ContentItem } from '~/components/ContentBuilder.vue';
 const content = ref<ContentItem[]>([
 
   {
+    type: "TemporaryLocationSearch"
+  },
+
+
+  {
     type: "ContentCardCollection",
     props: {
       noColumns: false,
       carousel: false,
       cards: [{
         id: '1',
-        title: 'Ontvang updates via Signal',
-        subtitle: 'Milieudefensie Utrecht',
+        title: 'Ontvang updates van Milieudefensie Utrecht',
+        subtitle: 'Signal',
         content: 'Blijf op de hoogte van Milieudefensie en ontvang nieuws van Angela, de lokale organizer van Milieudefensie Utrecht.',
         variant: 'shadow',
         reverse: false,
         images: [{
-          src: '/qr.svg',
+          src: '/qr.png',
           alt: 'Fabriek'
         }],
         buttons: {
@@ -28,13 +33,34 @@ const content = ref<ContentItem[]>([
             style: 'default',
             width: 'default',
           },
-          {
-            label: '👉 Ik woon niet in Utrecht',
+
+          ]
+        },
+      },]
+    }
+  },
+
+  {
+    type: "ContentCardCollection",
+    props: {
+      noColumns: false,
+      carousel: false,
+      cards: [{
+        id: '1',
+        title: 'Er is nog geen signal groep in {location}',
+        content: 'Bekijk andere Signal groepen in de buurt',
+        variant: 'shadow',
+        reverse: true,
+        buttons: {
+          size: 'lg',
+          buttons: [{
+            label: 'Bekijk andere Signal groepen',
             link: '/test',
             color: 'primary',
-            style: 'soft',
+            style: 'default',
             width: 'default',
           },
+
           ]
         },
       },]
