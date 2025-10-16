@@ -87,6 +87,34 @@ const content = ref<ContentItem[]>([
       },]
     }
   },
+
+  {
+    type: "ContentCardCollection",
+    props: {
+      noColumns: false,
+      carousel: false,
+      cards: [{
+        id: '1',
+        title: 'Er is nog geen groep in {location}',
+        content: 'Bekijk andere groepen in de buurt',
+        variant: 'shadow',
+        reverse: true,
+        buttons: {
+          size: 'lg',
+          buttons: [{
+            label: 'Bekijk andere groepen',
+            link: '/test',
+            color: 'secondary',
+            style: 'default',
+            width: 'default',
+          },
+
+          ]
+        },
+      },]
+    }
+  },
+
   {
     type: "ContentMap",
     props: {
@@ -282,6 +310,21 @@ const content = ref<ContentItem[]>([
       <p>  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt commodi aspernatur ratione adipisci quibusdam laboriosam sequi ea nesciunt, esse qui amet earum nulla tempora inventore facere ut, beatae explicabo voluptas.</p>
       `
     }
+  },
+
+  {
+    type: "ContentButtonGroup",
+    props: {
+      buttons: [
+        {
+          label: 'Bekijk Signal groepen',
+          link: '/test',
+          color: 'secondary',
+          style: 'default',
+          width: 'default'
+        }
+      ]
+    },
   },
 
   {
