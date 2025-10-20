@@ -68,44 +68,6 @@ const content = ref<ContentItem[]>([
   },
 
   {
-    type: "ContentAccordion",
-    props: {
-      items: [
-        {
-          title: "Hoe werkt Signal?",
-          content: `
-            <p>Signal werkt net als WhatsApp, maar dan veiliger. Klik op de knop of scan de QR code met je telefoon om de Signal groep te openen.</p>
-          `
-        },
-        {
-          title: "Wat is het verschil met WhatsApp?",
-          content: `
-            <p>Signal is een chatapp vergelijkbaar met WhatsApp, maar dan veel veiliger. WhatsApp deelt en verkoop jouw gegevens, zoals wanneer je met wie en waar communiceert. Signal bewaart alleen je telefoonnummer en wanneer je de app voor het laatst hebt gebruikt. Daardoor is het een stuk beter voor jouw privacy.</p>
-            <p>Daarnaast is Signal een onafhankelijke non-profitorganisatie. Dit past goed bij Milieudefensie, omdat wij graag zoveel mogelijk gebruik maken van Open Source software en transparante, eerlijke diensten.</p>
-            <p>We hopen het goede voorbeeld te geven, zodat steeds meer mensen in Nederland Signal gaan gebruiken in plaats van WhatsApp. Doe jij ook mee?</p>
-          `
-        }
-      ]
-    }
-  },
-
-  {
-    type: "ContentVideo",
-    props: {
-      youtubeURL: 'https://www.youtube.com/watch?v=5RfUQOniGy4',
-    },
-  },
-
-  {
-    type: "ContentProse",
-    props: {
-      content: `
-      <h2>Alle Signal groepen</h2>
-      `
-    }
-  },
-
-  {
     type: "ContentMap",
     props: {
       markers: [
@@ -273,6 +235,45 @@ const content = ref<ContentItem[]>([
     }
   },
 
+  {
+    type: "ContentProse",
+    props: {
+      content: `
+      <h2>Custom content blocks</h2>
+      <p>Text, titles, images, videos, testimonials, accordions and more.</p>
+      `
+    }
+  },
+
+  {
+    type: "ContentAccordion",
+    props: {
+      items: [
+        {
+          title: "Hoe werkt Signal?",
+          content: `
+            <p>Signal werkt net als WhatsApp, maar dan veiliger. Klik op de knop of scan de QR code met je telefoon om de Signal groep te openen.</p>
+          `
+        },
+        {
+          title: "Wat is het verschil met WhatsApp?",
+          content: `
+            <p>Signal is een chatapp vergelijkbaar met WhatsApp, maar dan veel veiliger. WhatsApp deelt en verkoop jouw gegevens, zoals wanneer je met wie en waar communiceert. Signal bewaart alleen je telefoonnummer en wanneer je de app voor het laatst hebt gebruikt. Daardoor is het een stuk beter voor jouw privacy.</p>
+            <p>Daarnaast is Signal een onafhankelijke non-profitorganisatie. Dit past goed bij Milieudefensie, omdat wij graag zoveel mogelijk gebruik maken van Open Source software en transparante, eerlijke diensten.</p>
+            <p>We hopen het goede voorbeeld te geven, zodat steeds meer mensen in Nederland Signal gaan gebruiken in plaats van WhatsApp. Doe jij ook mee?</p>
+          `
+        }
+      ]
+    }
+  },
+
+  {
+    type: "ContentVideo",
+    props: {
+      youtubeURL: 'https://www.youtube.com/watch?v=5RfUQOniGy4',
+    },
+  },
+
 
   {
     type: "ContentTestimonial",
@@ -286,6 +287,90 @@ const content = ref<ContentItem[]>([
           author: 'Marie Jansen',
           content: 'De lokale groep is een geweldige manier om nieuwe mensen te ontmoeten en samen te werken aan een betere toekomst voor onze planeet.'
         }
+      ]
+    }
+  },
+
+  {
+    type: "ContentProse",
+    props: {
+      content: `
+      <p>Lorem ipsum...</p>
+      <h2>Alle Signal groepen</h2>
+      `
+    }
+  },
+
+  {
+    type: "ContentCardCollection",
+    props: {
+      noColumns: false,
+      carousel: false,
+      cards: [
+        {
+          id: '1',
+          title: 'Milieudefensie Appelmoes',
+          variant: 'shadow',
+          reverse: false,
+          images: [
+            {
+              src: 'https://picsum.photos/801',
+              alt: 'Fabriek'
+            }],
+          buttons: {
+            buttons: [{
+              label: 'Bekijk groep',
+              link: '/test',
+              color: 'secondary',
+              style: 'default',
+              width: 'default'
+            }]
+          },
+
+        },
+        {
+          id: '2',
+          title: 'Milieudefensie Amersfoort',
+          variant: 'shadow',
+          reverse: false,
+          images: [
+            {
+              src: 'https://picsum.photos/802',
+              alt: 'Fabriek'
+            }],
+          buttons: {
+            buttons: [{
+              label: 'Bekijk groep',
+              link: '/test',
+              color: 'secondary',
+              style: 'default',
+              width: 'default'
+            }]
+          },
+
+        },
+        {
+          id: '3',
+          title: 'Milieudefensie Amsterdam',
+          variant: 'shadow',
+          reverse: false,
+          images: [{
+            src: 'https://picsum.photos/803',
+            alt: 'Fabriek'
+          },
+          ],
+          buttons: {
+            buttons: [{
+              label: 'Bekijk groep',
+              link: '/test',
+              color: 'secondary',
+              style: 'default',
+              width: 'default'
+            }]
+          },
+
+        },
+
       ]
     }
   },

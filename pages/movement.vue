@@ -283,6 +283,16 @@ const content = ref<ContentItem[]>([
     }
   },
 
+  {
+    type: "ContentProse",
+    props: {
+      content: `
+      <h2>Custom content blocks</h2>
+      <p>Text, titles, images, videos, testimonials, accordions, buttons and more.</p>
+      `
+    }
+  },
+
 
   {
     type: "ContentTestimonial",
@@ -331,6 +341,7 @@ const content = ref<ContentItem[]>([
     type: "ContentProse",
     props: {
       content: `
+       <p>Lorem ipsum...</p>
       <h2>Alle lokale groepen</h2>
       `
     }
@@ -343,18 +354,36 @@ const content = ref<ContentItem[]>([
       carousel: false,
       cards: [
         {
+          id: '1',
+          title: 'Milieudefensie Appelmoes',
+          variant: 'shadow',
+          reverse: false,
+          images: [
+            {
+              src: 'https://picsum.photos/801',
+              alt: 'Fabriek'
+            }],
+          buttons: {
+            buttons: [{
+              label: 'Bekijk groep',
+              link: '/test',
+              color: 'secondary',
+              style: 'default',
+              width: 'default'
+            }]
+          },
+
+        },
+        {
           id: '2',
           title: 'Milieudefensie Amersfoort',
           variant: 'shadow',
           reverse: false,
-          images: [{
-            src: 'https://picsum.photos/801',
-            alt: 'Fabriek'
-          },
-          {
-            src: 'https://picsum.photos/802',
-            alt: 'Fabriek'
-          }],
+          images: [
+            {
+              src: 'https://picsum.photos/802',
+              alt: 'Fabriek'
+            }],
           buttons: {
             buttons: [{
               label: 'Bekijk groep',
@@ -375,10 +404,7 @@ const content = ref<ContentItem[]>([
             src: 'https://picsum.photos/803',
             alt: 'Fabriek'
           },
-          {
-            src: 'https://picsum.photos/804',
-            alt: 'Fabriek'
-          }],
+          ],
           buttons: {
             buttons: [{
               label: 'Bekijk groep',
