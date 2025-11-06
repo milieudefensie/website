@@ -364,7 +364,7 @@ function zoomToRandomGroup() {
     </div>
   </div>
 
-  <div class="fixed bottom-12 right-12 flex items-center gap-4 max-md:hidden">
+  <!-- <div class="fixed bottom-12 right-12 flex items-center gap-4 max-md:hidden">
     <div class=" text-center py-2 px-4 rounded-full font-bold text-xl shadow-lg max-w-70" :class="{
       'bg-secondary text-secondary-content': goalReached,
       'bg-accent text-accent-content': !goalReached,
@@ -377,7 +377,10 @@ function zoomToRandomGroup() {
     }" :style="`--value:${progress}; --size: 10rem; --thickness: 32px; aria-valuenow=70`" role="progressbar">
       {{ progress }}%
     </div>
-  </div>
+  </div> -->
+
+  <img src="/zohram.gif" alt="Zohram" class="fixed bottom-4 right-4 w-4/12  z-10 max-md:hidden" />
+
 
 
 
