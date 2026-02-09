@@ -21,10 +21,17 @@ const zoom = parseFloat(config.public.mapZoom);
 
 const map = ref();
 
+// Utrecht
 const mapBounds = ref([
-  [3.271268, 50.698755], // Southwest coordinates of the Netherlands
-  [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
+  [5.01809, 52.01831], // Southwest coordinates of Utrecht
+  [5.20145, 52.15783]  // Northeast coordinates of Utrecht
 ])
+
+// Netherlands
+// const mapBounds = ref([
+//  [3.271268, 50.698755], // Southwest coordinates of the Netherlands
+// [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
+// ])
 const mapBoundsOptions = ref({
   padding: { top: 20, bottom: 20, left: 350, right: 0 },
   animate: false
@@ -106,13 +113,13 @@ if (newContactsThisWeek.value) {
 
 onMounted(() => {
   // Reload this page every hour
-  setInterval(() => {
-    window.location.reload();
-  }, 3600000); // 3600000 milliseconds = 1 hour
+  // setInterval(() => {
+  //   window.location.reload();
+  // }, 3600000); // 3600000 milliseconds = 1 hour
 
-  setInterval(() => {
-    zoomToRandomGroup();
-  }, 15000); // 20000 milliseconds = 20 seconds
+  // setInterval(() => {
+  //   zoomToRandomGroup();
+  // }, 15000); // 20000 milliseconds = 20 seconds
 
 })
 
@@ -157,7 +164,7 @@ function zoomToRandomGroup() {
       </label> -->
 
       <MapboxMap class="w-full h-screen !fixed top-0 left-0" :access-token="config.public.mapboxApi"
-        mapStyle="mapbox://styles/joppe-milieudefensie/cm7p5awl8001y01r18vay203m?optimize=true" :pitchWithRotate="false"
+        mapStyle="mapbox://styles/joppe-milieudefensie/cml9ezjko005f01s9c2yqb6rt?optimize=true" :pitchWithRotate="false"
         :dragRotate="false" logoPosition="bottom-right" @mb-created="mapboxCreated($event)" :bounds="mapBounds"
         :fitBoundsOptions="mapBoundsOptions" :zoom="zoom">
         <MapboxGeocoder position="top-left" />
@@ -327,13 +334,14 @@ function zoomToRandomGroup() {
 
               <div>
                 <div class="text-4xl font-display pb-2">{{ groups.data.value?.length }} groepen</div>
-                <div class="text-lg"> <span class="bg-accent rounded p-1 text-accent-content flex items-center gap-1">
+                <!-- <div class="text-lg"> <span class="bg-accent rounded p-1 text-accent-content flex items-center gap-1">
                     <IconChat /> <strong>
                       {{ analytics.data.value?.joinChatConversions?.toLocaleString('nl-NL') }}
                     </strong> nieuwe groep
                     chat
                     leden
-                  </span> </div>
+                  </span>
+                </div> -->
               </div>
             </div>
           </div>
@@ -352,7 +360,7 @@ function zoomToRandomGroup() {
         <div class="card bg-white shadow grid items-center" v-if="contacts.data">
           <div class="p-4">
             <div class=" text-xs text-neutral/60">
-              <strong>Met ❤️ gemaakt door het Digitale Infrastructuur team van bewegingsopbouw.</strong> Dagelijks
+              <strong>Met ❤️ gemaakt door Joppe.</strong> Dagelijks
               automatisch
               bijgewerkt.
               Data uit Hubspot, ControlShiftLabs, Dato en Google Analytics. Op basis van geanonimiseerde postcodes (de
@@ -378,9 +386,6 @@ function zoomToRandomGroup() {
       {{ progress }}%
     </div>
   </div> -->
-
-  <img src="/zohram.gif" alt="Zohram" class="fixed bottom-4 right-4 w-4/12  z-10 max-md:hidden" />
-
 
 
 
