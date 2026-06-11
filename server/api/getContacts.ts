@@ -10692,12 +10692,12 @@ export default defineEventHandler(async (event) => {
     return tempResults
   } else {
     const allPostcodes: Record<string, Postcode> = JSON.parse(
-      JSON.stringify(postcodes)
+      JSON.stringify(postcodes),
     )
     const postcodesWithContacts: Postcode[] = []
 
     const hubspotContacts = await fetchAllContacts(
-      'https://api.hubapi.com/crm/v3/objects/contacts?limit=100&archived=false&properties=zip'
+      'https://api.hubapi.com/crm/v3/objects/contacts?limit=100&archived=false&properties=zip',
     )
 
     const totalContacts = hubspotContacts.length
@@ -10768,6 +10768,7 @@ async function fetchAllContacts(initialUrl: string | null) {
   const contacts: HubspotContact[] = []
 
   // See API limits: https://developers.hubspot.com/docs/guides/apps/api-usage/usage-details#rate-limits
+  // max 190 requests per 10 seconds, so we set a limit of 180 to be safe
   while (currentPageUrl && numberOfRuns < 180) {
     numberOfRuns++
     try {

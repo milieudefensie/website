@@ -1,0 +1,10 @@
+allowBuilds:
+  '@firebase/util': true
+  '@parcel/watcher': true
+  '@tailwindcss/oxide': true
+  esbuild: true
+  protobufjs: true
+  sharp: true
+
+overrides:
+  chokidar: ^3.6.0

@@ -1,401 +1,128 @@
-<!-- 
-Docs: https://docs-4gf.pages.dev/pages/dashboard 
--->
-<script lang="ts" setup>
-import IconAccountGroup from '~icons/mdi/account-group'
-import IconCalendar from '~icons/mdi/calendar'
-import IconLink from '~icons/mdi/link'
-import IconStar from '~icons/mdi/star'
-import IconChat from '~icons/mdi/chat-processing'
-
-
-import { MapboxMap, MapboxMarker, MapboxGeocoder, MapboxGeolocateControl, MapboxNavigationControl } from '@studiometa/vue-mapbox-gl';
-import '@mapbox/mapbox-gl-geocoder/lib/mapbox-gl-geocoder.css';
-
-import 'mapbox-gl/dist/mapbox-gl.css';
-import type { Event } from '~/server/api/getEvents';
-import { set } from '@vueuse/core'
-
-const config = useRuntimeConfig()
-const zoom = parseFloat(config.public.mapZoom);
-
-const map = ref();
-
-// Utrecht
-const mapBounds = ref([
-  [5.01809, 52.01831], // Southwest coordinates of Utrecht
-  [5.20145, 52.15783]  // Northeast coordinates of Utrecht
-])
-
-// Netherlands
-// const mapBounds = ref([
-//  [3.271268, 50.698755], // Southwest coordinates of the Netherlands
-// [7.500992, 53.546792]  // Northeast coordinates of the Netherlands
-// ])
-const mapBoundsOptions = ref({
-  padding: { top: 20, bottom: 20, left: 350, right: 0 },
-  animate: false
-})
-  .value
-definePageMeta({
-  layout: 'fullscreen',
-});
-
-const currentZoomLevel = ref();
-let zoomInvocationCount = 0;
-
-function mapboxCreated(mapInstance: mapboxgl.Map) {
-  map.value = mapInstance;
-
-  // Update currentZoomLevel every second
-  setInterval(() => {
-    currentZoomLevel.value = map.value?.getZoom();
-  }, 200);
-}
-
-const contacts = await useFetch('/api/getContacts')
-const groups = await useFetch('/api/getGroups')
-const events = await useFetch('/api/getEvents')
-const analytics = await useFetch('/api/getAnalytics')
-
-const nextGoal = ref(300)
-const newContactsThisWeek = ref(contacts.data.value?.newContactsThisWeek)
-const progress = ref()
-const goalReached = ref()
-
-
-function eventURL(event: Event) {
-  if (event.platform === 'csl') {
-    return `https://veranderaars.milieudefensie.nl/lokaal/${event.slug}`
-  } else if (event.platform === 'dato') {
-    return `https://veranderaars.milieudefensie.nl/agenda/${event.slug}`
-  } else {
-    return ''
-  }
-}
-
-const conversionRatio = computed(() => {
-  if (analytics.data.value && newContactsThisWeek.value) {
-    return ((newContactsThisWeek.value / analytics.data.value?.totalActiveUsers) * 100).toFixed(2);
-  }
-  return 0;
-})
-
-if (newContactsThisWeek.value) {
-  progress.value = Math.min(100, Math.floor((newContactsThisWeek.value) / nextGoal.value * 100))
-
-  goalReached.value = newContactsThisWeek.value > nextGoal.value
-
-  if (goalReached.value) {
-    const { onLoaded } = useScriptNpm({
-      packageName: 'js-confetti',
-      file: 'dist/js-confetti.browser.js',
-      version: '0.12.0',
-      scriptOptions: {
-        use() {
-          // @ts-ignore
-          return { JSConfetti: window.JSConfetti }
-        },
-      },
-    })
-    onLoaded(({ JSConfetti }) => {
-      // using the real API instance
-      const confetti = new JSConfetti()
-
-      // Throw confetti every 10 seconds
-      setInterval(() => {
-        confetti.addConfetti({ emojis: ['✊', '⚡️', '💥', '✨', '💚', '🎉'] })
-      }, 4000)
-    })
-  }
-}
-
-
-onMounted(() => {
-  // Reload this page every hour
-  // setInterval(() => {
-  //   window.location.reload();
-  // }, 3600000); // 3600000 milliseconds = 1 hour
-
-  // setInterval(() => {
-  //   zoomToRandomGroup();
-  // }, 15000); // 20000 milliseconds = 20 seconds
-
-})
-
-
-// Zoom in on a random local group every 20 seconds
-function zoomToRandomGroup() {
-  if (!map.value) return;
-
-  zoomInvocationCount++;
-
-  // Every 6th time, zoom out to show the entire Netherlands
-  if (zoomInvocationCount % 5 === 0) {
-    // Use existing bounds and options, but animate the transition for visibility
-    // mapBounds is a ref; mapBoundsOptions is a plain object
-    map.value.fitBounds(mapBounds.value, { ...mapBoundsOptions, animate: true, speed: 0.5 });
-    return;
-  }
-
-  if (groups.data.value && groups.data.value.length > 0) {
-    const randomIndex = Math.floor(Math.random() * groups.data.value.length);
-    const group = groups.data.value[randomIndex];
-    if (group?.coordinates) {
-      map.value.flyTo({
-        center: [group.coordinates.longitude, group.coordinates.latitude],
-        zoom: 10,
-        speed: 0.2, // make the flying slow
-      });
-    }
-  }
-}
-
-
-</script>
 <template>
+  <div class="size-full fixed bg-black text-white top-0 left-0 flex items-center justify-center text-center p-16"
+    :class="{ flash: flashing }" :style="{ '--flash-color': flashColor }">
+    <div>
+      <div class="text-9xl mb-24 font-display">Big Organizing</div>
 
-  <div class="drawer drawer-open max-md:hidden">
-    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col items-center justify-center">
-      <!-- Page content here -->
-      <!-- <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">
-        Open drawer
-      </label> -->
-
-      <MapboxMap class="w-full h-screen !fixed top-0 left-0" :access-token="config.public.mapboxApi"
-        mapStyle="mapbox://styles/joppe-milieudefensie/cml9ezjko005f01s9c2yqb6rt?optimize=true" :pitchWithRotate="false"
-        :dragRotate="false" logoPosition="bottom-right" @mb-created="mapboxCreated($event)" :bounds="mapBounds"
-        :fitBoundsOptions="mapBoundsOptions" :zoom="zoom">
-        <MapboxGeocoder position="top-left" />
-        <MapboxGeolocateControl />
-        <MapboxNavigationControl position="bottom-right" />
-
-
-        <!-- CONTACTS -->
-        <MapboxMarker v-for="(marker, index) in contacts.data.value?.postcodesWithContacts" :key="index"
-          :lngLat="[marker.coordinates[1], marker.coordinates[0]]">
-
-          <div class="tooltip">
-
-            <div class="tooltip-content">
-              <div class="font-bold">Wijk in {{ marker.municipality }}</div>
-              <div>{{ marker.count }} veranderaar<span v-if="marker.count > 1">s</span></div>
-              <div v-if="marker.newContactsCount" class="text-white/80 flex items-center justify-center gap-1 mt-2">
-                <IconStar /> {{ marker.newContactsCount }} nieuw
-              </div>
-            </div>
-
-            <span class="relative flex size-2" :class="{
-              'size-3': currentZoomLevel > 9,
-              'size-4': currentZoomLevel > 10,
-              'size-6': currentZoomLevel > 11,
-            }">
-              <span v-if="marker.newContactsCount"
-                class="absolute inline-flex h-full w-full animate-custom-ping rounded-full bg-accent"></span>
-              <span class="relative inline-flex size-2 rounded-full" :class="{
-                'size-3': currentZoomLevel > 9,
-                'size-4': currentZoomLevel > 10,
-                'size-6': currentZoomLevel > 11,
-                'bg-accent': marker.count > 6,
-                'bg-accent/90': marker.count === 6,
-                'bg-accent/80': marker.count === 5,
-                'bg-accent/70': marker.count === 4,
-                'bg-accent/60': marker.count === 3,
-                'bg-accent/50': marker.count === 2,
-                'bg-accent/40': marker.count === 1,
-                'border-2 border-white ring-accent ring-2': marker.newContactsCount
-              }"></span>
-            </span>
-
-
-          </div>
-
-        </MapboxMarker>
-
-        <!-- EVENTS -->
-        <div v-for="(event, index) in events.data.value" :key="index">
-
-          <MapboxMarker v-if="event.coordinates" :lngLat="[event.coordinates.longitude, event.coordinates.latitude]">
-
-            <div class="tooltip">
-
-              <div class="tooltip-content">
-                <div class="font-bold text-lg">{{ event.title }}</div>
-                <div>
-                  {{ new Date(event.date).toLocaleDateString('nl-NL') }}
-                </div>
-              </div>
-
-              <a :href="eventURL(event)" target="_blank" class="btn btn-circle btn-xs btn-primary shadow-md font-display scale-75 hover:scale-100
-            transition-transform">
-                <IconCalendar class="text-[12px]" />
-              </a>
-            </div>
-
-          </MapboxMarker>
-
-        </div>
-
-        <!-- GROUPS -->
-        <div v-for="(group, index) in groups.data.value" :key="index">
-
-          <MapboxMarker v-if="group.coordinates" :lngLat="[group.coordinates.longitude, group.coordinates.latitude]">
-
-            <div class="tooltip">
-
-              <div class="tooltip-content">
-                <div class="font-bold text-lg">{{ group.title }}</div>
-                <div>{{ group.organizer }}</div>
-              </div>
-
-              <a :href="`https://veranderaars.milieudefensie.nl/groep/${group.slug}`" target="_blank" class="btn btn-circle btn-xs btn-neutral shadow-md font-display scale-75 hover:scale-100
-            transition-transform">
-                <IconAccountGroup class="text-[12px] -translate-y-[1px]" />
-              </a>
-            </div>
-
-          </MapboxMarker>
-
-        </div>
-
-
-
-
-      </MapboxMap>
-
-
-
-    </div>
-    <div class="drawer-side">
-      <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
-      <div class="menu min-h-full w-xl p-6 gap-y-4 grid content-stretch">
-
-        <!-- <div class="font-bold">
-          Dagelijks automatisch bijgewerkt
-        </div> -->
-
-        <div class="stats text-white shadow text-center flex items-center" :class="{
-          ' bg-accent': !goalReached,
-          ' bg-secondary': goalReached,
-        }">
-          <div class="stat py-6">
-            <!-- <div class="stat-figure text-primary">
-              <IconAccountGroup class="text-[2vw]" />
-            </div> -->
-
-            <div class="stat-value text-[200px] font-display leading-none">{{
-              contacts.data.value?.totalCount?.toLocaleString('nl-NL') }}</div>
-            <div class="stat-title text-6xl font-display -mb-4 text-white">Veranderaars</div>
-            <div class="flex justify-center">
-              <div class="stat-desc mt-12 text-4xl bg-accent-content text-neutral px-8 py-4 rounded-full"
-                :class="{ 'animate-bounce': contacts.data.value?.newContactsThisWeek && contacts.data.value?.newContactsThisWeek > nextGoal }">
-                <span class="font-bold">+ {{
-                  contacts.data.value?.newContactsThisWeek?.toLocaleString('nl-NL') }}</span>
-                deze
-                week
-
-              </div>
-            </div>
-
-            <div class="stat-desc text-2xl mt-2 text-accent-content">
-              <span class="font-bold">+ {{ contacts.data.value?.newContactsLastWeek?.toLocaleString('nl-NL') }}</span>
-              afgelopen
-              week
-            </div>
-          </div>
-        </div>
-
-        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
-          <div class="card-body">
-            <div class="flex items-center gap-8 ">
-              <IconLink class="text-4xl" />
-              <div>
-                <div class="font-display text-4xl pb-2"> <span class="bg-accent rounded px-2 text-accent-content">{{
-                  conversionRatio
-                    }}%</span>
-                  conversie
-                  ratio
-                </div>
-                <div class="text-lg"> <strong>{{
-                  analytics.data.value?.totalActiveUsers?.toLocaleString('nl-NL') }}</strong> website bezoekers
-                  afgelopen week</div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-
-        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
-          <div class="card-body ">
-            <div class="  flex items-center gap-8">
-              <IconAccountGroup class="text-4xl" />
-
-              <div>
-                <div class="text-4xl font-display pb-2">{{ groups.data.value?.length }} groepen</div>
-                <!-- <div class="text-lg"> <span class="bg-accent rounded p-1 text-accent-content flex items-center gap-1">
-                    <IconChat /> <strong>
-                      {{ analytics.data.value?.joinChatConversions?.toLocaleString('nl-NL') }}
-                    </strong> nieuwe groep
-                    chat
-                    leden
-                  </span>
-                </div> -->
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
-          <div class="card-body">
-            <div class=" font-display flex items-center gap-8 text-4xl">
-              <IconCalendar />
-              <span>{{ events.data.value?.length }} evenementen</span>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="card bg-white shadow grid items-center" v-if="contacts.data">
-          <div class="p-4">
-            <div class=" text-xs text-neutral/60">
-              <strong>Met ❤️ gemaakt door Joppe.</strong> Dagelijks
-              automatisch
-              bijgewerkt.
-              Data uit Hubspot, ControlShiftLabs, Dato en Google Analytics. Op basis van geanonimiseerde postcodes (de
-              eerste 4 cijfers)
-            </div>
-          </div>
-        </div>
+      <div class="text-8xl font-bold">
+        <span>{{ typed }}</span><span class="cursor">|</span>
       </div>
     </div>
+
   </div>
-
-  <!-- <div class="fixed bottom-12 right-12 flex items-center gap-4 max-md:hidden">
-    <div class=" text-center py-2 px-4 rounded-full font-bold text-xl shadow-lg max-w-70" :class="{
-      'bg-secondary text-secondary-content': goalReached,
-      'bg-accent text-accent-content': !goalReached,
-    }">
-      Doel: {{ nextGoal }} nieuwe veranderaars per week
-    </div>
-    <div class="radial-progress bg-white  border-white border-4 font-bold text-3xl shadow-lg" :class="{
-      'text-secondary': goalReached,
-      'text-accent': !goalReached,
-    }" :style="`--value:${progress}; --size: 10rem; --thickness: 32px; aria-valuenow=70`" role="progressbar">
-      {{ progress }}%
-    </div>
-  </div> -->
-
-
-
-  <div class="md:hidden text-center py-32 px-6">
-    <h1 class="font-bold text-xl mb-4">🗺️ Milieudefensie Kaart</h1>
-    <p>De Milieudefensie Kaart werkt alleen op grote schermen. We hebben te veel veranderaars om die allemaal op
-      een klein scherm te
-      laten zien :)</p>
-    <p class="mt-6 text-neutral/50">beweging.milieudefensie.nl/kaart</p>
-  </div>
-
-
 </template>
+
+<script setup>
+const sentences = [
+  "You Won't Get a Revolution If You Don't Ask for One",
+  'The Revolution Will Not Be Handed to You on a Silver Platter',
+  'The Revolution Will Not Be Staffed',
+  'Fighting Racism Must Be at the Core of the Message to Everyone',
+  'Get on the Phone!',
+  'The Work Is Distributed. The Plan Is Centralized',
+  'The Revolution Will Be Funded-by Small Donations',
+  'Barnstorm!',
+  'Fight the Tyranny of the Annoying',
+  'Give Away Your Passwords',
+  "Don't Let the Perfect Be the Enemy of the Big",
+  'Learn the Basics of Good Management',
+  "If There Are No Nurses, I Don't Want to Be Part of Your Revolution",
+  'Grow Complexity by Solving Problems as They Arise',
+  'Only Hire Staff Who Embrace the Rule "The Revolution Will Not Be Staffed"',
+  'Best Practices Become Worst Practices',
+  "The Revolution Is Not Just Bottom Up; It's Peer to Peer",
+  'Repeat "Rinse and Repeat"',
+  "There's No Such Thing as a Single-Issue Revolution",
+  'Get Ready for the Counterrevolution (to Include Your Friends)',
+  'Put Consumer Software at the Center',
+  'People New to Politics Make the Best Revolutionaries',
+]
+
+// Show "Binnenkort..." between every sentence.
+const phrases = sentences.flatMap((s) => ['Binnenkort...', s])
+
+const typed = ref('')
+const flashing = ref(false)
+const flashColor = ref('#ff00de')
+
+const neonColors = ['#ff00de', '#00fff0', '#aaff00', '#ffea00', '#ff2d00', '#1f51ff']
+
+let phrase = 0
+let index = 0
+let deleting = false
+
+onMounted(() => {
+  // Briefly flicker the background to a neon color at random intervals to grab attention.
+  const scheduleFlash = () => {
+    setTimeout(() => {
+      flashColor.value = neonColors[Math.floor(Math.random() * neonColors.length)]
+      flashing.value = true
+      setTimeout(() => {
+        flashing.value = false
+        scheduleFlash()
+      }, 250) // matches the flicker animation length
+    }, 6000 + Math.random() * 9000) // 6-15s between flickers
+  }
+  scheduleFlash()
+
+  const tick = () => {
+    const word = phrases[phrase]
+    if (!deleting) {
+      typed.value = word.slice(0, index + 1)
+      index++
+      if (index === word.length) {
+        deleting = true
+        return setTimeout(tick, 1800) // pause when fully typed
+      }
+    } else {
+      typed.value = word.slice(0, index - 1)
+      index--
+      if (index === 0) {
+        deleting = false
+        phrase = (phrase + 1) % phrases.length // advance to next phrase
+        return setTimeout(tick, 500) // pause before retyping
+      }
+    }
+    setTimeout(tick, deleting ? 40 : 90)
+  }
+  tick()
+})
+</script>
+
+<style scoped>
+.cursor {
+  animation: blink 1s step-end infinite;
+}
+
+/* Brief neon background flicker to grab attention. */
+.flash {
+  animation: flicker 0.25s steps(1, end);
+}
+
+@keyframes flicker {
+
+  0%,
+  40%,
+  80% {
+    background-color: var(--flash-color);
+  }
+
+  20%,
+  60%,
+  100% {
+    background-color: #000;
+  }
+}
+
+@keyframes blink {
+
+  from,
+  to {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+</style>
